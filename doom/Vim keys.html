@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>Vim keys.html</title>
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8"/>
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css"  />
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/github.min.css"  /><meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'><style> body { box-sizing: border-box; max-width: 740px; width: 100%; margin: 40px auto; padding: 0 10px; } </style><script id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script><script src='https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js'></script><script>document.addEventListener('DOMContentLoaded', () => { document.body.classList.add('markdown-body'); document.querySelectorAll('pre[lang] > code').forEach((code) => { code.classList.add(code.parentElement.lang); }); document.querySelectorAll('pre > code').forEach((code) => { hljs.highlightBlock(code); }); });</script>
+</head>
+
+<body>
+
+<h2>Общее</h2>
+
+<p><code>:q!, :wq</code> - выход, выход с сохранением</p>
+
+<h2>Навигация</h2>
+
+<p><code>h,j,k,l</code> - влево, вниз, вверх, вправо
+<code>b,w</code> - к началу пред. слова, в началу след. слова
+<code>B, W</code> - к началу пред. слова, след. слова после пробела
+<code>e</code> - к концу след. слова
+<code>0, $</code> - к началу строки, к концу строки
+<code>[, ]</code> - переход по параграфам
+<code>CTRL+O</code> - переход на предыдущую позицию
+<code>SHIFT+g</code> - в конец файла
+<code>gg</code> - в начало файла
+<code>33G</code> - переход в строку 33
+<code>число + h,j,k,l</code> - перейти на это число куда-то (3h -  3 позиции влево)
+<code>%</code> - перемещение между открывающей и закрывающей скобками
+<code>SHIFT + l/m/h</code> - переместить курсор на позицию экрана внизу/посреди/вверху
+<code>CTRL+u/d</code> - переместить курсор на пол экрана вниз/вверх</p>
+
+<h2>Поиск</h2>
+
+<p><code>/</code> - режим поиска
+<code>?</code> - поиск в обратном направлении
+<code>*</code> - найти все слова под курсором
+<code>n, N</code> - след, пред результат
+<code>%</code> - найти парную кавычку
+<code>f +символ</code> - найти символ в строке (вперёд)
+<code>F + символ</code> - найти символ в строке (назад)
+<code>ALT+% (shift+5)</code> - поиск с заменой
+SPC f f<code>- найти файл
+</code>CTRL+s<code>- поиск;</code>CTRL+s<code>- переход к след,</code>CTRL+r` - переход к пред.</p>
+
+<h2>Замена</h2>
+
+<p><code>:/s/old/new [/g]</code> - заменить old на new. /g - во всей строке
+<code>:#1,#2s/old/new</code> - заменить между строками #1 и #2
+<code>:%s/old/new/g</code> -  замена во всем файле</p>
+
+<h2>Модификаторы</h2>
+
+<p><code>i</code> - inside - внутри
+<code>a</code> - around - вне
+<code>t</code> - to - до</p>
+
+<h2>Редактирование</h2>
+
+<p><code>x</code> - удалить символ
+<code>i, a</code> - перейти в режим редактирования перед курсором, после курсора
+<code>cw</code> - удалить слово от курсора и перейти в режим редактирования
+<code>ciw, diw</code> - удалить слово целиком и перейти в режим редактирования
+<code>ci(</code> - удалить всё внутри скобок
+<code>yiw</code> - копировать слово
+<code>dip</code> - удалить параграф
+<code>dd</code> - удалить строку
+<code>2dd</code> - удалить 2 строки
+<code>yy</code> - скопировать строку
+<code>p</code> - вставить из буфера
+<code>u, U, CTRL+r</code> - отмена, отмена всех действий в строке, отмена отмены
+<code>dt + символ</code> - удалить всё до символа
+<code>CTRL+o</code> - нормальный режим поверх режима редактирования
+<code>= + позиция</code> - выполнить автоиндентацию. Например <code>=j</code> - автоиндентация на строку вниз 
+<code>ALT+u</code> - перевести слово от курсора в ВЕРХНИЙ регистр
+<code>ALT+l</code>- перевести слово от курсора в нижний  регистр
+<code>ALT+c</code> - сделать первую букву слова заглавной</p>
+
+<h2>Разделение окон</h2>
+
+<p>SPC w s<code>- разделить горизонтально
+SPC w v</code> - разделить вертикально
+SPC w c<code>- закрыть
+</code>CTRL+x 4f<code>- найти файл и открыть его в новом разделённом окне
+SPC w w</code> - перейти в след. разделение
+<code>SPC w =</code> - выровнять размер фреймов</p>
+
+</body>
+</html>

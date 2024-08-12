@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  db:
+    container_name: pgdb
+    image: postgres
+    environment: 
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: testDB
+    ports: 
+    - "5432:5432"
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: root@root.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+    - "5050:80"  
