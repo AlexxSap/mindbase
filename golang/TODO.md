@@ -12,6 +12,7 @@ https://www.youtube.com/watch?v=RopNTbuDpfI
 https://www.youtube.com/watch?app=desktop&v=QgIWHeNy8fA
 https://www.youtube.com/watch?v=e7iSoqxlTuY
 https://www.youtube.com/watch?v=e7iSoqxlTuY&ab_channel=%7Bмеждускобок%7D
+https://www.youtube.com/watch?v=rVXgW8dGH00
 
 Задачи и решения
 https://habr.com/ru/companies/rebrainme/articles/540354/
@@ -38,7 +39,13 @@ https://habr.com/ru/articles/456194/
 Использование Go с MongoDB с помощью драйвера Go MongoDB
 https://www.digitalocean.com/community/tutorials/how-to-use-go-with-mongodb-using-the-mongodb-go-driver-ru
 
+Взаимодействие с MongoDB посредством Go
+https://ocakhasan.github.io/golang-mongodb-query-examples/
+
 # gRPC
+
+gRPC через HTTP/3
+https://kmcd.dev/posts/grpc-over-http3/
 
 Пишем gRPC сервис на Go - Сервис авторизации
 https://www.youtube.com/watch?v=EURjTg5fw-E
@@ -103,13 +110,19 @@ https://habr.com/ru/articles/351060/
 
 # Производительность 
 
+From slow to SIMD:
 https://sourcegraph.com/blog/slow-to-simd
+
+Оптимизация Go: как повысить скорость и эффективность кода
+https://habr.com/ru/companies/simbirsoft/articles/819015/?utm_campaign=819015
+
 
 Ускоряем Go: известные и не очень методы оптимизации и связанные с ними штуки
 https://habr.com/ru/articles/790758/
 
 Профилирование Go приложений
 https://www.youtube.com/watch?v=c4bldaCjYRY
+https://www.youtube.com/watch?v=sNjvpHUHMh8
 
 Профилирование Go-приложений в 2023
 https://www.youtube.com/watch?v=sNjvpHUHMh8
@@ -126,7 +139,31 @@ https://www.youtube.com/watch?v=o67Elk87kTA
 Detecting Memory Leaks in a Golang Application: Best Practices and Tools
 https://www.codemio.com/2023/05/detecting-memory-leaks-in-golang.html
 
+Продвинутые техники оптимизации кода на Go
+https://golang.withcodeexample.com/blog/advanced-techniques-for-code-optimization-in-go/
+
+ Профилирование в Go: практическое руководство
+ https://nyadgar.com/posts/go-profiling-like-a-pro/
+ 
+MapReduce
+https://habr.com/ru/companies/otus/articles/828672/
+
+Рецепт приготовления непрерывного профайлера в 2к24
+https://habr.com/ru/companies/ozontech/articles/817309/?utm_campaign=817309
+
 # Микро
+
+Микросервисы на Go: Как заставить систему работать на тебя
+https://habr.com/ru/articles/834900/
+
+Практическое руководство: создание микросервисов с использованием Go
+https://oscarjohn.hashnode.dev/creating-microservices-with-go-a-practical-approach
+
+Building a Kafka Producer and Consumer in Go
+https://blog.indalyadav.com/building-a-kafka-producer-and-consumer-in-go
+
+Create a simple API server image for docker and Kubernetes
+https://blog.wongandre.com/create-a-simple-api-server-image-for-docker-and-kubernetes
 
 Учебник по куберу
 https://ru.werf.io/guides/golang/100_basic.html
@@ -137,6 +174,9 @@ https://programmingpercy.tech/blog/using-rabbitmq-streams-in-go/
 
 Building Microservices in Go: A Practical Guide with gRPC
 https://arielorozco.com/building-microservices-in-go-a-practical-guide-with-grpc
+
+Кодогенерация Protobuf файлов используя плагин Buf
+https://eliofery.github.io/blog/2024-02-03-kodogeneraciya-protobuf-fajlov-ispolzuya-plagin-buf-backend.html
 
 Your Microservices are probably not Type-Safe
 https://dev.to/encore/your-program-may-not-actually-be-type-safe-2g17
@@ -172,8 +212,18 @@ https://habr.com/ru/companies/avito/articles/799689/
 
 # Серверы
 
+Создание сервера Golang с gRPC и Rest API при помощи Swagger
+https://eliofery.github.io/blog/2024-02-01-sozdanie-servera-golang-s-grpc-i-rest-api-ispolzuya-swagger-backend.html
+
+Кратко про сетевые протоколы в Golang: TCP, QUIC и UDP
+https://habr.com/ru/companies/otus/articles/830096/
+
 Начало работы с Redis в Go: пошаговое руководство по установке, командам и настройке.
 https://voskan.host/2023/08/10/redis-and-golang-complete-guide/
+https://www.youtube.com/watch?v=fPUdAFx9CCs
+
+Продвинутые структуры Redis
+https://habr.com/ru/companies/skbkontur/articles/836944/
 
 Routing Enhancements for Go 1.22
 https://go.dev/blog/routing-enhancements
@@ -216,6 +266,9 @@ https://www.youtube.com/watch?v=mBLpAx06l44
 
 REST Servers in Go
 https://eli.thegreenplace.net/2021/rest-servers-in-go-part-1-standard-library/
+
+6+ главных алгоритмов балансировки нагрузки
+https://proglib.io/sh/xcSABgw3QE
 
 # Прочее
 
@@ -297,3 +350,64 @@ https://rednafi.com/go/type_assertion_vs_type_switches/
 
 Структурированное логирование в Go с помощью Slog
 https://habr.com/ru/companies/slurm/articles/798207/
+
+Логирование в Go: от основ до профи
+https://www.bytesizego.com/blog/guide-to-logging-in-go
+
+Sync.Pool в деталях
+https://victoriametrics.com/blog/go-sync-pool/index.html
+
+Топ-5 стратегий кэширования
+https://x.com/sahnlam/status/1820314227879625111
+
+Лучшие практики для Go-разработчика
+https://google.github.io/styleguide/go/best-practices.html
+
+ Вендоринг в Go на практике
+ https://victoriametrics.com/blog/vendoring-go-mod-vendor/
+ 
+Как работает go mod vendor
+https://victoriametrics.com/blog/vendoring-go-mod-vendor/
+ 
+Реализация in-memory кэша на Go
+https://www.mohitkhare.com/blog/go-in-memory-cache/
+
+Go: как работает система тестирования  
+https://matttproud.com/blog/posts/go-testing-harness.html
+
+Написание функционального тестирования в Go
+https://habr.com/ru/articles/836664/
+
+Объяснение Go maps
+https://victoriametrics.com/blog/go-map/
+
+Как использовать defer в Go
+https://habr.com/ru/companies/otus/articles/833702/
+
+Используем gocv, чтобы определить возраст, эмоции и пол человека по фото
+https://habr.com/ru/companies/first/articles/833934/
+
+Как работают массивы в Go
+https://victoriametrics.com/blog/go-array/
+
+7 Common Interface Mistakes in Go
+https://medium.com/@andreiboar/7-common-interface-mistakes-in-go-1d3f8e58be60
+
+Golang: bytes.Buffer изнутри
+https://habr.com/ru/articles/827550/?utm_campaign=827550
+
+Golang: context изнутри
+https://habr.com/ru/articles/827544/?utm_campaign=827544
+
+Статья как введение в структурированный параллелизм 
+https://medium.com/@okoanton/structured-concurrency-in-go-c6e8cb1e2af7
+
+errors
+https://adrianlarion.com/golang-error-handling-demystified-errors-is-errors-as-errors-unwrap-custom-errors-and-more/
+
+Фаззинг-тестирование в Go, gofuzz и go-fuzz
+https://b.sattellite.me/2022/01/2022-01-golang-fuzzing/
+https://github.com/google/gofuzz
+
+Fuzzing-тестирование. Практическое применение
+https://habr.com/ru/companies/wildberries/articles/808911/?utm_campaign=808911
