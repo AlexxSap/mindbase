@@ -48,6 +48,7 @@ gRPC через HTTP/3
 https://kmcd.dev/posts/grpc-over-http3/
 
 Пишем gRPC сервис на Go - Сервис авторизации
+https://habr.com/ru/articles/774796/
 https://www.youtube.com/watch?v=EURjTg5fw-E
 
 Как разработать gRCP-сервис на Go
@@ -71,6 +72,8 @@ https://www.youtube.com/watch?v=z-mHhobE0Pw
 https://www.youtube.com/watch?v=osIX2lO1rzM
 
 # CLI
+Tips for building Bubble Tea programs
+https://leg100.github.io/en/posts/building-bubbletea-programs/
 
 Golang Tutorial: Build A Beautiful CLI Todo App With Support for Piping - YouTube
 https://www.youtube.com/watch?v=j1CXoOQXbco
@@ -411,3 +414,9 @@ https://github.com/google/gofuzz
 
 Fuzzing-тестирование. Практическое применение
 https://habr.com/ru/companies/wildberries/articles/808911/?utm_campaign=808911
+
+unique - новый пакет в стандартной библиотеке Go 1.23
+https://go.dev/blog/unique
+
+Антипаттерны программирования на Go
+https://threedots.tech/post/common-anti-patterns-in-go-web-applications/
