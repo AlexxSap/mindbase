@@ -1,5 +1,7 @@
 https://golangreview.ru/docs/knowledge/infrastructure/docker/
 
+https://golang.withcodeexample.com/blog/go-app-deployment-docker-guide/
+
 https://dev.to/nandes007/docker-basic-5da2
 
 https://dev.to/jacktt/20x-faster-golang-docker-builds-289n
