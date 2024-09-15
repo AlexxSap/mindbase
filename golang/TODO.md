@@ -113,6 +113,12 @@ https://habr.com/ru/articles/351060/
 
 # Производительность 
 
+Go sync.Cond — самый недооцененный механизм синхронизации:
+https://victoriametrics.com/blog/go-sync-cond/
+
+live-pprof — инструмент для мониторинга производительности Go-приложений в режиме реального времени
+https://github.com/moderato-app/live-pprof
+
 From slow to SIMD:
 https://sourcegraph.com/blog/slow-to-simd
 
@@ -230,6 +236,9 @@ https://habr.com/ru/companies/skbkontur/articles/836944/
 
 Routing Enhancements for Go 1.22
 https://go.dev/blog/routing-enhancements
+
+Building Real-Time Applications With Go and WebSockets
+https://golangprojectstructure.com/build-real-time-applications-with-go-and-websockets/
 
 TCP based file transfer in go
 https://vsik.hashnode.dev/tcp-based-file-transfer-in-go
