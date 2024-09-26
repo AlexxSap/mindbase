@@ -429,3 +429,6 @@ https://go.dev/blog/unique
 
 Антипаттерны программирования на Go
 https://threedots.tech/post/common-anti-patterns-in-go-web-applications/
+
+Building a simple load balancer in Go
+https://dev.to/vivekalhat/building-a-simple-load-balancer-in-go-70d
