@@ -1,4 +1,4 @@
-# Modern C++20 and C++23
+# Осторожно, Modern C++
 
 ## The big four
 - [modules](./modules.md)
