@@ -13,6 +13,7 @@ https://www.youtube.com/watch?app=desktop&v=QgIWHeNy8fA
 https://www.youtube.com/watch?v=e7iSoqxlTuY
 https://www.youtube.com/watch?v=e7iSoqxlTuY&ab_channel=%7Bмеждускобок%7D
 https://www.youtube.com/watch?v=rVXgW8dGH00
+https://www.youtube.com/watch?v=I00m_XM58bk&ab_channel=ЭйчНавыки—менторскаяпрограмма
 
 Задачи и решения
 https://habr.com/ru/companies/rebrainme/articles/540354/
@@ -34,6 +35,7 @@ https://blog.iddqd.uk/interview-section-network
 Структуры данных
 https://habr.com/ru/articles/456194/
 
+#### [Golang Best Practices](https://golang.withcodeexample.com/series/golang-best-practices "Golang Best Practices")
 # БД
 
 Использование Go с MongoDB с помощью драйвера Go MongoDB
