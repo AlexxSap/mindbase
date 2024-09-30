@@ -9,11 +9,14 @@
 ## Core language
 - three-way comparison operator
 - designated initializers
-- std::source_location
+- lambda templates
+- [likely] and [unlikely]
+
 
 ## Library
 - std::span and std::mdspan
 - constexpr containers like std::string
+- std::source_location
 - std::format
 - std::print and std::println
 - flat containers
