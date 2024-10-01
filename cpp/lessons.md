@@ -8,8 +8,8 @@
 
 ## Core language
 - [three-way comparison operator](./spaceship.md)
-- designated initializers
-- lambda templates
+- [designated initializers](./desinit.md)
+- [lambda templates](./lambdatemplate.md)
 - [likely] and [unlikely]
 
 
