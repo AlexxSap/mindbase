@@ -7,7 +7,7 @@
 - coroutines
 
 ## Core language
-- three-way comparison operator
+- [three-way comparison operator](./spaceship.md)
 - designated initializers
 - lambda templates
 - [likely] and [unlikely]
