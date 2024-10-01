@@ -10,8 +10,7 @@
 - [three-way comparison operator](./spaceship.md)
 - [designated initializers](./desinit.md)
 - [lambda templates](./lambdatemplate.md)
-- [likely] and [unlikely]
-
+- [likely and unlikely attributes](./likely.md)
 
 ## Library
 - std::span and std::mdspan
