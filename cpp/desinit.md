@@ -1,3 +1,5 @@
+[back](./lessons.md)
+
 # designated initializers
 
 Как и трехсторонее сравнение просто тиснуто из языка C.

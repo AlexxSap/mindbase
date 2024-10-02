@@ -2,7 +2,7 @@
 
 ## The big four
 - [modules](./modules.md)
-- concepts
+- [concepts](./concepts.md)
 - ranges
 - coroutines
 
@@ -13,7 +13,7 @@
 - [likely and unlikely attributes](./likely.md)
 
 ## Library
-- std::span and std::mdspan
+- std::span
 - constexpr containers like std::string
 - std::source_location
 - std::format
