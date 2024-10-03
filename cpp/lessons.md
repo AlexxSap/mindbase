@@ -3,8 +3,8 @@
 ## The big four
 - [modules](./modules.md)
 - [concepts](./concepts.md)
-- ranges
-- coroutines
+- [ranges](./ranges.md)
+- coroutines - странно, страшно, непонятно - не смотрим
 
 ## Core language
 - [three-way comparison operator](./spaceship.md)
