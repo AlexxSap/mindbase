@@ -12,7 +12,7 @@
 - [lambda templates](./lambdatemplate.md)
 - [likely and unlikely attributes](./likely.md)
 
-## Library
+## [Library](./library.md)
 - std::span
 - constexpr containers like std::string
 - std::source_location
@@ -20,5 +20,4 @@
 - std::print and std::println
 - flat containers
 - std::expected
-- std::generator
 
