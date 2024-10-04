@@ -223,6 +223,9 @@ https://habr.com/ru/companies/avito/articles/799689/
 
 # Серверы
 
+How to Build a Real-Time Notification System with Go and Kafka
+https://www.freecodecamp.org/news/build-a-real-time-notification-system-with-go-and-kafka/#heading-lets-test-the-real-time-notification-system
+
 Создание сервера Golang с gRPC и Rest API при помощи Swagger
 https://eliofery.github.io/blog/2024-02-01-sozdanie-servera-golang-s-grpc-i-rest-api-ispolzuya-swagger-backend.html
 
