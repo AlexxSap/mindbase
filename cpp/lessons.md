@@ -22,3 +22,4 @@
 - std::expected
 
 ## Что по поддержке?
+[link](https://en.cppreference.com/w/cpp/compiler_support/23)
