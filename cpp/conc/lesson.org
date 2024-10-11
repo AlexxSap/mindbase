@@ -15,7 +15,12 @@
 Единый фреймворк асинхронности и параллелизма.
 В С++26 обещают развить это во что-то [[https://en.cppreference.com/w/cpp/execution][страшно большое]] . Но сейчас есть только работа этой штуки в алгоритмах на коллекциях.
 
-Есть 4 варианта - =seq=, =par=, =par_unseq=, =unseq=.
+Есть 4 варианта:
+ + =seq= - std::execution::sequenced_policy - это default поведение. Алгоритм не должен быть параллелизован или векторизован библиотекой.
+ + =par= - std::execution::parallel_policy - эта политика объявляет, что вызов алгоритма безопасен от race condition и deadlock (или как мне приколько перевёл яндекс гпт =расовых условий и мёртвых замков=). Поэтому библиотека может параллелизовать алгоритм (но не может векторизовать).
+ + =par_unseq= - std::execution::parallel_unsequenced_policy - эта политика объявляет, что вызов алгоритма можно векторизовать. Это значит, что тело функции можно запускать для нескольких значений одновременно в том же потоке.
+ + =unseq= - std::execution::unsequenced_policy - эта политика объединяет гарантии политик =par= и =unseq= и должна обеспечивать наивысший уровень оптимизации.
+*НО* указание параллельной политики не гарантирует параллельное выполнение, так как решение зависит от реализации и runtime-среды.
 
 ** Пример 1
 #+begin_src cpp
@@ -23,7 +28,7 @@ std::for_each(std::execution::par, std::begin(container), std::end(container), [
 #+end_src
 
 ** Пример 2
-*** TODO: вставить пример отсюда https://en.cppreference.com/w/cpp/algorithm/execution_policy_tag
+ TODO: вставить пример отсюда https://en.cppreference.com/w/cpp/algorithm/execution_policy_tag
 
 * Потоки
 ** std::tread
