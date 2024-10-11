@@ -1,2 +1,32 @@
-#+title: concurency
+#+title: Многопоточность на С++
 
+ссылка на  [[https://en.cppreference.com/w/cpp/thread][cppreference]]
+
+* std::execution
+Единый фреймворк асинхронности и параллелизма.
+В С++26 обещают развить это во что-то [[https://en.cppreference.com/w/cpp/execution][страшно большое]] . Но сейчас есть только работа этой штуки в циклах.
+
+Есть 4 варианта - =seq=, =par=, =par_unseq=, =unseq=.
+** Пример 1
+#+begin_src cpp
+std::for_each(std::execution::par, std::begin(container), std::end(container), [](){...});
+#+end_src
+
+** Пример 2
+#+TODO: вставить пример отсюда https://en.cppreference.com/w/cpp/algorithm/execution_policy_tag
+
+
+
+* Потоки
+** std::tread
+** Threads managing
+
+* Атомики
+** std::atomic
+** Atomic operations
+
+* Синхронизация выполнения
+** Mutual exclusion
+** Condition variables
+** Semaphores
+** Futures
