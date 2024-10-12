@@ -9,3 +9,11 @@ clean:
 	rm -fr _build
 
 run: clean build rerun
+
+clang_run:
+	clang++ -std=c++23 main.cpp -o demo_clang
+	./demo_clang
+
+gcc_run:
+	gcc main.cpp -lstdc++ -std=c++23 -o demo_gcc
+	./demo_gcc
