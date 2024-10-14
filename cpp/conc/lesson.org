@@ -42,4 +42,6 @@ std::for_each(std::execution::par, std::begin(container), std::end(container), [
 ** condition variables
 ** semaphores
 ** futures
+** каналы
 * Частые ошибки
+* Векторизация
