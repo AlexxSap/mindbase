@@ -1,0 +1,13 @@
+BasedOnStyle: WebKit
+IndentWidth: 4
+---
+Language: Cpp
+AlignAfterOpenBracket: Align
+AlignOperands: true
+BreakBeforeBraces: Allman
+BreakBeforeBinaryOperators: NonAssignment
+DerivePointerAlignment: true
+SpaceBeforeParens: Never
+BreakConstructorInitializers: AfterColon
+SortIncludes: false
+AlignTrailingComments: true
