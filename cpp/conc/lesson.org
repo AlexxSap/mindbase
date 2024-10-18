@@ -71,6 +71,12 @@ std::thread my_thread(do_some_work);
 Стандарт гарантирует, что окончание выполнения потока, запущенного вызовом =std::async=, синхронизировано с вызовом получения результата объектом =std::future= или освобождением общего состояния — области памяти, ответственной за передачу результата.
 Класс =std::future= представляет собой обертку, над каким-либо значением или объектом, вычисление или получение которого происходит отложено. Точнее, =future= предоставляет доступ к некоторому разделяемому состоянию, которое состоит из 2-х частей: данные(здесь лежит значение) и флаг готовности.
 
+#+begin_src cpp
+auto func(int x, std::string str) { ... }
+
+auto future = std::async(std::launch::async, func, 42, "Hello");
+future.get();
+#+end_src
 
 * Атомарные операции
 ** std::atomic
@@ -84,7 +90,53 @@ std::thread my_thread(do_some_work);
 ** mutual exclusion
 ** condition variables
 ** semaphores
-** futures
+** latches and barriers
+=std::latch= — это примитив синхронизации,  который позволяет одному или нескольким потокам ожидать, пока другие потоки не завершат выполнение. В отличие от =std::barrier=, он не перезагружается после достижения условия синхронизации, что делает его полезным для одноразовой координации.
+=std::latch= полезен в ситуациях, когда необходимо, чтобы один поток ждал завершения других потоков.
+
+#+begin_src cpp
+    std::latch work_done{std::size(jobs)};
+
+    auto work = [&](Job& my_job)
+    {
+        ...
+        work_done.count_down();
+        work_done.wait();
+        ...
+    };
+
+    for (auto& job : jobs)
+    {
+        job.action = std::thread{work, std::ref(job)};
+    }
+#+end_src
+
+=std::barrier= — это примитив синхронизации, добавленный в C++20, который позволяет координировать выполнение группы потоков. Каждый поток выполняет свою работу до определенной точки (барьера) и ждет, пока все остальные потоки достигнут этой же точки, после чего выполнение продолжается.
+=std::barrier= полезен в параллельных вычислениях, где важно, чтобы все потоки завершили определенную задачу перед переходом к следующей.
+
+#+begin_src cpp
+    auto on_completion = []() noexcept
+    {
+        ...
+    };
+
+    std::barrier sync_point(std::ssize(workers), on_completion);
+
+    auto work = [&](std::string name)
+    {
+        ...
+        sync_point.arrive_and_wait();
+        ...
+        sync_point.arrive_and_wait();
+    };
+
+    for (auto const& worker : workers)
+    {
+        threads.emplace_back(work, worker);
+    }
+#+end_src
+
+
 ** каналы
 
 * Ошибки при работе с многопоточностью
