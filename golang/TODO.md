@@ -115,6 +115,9 @@ https://habr.com/ru/articles/351060/
 
 # Производительность 
 
+Про использование benchstat в бенчмарках
+https://www.bwplotka.dev/2024/go-microbenchmarks-benchstat/
+
 Go sync.Cond — самый недооцененный механизм синхронизации:
 https://victoriametrics.com/blog/go-sync-cond/
 
@@ -288,8 +291,13 @@ https://eli.thegreenplace.net/2021/rest-servers-in-go-part-1-standard-library/
 https://proglib.io/sh/xcSABgw3QE
 
 # Прочее
+Паттерны многопоточности в Go
+https://habr.com/ru/articles/852556/
 
-highload паттерны на Go
+Как писать качественные unit-тесты: процент покрытия, мутанты и работа с моками
+https://habr.com/ru/articles/854546/
+
+highload 0паттерны на Go
 https://habr.com/ru/articles/682618/
 https://habr.com/ru/articles/684904/
 
@@ -437,3 +445,6 @@ https://threedots.tech/post/common-anti-patterns-in-go-web-applications/
 
 Building a simple load balancer in Go
 https://dev.to/vivekalhat/building-a-simple-load-balancer-in-go-70d
+
+Приложение на Go шаг за шагом. Часть первая: скелет, НТТР-сервер и конфигурация
+https://habr.com/ru/companies/yandex_praktikum/articles/854482/
