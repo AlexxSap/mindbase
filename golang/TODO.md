@@ -436,6 +436,8 @@ https://github.com/google/gofuzz
 
 Fuzzing-тестирование. Практическое применение
 https://habr.com/ru/companies/wildberries/articles/808911/?utm_campaign=808911
+Fuzz Testing Go HTTP Services
+https://packagemain.tech/p/fuzzing-http-services-golang
 
 unique - новый пакет в стандартной библиотеке Go 1.23
 https://go.dev/blog/unique
@@ -448,3 +450,6 @@ https://dev.to/vivekalhat/building-a-simple-load-balancer-in-go-70d
 
 Приложение на Go шаг за шагом. Часть первая: скелет, НТТР-сервер и конфигурация
 https://habr.com/ru/companies/yandex_praktikum/articles/854482/
+
+How to format time in Go/Golang
+https://www.tural.pro/blogs/how-to-format-time-in-go-golang
