@@ -235,12 +235,6 @@ https://eliofery.github.io/blog/2024-02-01-sozdanie-servera-golang-s-grpc-i-rest
 Кратко про сетевые протоколы в Golang: TCP, QUIC и UDP
 https://habr.com/ru/companies/otus/articles/830096/
 
-Начало работы с Redis в Go: пошаговое руководство по установке, командам и настройке.
-https://voskan.host/2023/08/10/redis-and-golang-complete-guide/
-https://www.youtube.com/watch?v=fPUdAFx9CCs
-
-Продвинутые структуры Redis
-https://habr.com/ru/companies/skbkontur/articles/836944/
 
 Routing Enhancements for Go 1.22
 https://go.dev/blog/routing-enhancements
