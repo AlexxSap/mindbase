@@ -1,0 +1,24 @@
+#+title: Установка в arch
+
+1. Обновляем пакеты
+2. Ставим докер
+  #+begin_src
+sudo pacman -S docker
+  #+end_src
+3. Стартуем сервис и добавляем его в автозапуск
+  #+begin_src
+sudo systemctl start docker.service
+sudo systemctl enable docker.service
+  #+end_src
+4. Добавляем пользователя, чтобы не писать постоянно sudo
+  #+begin_src
+sudo usermod -aG docker $USER
+  #+end_src
+5. Проверяем
+  #+begin_src
+docker run hello-world
+  #+end_src
+6. Ставим docker-compose
+  #+begin_src
+sudo pacman -S docker-compose
+  #+end_src
