@@ -36,6 +36,10 @@ https://blog.iddqd.uk/interview-section-network
 https://habr.com/ru/articles/456194/
 
 #### [Golang Best Practices](https://golang.withcodeexample.com/series/golang-best-practices "Golang Best Practices")
+
+Introduction to Golang Best Practices
+https://golang.withcodeexample.com/blog/introduction-to-golang-best-practices/
+
 # БД
 
 Использование Go с MongoDB с помощью драйвера Go MongoDB
@@ -94,6 +98,10 @@ https://www.youtube.com/watch?v=Gl31diSVP8M
 
 Dockerizing Golang CLI Tool
 https://siddhesh-dev.co/dockerizing-golang-cli-tool-a-step-by-step-guide
+
+How to Deploy Go Applications With Docker
+https://dev.to/goodylili/how-to-deploy-go-applications-with-docker-50n3
+
 # PDF
 
 Integrating UniPDF Library with Web Applications: A Comprehensive Guide
@@ -303,6 +311,13 @@ https://habr.com/ru/articles/797019/
 
 Robust generic functions on slices
 https://go.dev/blog/generic-slice-functions
+
+iterators 
+https://dev.to/tuna99/understanding-iterators-in-go-a-fun-dive-1c57
+https://eli.thegreenplace.net/2024/ranging-over-functions-in-go-123/
+
+generics
+https://bitfieldconsulting.com/posts/generics
 
 итераторы
 https://bitfieldconsulting.com/golang/iterators

@@ -21,3 +21,9 @@ https://habr.com/ru/companies/stm_labs/articles/841792/
 https://www.tarantool.io/ru/doc/latest/
 Начинаем работать с Tarantool
 https://habr.com/ru/companies/first/articles/596301/
+
+Tarantool: СУБД с хранением в памяти и сервер приложений
+https://www.osp.ru/os/2017/02/13052224
+
+Использование Tarantool в .NET-проекте на Windows
+https://habr.com/ru/companies/vk/articles/321998/
