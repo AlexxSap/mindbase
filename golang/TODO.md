@@ -50,6 +50,9 @@ https://ocakhasan.github.io/golang-mongodb-query-examples/
 
 # gRPC
 
+Создание кастомного балансировщика нагрузки на Go для gRPC с приоритизацией адресов
+https://habr.com/ru/companies/vk/articles/858290/
+
 gRPC через HTTP/3
 https://kmcd.dev/posts/grpc-over-http3/
 
@@ -233,6 +236,9 @@ https://voskan.host/2023/08/14/building-microservices-with-golang-and-rabbitmq/
 https://habr.com/ru/companies/avito/articles/799689/
 
 # Серверы
+
+Building a fast URL Shortener with Go and Redis
+https://dev.to/mahadevans87/building-a-fast-url-shortener-with-go-and-redis-31b9
 
 How to Build a Real-Time Notification System with Go and Kafka
 https://www.freecodecamp.org/news/build-a-real-time-notification-system-with-go-and-kafka/#heading-lets-test-the-real-time-notification-system
