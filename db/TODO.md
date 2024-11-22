@@ -12,6 +12,7 @@ https://www.youtube.com/watch?v=fPUdAFx9CCs
 https://habr.com/ru/companies/skbkontur/articles/836944/
 Основы использования Redis в Go
 https://habr.com/ru/sandbox/210873/
+https://habr.com/ru/articles/860060/
 https://blog.logrocket.com/how-to-use-redis-as-a-database-with-go-redis/
 
 REDIS: такой простой и такой сложный
