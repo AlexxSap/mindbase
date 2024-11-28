@@ -19,6 +19,11 @@ curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 stack new real
 ```
 
+Для создания проекта можно использовать схему simple - она создаёт меньше файлов в проекте.
+```
+stack new real simple
+```
+
 Собираем
 ```
 stack build

@@ -304,6 +304,9 @@ https://proglib.io/sh/xcSABgw3QE
 Паттерны многопоточности в Go
 https://habr.com/ru/articles/852556/
 
+Конкурентность в Go: пять примеров
+https://habr.com/ru/companies/ru_mts/articles/680324/
+
 Как писать качественные unit-тесты: процент покрытия, мутанты и работа с моками
 https://habr.com/ru/articles/854546/
 
