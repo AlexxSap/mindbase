@@ -17,6 +17,11 @@ stack install ghc-mod
 yay -S haskell-language-server-static
 ```
 
+Устанавливаем форматтер
+```
+stack install fourmolu
+```
+
 ## Настройка emacs
 
 В файле init.el раскомментируем
@@ -54,4 +59,14 @@ stack build
 Внутри каталога .stack-work появиться исполняемый файл, его можно запустить так
 ```
 stack exec real-exe
+```
+
+Форматировать файл 
+```
+fourmolu -i Module.hs
+```
+
+Форматировать каталог 
+```
+fourmolu -i src
 ```
