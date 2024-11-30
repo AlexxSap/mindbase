@@ -40,6 +40,9 @@ https://habr.com/ru/articles/456194/
 Introduction to Golang Best Practices
 https://golang.withcodeexample.com/blog/introduction-to-golang-best-practices/
 
+Классный блог 
+https://antonz.org/all/
+
 # БД
 
 Использование Go с MongoDB с помощью драйвера Go MongoDB
