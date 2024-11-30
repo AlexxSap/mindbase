@@ -5,11 +5,33 @@
 curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 ```
 
+В файле .bashrc добавляем в PATH каталог .ghcup/bin
+
+Устанавливаем ghc-mod
+```
+stack install ghc-mod
+```
+
+Устанавливаем lsp
+```
+yay -S haskell-language-server-static
+```
+
 ## Настройка emacs
 
 В файле init.el раскомментируем
 ```
 (haskell +lsp +tree-sitter)    ; a language that's lazier than I am
+```
+
+В config.el добавляем
+```
+(require 'lsp)
+(require 'lsp-haskell)
+;; Hooks so haskell and literate haskell major modes trigger LSP setup
+(add-hook 'haskell-mode-hook #'lsp)
+(add-hook 'haskell-literate-mode-hook #'lsp)
+(setq haskell-stylish-on-save t)
 ```
 
 ## Запуск
