@@ -129,6 +129,9 @@ https://habr.com/ru/articles/351060/
 
 # Производительность 
 
+Optimizing Memory Usage in Go: Mastering Data Structure Alignment
+https://dev.to/yanev/optimizing-memory-usage-in-go-mastering-data-structure-alignment-4beb
+
 Про использование benchstat в бенчмарках
 https://www.bwplotka.dev/2024/go-microbenchmarks-benchstat/
 
