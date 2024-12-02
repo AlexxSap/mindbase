@@ -189,3 +189,28 @@ main :: IO ()
 main = print (mul 10 4)
   where mul = \x y -> x * y -- :: Int -> Int -> Int
 #+end_src
+
+=Композиция и применение=
+
+#+begin_src haskell
+main :: IO ()
+main = putStrLn . checkLocalhost $ "173.194.22.100"
+
+
+logWarn :: String -> String
+logWarn = warning . correctSpaces . asciiOnly
+#+end_src
+
+Оператор ~.~ — это оператор композиции функций (англ. ~function composition~), а оператор ~$~ — это оператор применения (англ. ~application operator~).
+~Оператор композиции:~
+#+begin_src haskell
+(.) f g = \x -> f (g x)
+#+end_src
+
+=Собственный оператор композиции=
+
+#+begin_src haskell
+(<+>) f g = \x -> f (g x)
+(<+>) f g = f . g
+f <+> g = f . g
+#+end_src
