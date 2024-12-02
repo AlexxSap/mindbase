@@ -1,0 +1,191 @@
+#+title: Основы
+
+=Простой проект=
+
+#+begin_src haskell
+module Main where
+
+main :: IO ()
+main = do
+  putStrLn "hello"
+#+end_src
+
+=Объявление функции=
+
+#+begin_src haskell
+square :: Int -> Int -> Int
+square a b = a * b
+#+end_src
+
+=Ветвление=
+
+#+begin_src haskell
+checkLocalhost :: String -> String
+checkLocalhost ip =
+  -- True или False?
+  if ip == "127.0.0.1" || ip == "0.0.0.0"
+    -- Если True - идёт туда...
+    then "It's a localhost!"
+    -- А если False - сюда...
+    else "No, it's not a localhost."
+#+end_src
+
+=Pattern matching=
+
+#+begin_src haskell
+{-# LANGUAGE MultiWayIf #-} -- включаем расширение
+...
+analyzeGold :: Int -> String
+analyzeGold standard =
+  if | standard == 999 -> "Wow! 999 standard!"
+     | standard == 750 -> "Great! 750 standard."
+     | standard == 585 -> "Not bad! 585 standard."
+     | otherwise -> "I don't know such a standard..."
+#+end_src
+
+#+begin_src haskell
+analyzeGold :: Int -> String
+analyzeGold standard
+  | standard == 999 = "Wow! 999 standard!"
+  | standard == 750 = "Great! 750 standard."
+  | standard == 585 = "Not bad! 585 standard."
+  | otherwise = "I don't know such a standard..."
+#+end_src
+
+#+begin_src haskell
+analyzeGold :: Int -> String  -- Одно объявление.
+-- И множество определений...
+analyzeGold 999 = "Wow! 999 standard!"
+analyzeGold 750 = "Great! 750 standard."
+analyzeGold 585 = "Not bad! 585 standard."
+analyzeGold _   = "I don't know such a standard..."
+#+end_src
+
+#+begin_src haskell
+analyzeGold standard =
+  case standard of
+    999 -> "Wow! 999 standard!"
+    750 -> "Great! 750 standard."
+    585 -> "Not bad! 585 standard."
+    _   -> "I don't know such a standard..."
+#+end_src
+
+=let=
+
+#+begin_src haskell
+calculateTime :: Int -> Int
+calculateTime timeInS =
+  let threshold  = 40
+      correction = 120
+      delta      = 8
+  in
+  if | timeInS <  threshold -> timeInS + correction
+     | timeInS >= threshold -> timeInS + delta + correction
+#+end_src
+
+=where=
+
+#+begin_src haskell
+calculateTime :: Int -> Int
+calculateTime timeInS =
+  if | timeInS < threshold -> timeInS + correction
+     | otherwise -> timeInS +
+                    delta +
+                    correction
+  where
+    threshold  = 40
+    correction = 120
+    delta      = 8
+#+end_src
+
+=Инфиксная форма оператора=
+
+#+begin_src haskell
+isEqualTo :: Int -> Int -> Bool
+isEqualTo x y = x == y
+...
+if isEqualTo code1 code2 then ... else ...
+...
+if code1 `isEqualTo` code2 then ... else ...
+#+end_src
+
+=Списки=
+
+#+begin_src haskell
+[1, 2, 3]
+[1.3, 45.7899]
+["TCP", "UDP", "DCCP", "SCTP"]
+#+end_src
+
+Типы списков:
+#+begin_src haskell
+[Int]     -- Список целых чисел
+[Char]    -- Список символов
+[String]  -- Список строк
+[[String]]  -- Список списков строк
+#+end_src
+
+=Действия над списками=
+
+#+begin_src haskell
+main :: IO ()
+main = putStrLn (head ["Vim", "Emacs", "Atom"])
+#+end_src
+~head~ возвращает голову списка
+~tail~ формирует другой список, представляющий собою всё от первоначального списка, кроме головы
+~length~ возвращает длину списка
+Стандартный оператор ~:~ добавляет значение, являющееся левым операндом, в начало списка, являющегося правым операндом.
+
+=Синоним типа=
+
+#+begin_src haskell
+type String = [Char]
+#+end_src
+
+=Перечисление=
+
+#+begin_src haskell
+[1..10] = [1,2,3,4,5,6,7,8,9,10]
+[2,4..10] = [2,4,6,8,10]
+[9,8..1] = [9,8,7,6,5,4,3,2,1]
+['a'..'z'] = "abcdefghijklmnopqrstuvwxyz"
+#+end_src
+
+=Кортеж=
+
+#+begin_src haskell
+("Haskell", 2010) -- тип кортежа (String, Int)
+#+end_src
+Стандартные функции ~fst~ и ~snd~ возвращают первый и второй элемент кортежа соответственно
+
+#+begin_src haskell
+type Patient = (UUID, FullName, Email, Age)
+-- взять часть информации кортежа
+patientEmail (_, _, email, _) = email
+#+end_src
+
+=Пакет tuple=
+
+#+begin_src haskell
+import Data.Tuple.Select
+
+main :: IO ()
+main = print (sel4 (123, 7, "hydra", "DC:4", 44, "12.04"))
+#+end_src
+Функция ~sel4~ из модуля ~Data.Tuple.Select~ извлекает четвёртый по счёту элемент кортежа.
+
+#+begin_src haskell
+import Data.Tuple.Update
+
+main :: IO ()
+main = print (upd2 2 ("si", 45))
+#+end_src
+Функция ~upd2~ обновляет второй элемент кортежа. Естественно, по причине неизменности кортежа, никакого обновления тут не происходит, но выглядит симпатично.
+
+=Лямда функции=
+
+#+begin_src haskell
+main :: IO ()
+main = print (mul 10 4)
+  where mul = \x y -> x * y -- :: Int -> Int -> Int
+#+end_src
