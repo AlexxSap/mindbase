@@ -182,7 +182,7 @@ main = print (upd2 2 ("si", 45))
 #+end_src
 Функция ~upd2~ обновляет второй элемент кортежа. Естественно, по причине неизменности кортежа, никакого обновления тут не происходит, но выглядит симпатично.
 
-=Лямда функции=
+=Лямбда функции=
 
 #+begin_src haskell
 main :: IO ()
@@ -213,4 +213,71 @@ logWarn = warning . correctSpaces . asciiOnly
 (<+>) f g = \x -> f (g x)
 (<+>) f g = f . g
 f <+> g = f . g
+#+end_src
+
+=Отображение (map)=
+
+#+begin_src haskell
+map :: (a -> b) -> [a] -> [b]
+#+end_src
+
+#+begin_src haskell
+import Data.Char
+
+toUpperCase :: String -> String
+toUpperCase str = map toUpper str
+
+main :: IO ()
+main = putStrLn . toUpperCase $ "haskell.org" --HASKELL.ORG
+#+end_src
+
+~toUpper~ переводит символ в верхний регистр
+~show~ переводит свой аргумент в строку
+
+в качестве аргумента функции map мы можем использовать и
+ собственные функции:
+
+#+begin_src haskell
+ten :: [Double] -> [Double]
+ten = map (\n -> n * 10)
+
+main :: IO ()
+main = print . ten $ [1.2, 1,4, 1.6] --[12.0,10.0,40.0,16.0]
+#+end_src
+
+#+begin_src haskell
+main :: IO ()
+main = print . ten $ [1.1, 2.2, 4.4]
+  where
+    ten = map (\n -> n * 10)
+#+end_src
+
+=Частичное применение=
+
+#+begin_src haskell
+main :: IO ()
+main = putStrLn result
+  where
+    first  = replace "http"
+    second = first   "https"
+    result = second  "http://google.com"
+#+end_src
+
+Тип выражения ~first — String -> String -> String~, оно явилось
+результатом частичного применения функции ~replace~ к первому аргументу, строке "http". Тип выражения ~second — String -> String~, оно явилось результатом вторичного частичного применения функции ~first~ к уже второму аргументу, строке ~"https"~. И наконец, применив функцию ~second~ к третьему аргументу, строке ~"http://google.com"~, мы наконец-то получаем
+конечный результат, ассоциированный с выражением ~result~.
+
+=Композиция для отображения=
+
+#+begin_src haskell
+import Data.Char
+
+pretty :: [String] -> [String]
+pretty = map (stars . big)
+  where
+    big = map toUpper
+    stars = \s -> "* " ++ s ++ " *"
+
+main :: IO ()
+main = print . pretty $ ["haskell", "lisp", "coq"]
 #+end_src
