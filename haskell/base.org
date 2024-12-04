@@ -1,5 +1,12 @@
 #+title: Основы
 
+=Полезные ссылки=
+
+[[ha][https://hackage.haskell.org/]]
+https://hackage.haskell.org/packages/
+https://hoogle.haskell.org/
+https://hackage.haskell.org/packages/browse
+
 =Простой проект=
 
 #+begin_src haskell
@@ -280,4 +287,18 @@ pretty = map (stars . big)
 
 main :: IO ()
 main = print . pretty $ ["haskell", "lisp", "coq"]
+#+end_src
+
+=Импорт библиотек=
+
+Чтобы использовать сторонюю библиотеку нужно включить её в проект.
+Для этого в файл ~имя_проекта.cabal~ в корне проекта в секцию ~build-depends:~.
+После этого импортировать в файле ~.hs~.
+
+#+begin_src haskell
+import Data.Text.IO -- импорт всего пакета
+import    Data.Text.IO  as   TIO -- импорт пакета под алиасом TIO
+import qualified Data.Text.IO as TIO -- qualified заставляет обязательно указывать имя пакета при вызове
+import Data.Text (pack) -- импорт только функции pack
+import Data.Text.IO hiding (putStrLn) -- импорт с исключением функции putStrLn
 #+end_src
