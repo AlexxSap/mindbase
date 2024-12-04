@@ -28,3 +28,7 @@ https://www.osp.ru/os/2017/02/13052224
 
 Использование Tarantool в .NET-проекте на Windows
 https://habr.com/ru/companies/vk/articles/321998/
+
+# PostgreSQL
+https://www.youtube.com/watch?v=gA3A_epB3So&ab_channel=Диджитализируй%21
+База по оптимизации PostgreSQL: схема, индексы, чтение EXPLAIN, методы доступа и соединения, тюнинг
