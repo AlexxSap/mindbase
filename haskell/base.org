@@ -351,3 +351,95 @@ fakeSum x _ = x + 100
 main :: IO ()
 main = print $ fakeSum 1 undefined
 #+end_src
+
+=Собственные типы=
+
+Нульарный тип (перечисление):
+#+begin_src haskell
+data Transport = TCP | UDP
+--тип Transport это TCP или UDP
+#+end_src
+Ключевое слово ~data~ — это начало определения типа.
+
+Унарный тип
+#+begin_src haskell
+data IPAddress = IPAddress String
+--      тип     конструктор  поле
+let ip = IPAddress "127.0.0.1"
+#+end_src
+
+#+begin_src haskell
+data IPAddress = IPv4 String | IPv6 String -- два конструктора, соответствующих разным IP-версиям
+let ip4 = IPv4 "127.0.0.1"
+let ip6 = IPv6 "2001:0db8:0000:0042:0000:8a2e:0370:7334"
+#+end_src
+
+Извлеч значение из поля можно через pattern matching
+#+begin_src haskell
+checkIP :: IPAddress -> String
+checkIP addr = case addr of
+    IPv4 address  -> "IPv4 is '" ++ address ++ "'."
+    IPv6 address  -> "IPv6 is '" ++ address ++ "'."
+
+main :: IO ()
+main = putStrLn . checkIP $ IPv4 "173.194.122.194" -- IP is '173.194.122.194'.
+#+end_src
+
+#+begin_src haskell
+data EndPoint = EndPoint IPAddress Int
+...
+let google = EndPoint (IPv4 "173.194.122.194") 80
+...
+main :: IO ()
+main = putStrLn $ "The host is: " ++ ip
+  where
+    EndPoint (IPv4 ip) _ = EndPoint (IPv4 "173.194.122.194") 80
+#+end_src
+
+=Метки полей=
+
+#+begin_src haskell
+data Patient = Patient { firstName    :: -- если тип полей одинаков
+                       , lastName     :: -- то можно указать только последнее
+                       , email        :: String
+                       , age          ::
+                       , diseaseId    :: Int
+                       , isIndoor     ::
+                       , hasInsurance :: Bool
+                       }
+#+end_src
+
+Метки - это особые функции, сгенерированные автоматически.
+#+begin_src haskell
+main :: IO ()
+main = print $ diseaseId patient -- Кроме того, метку можно использовать и как getter
+  where
+    patient = Patient {
+        firstName    = "John"
+      , lastName     = "Doe"
+      , email        = "john.doe@gmail.com"
+      , age          = 24
+      , diseaseId    = 431
+      , isIndoor     = True
+      , hasInsurance = True
+    }
+#+end_src
+
+#+begin_src haskell
+main :: IO ()
+main = print $ email patientWithChangedEmail
+  where
+    patientWithChangedEmail = patient {
+      email = "j.d@gmail.com"  -- создаём копию patient и меняем поле email
+    }
+
+    patient = Patient {
+        firstName    = "John"
+      , lastName     = "Doe"
+      , email        = "john.doe@gmail.com"
+      , age          = 24
+      , diseaseId    = 431
+      , isIndoor     = True
+      , hasInsurance = True
+    }
+#+end_src
