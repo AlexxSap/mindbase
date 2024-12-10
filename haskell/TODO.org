@@ -1,0 +1,2 @@
+The Haskell inlining and specialization
+https://www.haskellforall.com/2024/11/the-haskell-inlining-and-specialization.html

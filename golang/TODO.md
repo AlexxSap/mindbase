@@ -479,3 +479,6 @@ https://habr.com/ru/companies/yandex_praktikum/articles/854482/
 
 How to format time in Go/Golang
 https://www.tural.pro/blogs/how-to-format-time-in-go-golang
+
+Awful ways to create Pipelines with Go
+https://www.poxate.com/blog/awful-ways-to-create-pipelines-with-go/
