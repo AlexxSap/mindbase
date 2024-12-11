@@ -480,3 +480,39 @@ data Optional = NoSuchChapter
 #+begin_src haskell
 data Maybe a = Nothing | Just a
 #+end_src
+
+=Классы типов=
+
+Классы типов (~type class~) позволяют определять функции с одинаковым именем для разных типов.
+Программистская аналогия класса типов это интерфейс.
+
+#+begin_src haskell
+class Eq a where
+  (==) :: a -> a -> Bool
+  (/=) :: a -> a -> Bool
+
+class Show a where
+  show :: a -> String
+#+end_src
+Класс типов также может содержать контекст. Он указывается между словом class и именем класса.
+#+begin_src haskell
+class IsPerson a
+
+class IsPerson a => HasName a where
+  name :: a -> String
+#+end_src
+Это определение говорит о том, что мы можем сделать экземпляр класса ~HasName~ только для тех типов, которые содержатся в ~IsPerson~. Мы говорим, что класс ~HasName~ содержится в ~IsPerson~. В этом случае класс из контекста ~IsPerson~ называют суперклассом для данного класса ~HasName~.
+
+=Экземпляры классов типов=
+
+#+begin_src haskell
+instance Eq Bool where
+  (==) True True = True
+  (==) False False = True
+  (==) _ _ = False
+  (/=) a b = not (a == b)
+
+instance Show Bool where
+  show True = ”True”
+  show False = ”False”
+#+end_src
