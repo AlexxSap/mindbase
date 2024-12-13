@@ -1,13 +1,13 @@
 #+title: Основы
 
-=Полезные ссылки=
+* Полезные ссылки
 
 [[ha][https://hackage.haskell.org/]]
 https://hackage.haskell.org/packages/
 https://hoogle.haskell.org/
 https://hackage.haskell.org/packages/browse
 
-=Простой проект=
+* Простой проект
 
 #+begin_src haskell
 module Main where
@@ -17,14 +17,14 @@ main = do
   putStrLn "hello"
 #+end_src
 
-=Объявление функции=
+* Объявление функции
 
 #+begin_src haskell
 square :: Int -> Int -> Int
 square a b = a * b
 #+end_src
 
-=Ветвление=
+* Ветвление
 
 #+begin_src haskell
 checkLocalhost :: String -> String
@@ -37,7 +37,7 @@ checkLocalhost ip =
     else "No, it's not a localhost."
 #+end_src
 
-=Pattern matching=
+* Pattern matching
 
 #+begin_src haskell
 {-# LANGUAGE MultiWayIf #-} -- включаем расширение
@@ -77,7 +77,7 @@ analyzeGold standard =
     _   -> "I don't know such a standard..."
 #+end_src
 
-=let=
+* let
 
 #+begin_src haskell
 calculateTime :: Int -> Int
@@ -90,7 +90,7 @@ calculateTime timeInS =
      | timeInS >= threshold -> timeInS + delta + correction
 #+end_src
 
-=where=
+* where
 
 #+begin_src haskell
 calculateTime :: Int -> Int
@@ -105,7 +105,7 @@ calculateTime timeInS =
     delta      = 8
 #+end_src
 
-=Инфиксная форма оператора=
+* Инфиксная форма оператора
 
 #+begin_src haskell
 isEqualTo :: Int -> Int -> Bool
@@ -116,7 +116,7 @@ if isEqualTo code1 code2 then ... else ...
 if code1 `isEqualTo` code2 then ... else ...
 #+end_src
 
-=Списки=
+* Списки
 
 #+begin_src haskell
 [1, 2, 3]
@@ -157,6 +157,15 @@ main = putStrLn (head ["Vim", "Emacs", "Atom"])
 ~++~ - конкантенация списков
 ~:~ - добавление в начало списка
 
+=Перечисление=
+
+#+begin_src haskell
+[1..10] = [1,2,3,4,5,6,7,8,9,10]
+[2,4..10] = [2,4,6,8,10]
+[9,8..1] = [9,8,7,6,5,4,3,2,1]
+['a'..'z'] = "abcdefghijklmnopqrstuvwxyz"
+#+end_src
+
 =Генераторы списков=
 
 #+begin_src haskell
@@ -165,10 +174,13 @@ main = putStrLn (head ["Vim", "Emacs", "Atom"])
 В выражении ~[x*2 | x <– [1..10]]~ мы извлекаем элементы из списка ~[1..10]~. Часть генератора, находящаяся левее вертикальной
 черты |, определяет значения элементов результирующего списка.
 Можно добавить предикат выборки
+
 #+begin_src haskell
 [x*2 | x <– [1..10], x*2 >= 12] -- Нам нужны только те элементы, которые, будучи удвоенными, больше либо равны 12.
 #+end_src
+
 Нужно выражение, которое заменяет каждое нечётное число больше 10 на БАХ!", а каждое нечётное число меньше 10 – на БУМ!". Если число чётное, мы выбрасываем его из нашего списка.
+
 #+begin_src haskell
 boomBangs xs = [if x < 10 then "БУМ!" else "БАХ!" | x <– xs, odd x]
 ...
@@ -179,22 +191,7 @@ boomBangs [7..13] -- ["БУМ!","БУМ!","БАХ!","БАХ!"]
 [x+y | x <- [1,2,3], y <- [10,100,1000]] -- [11,101,1001,12,102,1002,13,103,1003]
 #+end_src
 
-=Синоним типа=
-
-#+begin_src haskell
-type String = [Char]
-#+end_src
-
-=Перечисление=
-
-#+begin_src haskell
-[1..10] = [1,2,3,4,5,6,7,8,9,10]
-[2,4..10] = [2,4,6,8,10]
-[9,8..1] = [9,8,7,6,5,4,3,2,1]
-['a'..'z'] = "abcdefghijklmnopqrstuvwxyz"
-#+end_src
-
-=Кортеж=
+* Кортеж
 
 #+begin_src haskell
 ("Haskell", 2010) -- тип кортежа (String, Int)
@@ -225,7 +222,7 @@ main = print (upd2 2 ("si", 45))
 #+end_src
 Функция ~upd2~ обновляет второй элемент кортежа. Естественно, по причине неизменности кортежа, никакого обновления тут не происходит, но выглядит симпатично.
 
-=Лямбда функции=
+* Лямбда функции
 
 #+begin_src haskell
 main :: IO ()
@@ -233,7 +230,7 @@ main = print (mul 10 4)
   where mul = \x y -> x * y -- :: Int -> Int -> Int
 #+end_src
 
-=Композиция и применение=
+* Композиция и применение
 
 #+begin_src haskell
 main :: IO ()
@@ -258,7 +255,7 @@ logWarn = warning . correctSpaces . asciiOnly
 f <+> g = f . g
 #+end_src
 
-=Отображение (map)=
+* Отображение (map)
 
 #+begin_src haskell
 map :: (a -> b) -> [a] -> [b]
@@ -295,7 +292,7 @@ main = print . ten $ [1.1, 2.2, 4.4]
     ten = map (\n -> n * 10)
 #+end_src
 
-=Частичное применение=
+* Частичное применение
 
 #+begin_src haskell
 main :: IO ()
@@ -310,7 +307,7 @@ main = putStrLn result
 результатом частичного применения функции ~replace~ к первому аргументу, строке "http". Тип выражения ~second — String -> String~, оно явилось результатом вторичного частичного применения функции ~first~ к уже второму аргументу, строке ~"https"~. И наконец, применив функцию ~second~ к третьему аргументу, строке ~"http://google.com"~, мы наконец-то получаем
 конечный результат, ассоциированный с выражением ~result~.
 
-=Композиция для отображения=
+* Композиция для отображения
 
 #+begin_src haskell
 import Data.Char
@@ -325,7 +322,7 @@ main :: IO ()
 main = print . pretty $ ["haskell", "lisp", "coq"]
 #+end_src
 
-=Импорт библиотек=
+* Импорт библиотек
 
 Чтобы использовать сторонюю библиотеку нужно включить её в проект.
 Для этого в файл ~имя_проекта.cabal~ в корне проекта в секцию ~build-depends:~.
@@ -340,7 +337,7 @@ import Data.Text.IO hiding (putStrLn) -- импорт с исключением 
 import Prelude(Bool(..), Show(..), Eq(..)) -- Две точки в скобках означают “все конструкторы” (в случае типа) и “все методы” (в случае класса типа)
 #+end_src
 
-=Ленивые вычисления=
+* Ленивые вычисления
 
 #+begin_src haskell
 strange :: Int -> Int
@@ -386,7 +383,13 @@ main :: IO ()
 main = print $ fakeSum 1 undefined
 #+end_src
 
-=Собственные типы=
+* Собственные типы
+
+Синоним типа
+
+#+begin_src haskell
+type String = [Char]
+#+end_src
 
 Нульарный тип (перечисление):
 #+begin_src haskell
@@ -509,13 +512,13 @@ data Optional = NoSuchChapter
               | Chapter String
 #+end_src
 
-=Может быть=
+* Может быть
 
 #+begin_src haskell
 data Maybe a = Nothing | Just a
 #+end_src
 
-=Классы типов=
+* Классы типов
 
 Классы типов (~type class~) позволяют определять функции с одинаковым именем для разных типов.
 Программистская аналогия класса типов это интерфейс.
@@ -537,7 +540,7 @@ class IsPerson a => HasName a where
 #+end_src
 Это определение говорит о том, что мы можем сделать экземпляр класса ~HasName~ только для тех типов, которые содержатся в ~IsPerson~. Мы говорим, что класс ~HasName~ содержится в ~IsPerson~. В этом случае класс из контекста ~IsPerson~ называют суперклассом для данного класса ~HasName~.
 
-=Экземпляры классов типов=
+* Экземпляры классов типов
 
 #+begin_src haskell
 instance Eq Bool where
