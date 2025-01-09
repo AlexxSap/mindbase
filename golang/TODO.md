@@ -53,6 +53,9 @@ https://ocakhasan.github.io/golang-mongodb-query-examples/
 
 # gRPC
 
+Go Protobuf: The new Opaque API
+https://go.dev/blog/protobuf-opaque
+
 Создание кастомного балансировщика нагрузки на Go для gRPC с приоритизацией адресов
 https://habr.com/ru/companies/vk/articles/858290/
 

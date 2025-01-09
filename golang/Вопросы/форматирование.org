@@ -1,0 +1,48 @@
+#+title: Форматирование
+
+=Полезные приемы форматирования=
+
+Вот несколько приемов форматирования, которые могут быть вам полезны:
+
+1. Закавыченная строка
+Используйте ~%q~, чтобы вывести строковое значение в кавычках.
+#+begin_src go
+s := "Hello, World!"
+fmt.Printf("%q\n", s)
+// "Hello, World!"
+#+end_src
+
+2. Названия полей структуры
+Используйте ~%+v~, чтобы вывести названия полей структуры, а не только значения.
+#+begin_src go
+alice := person{"Alice", 25}
+fmt.Printf("%+v\n", alice)
+// {name:Alice age:25}
+#+end_src
+
+3. Тип значения
+Используйте ~%T~, чтобы вывести тип значения.
+#+begin_src go
+var val any
+val = 42
+fmt.Printf("%T: %v\n", val, val)
+// int: 42
+
+val = "Hello, World!"
+fmt.Printf("%T: %v\n", val, val)
+// string: Hello, World!
+
+val = person{"Alice", 25}
+fmt.Printf("%T: %v\n", val, val)
+// main.person: {Alice 25}
+#+end_src
+
+4. Индекс аргумента
+Можно явно указать, какой по порядку аргумент выводить. Полезно, если одно и то же значение выводится несколько раз (как в примере с val выше).
+#+begin_src go
+num := 42
+fmt.Printf("%[1]T: %[1]v\n", num)
+// int: 42
+#+end_src
+
+Нумерация с 1.
