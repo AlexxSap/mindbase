@@ -485,3 +485,6 @@ https://www.tural.pro/blogs/how-to-format-time-in-go-golang
 
 Awful ways to create Pipelines with Go
 https://www.poxate.com/blog/awful-ways-to-create-pipelines-with-go/
+
+Создание игры с Ebitengine
+https://www.youtube.com/playlist?list=PLvN4CrYN-8i7xnODFyCMty6ossz4eW0Cn

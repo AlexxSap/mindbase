@@ -1,3 +1,8 @@
+# MongoDB
+MongoDB. Полный курс
+https://www.youtube.com/watch?v=sXcZQ5Zg-YM&ab_channel=webDev
+
+
 # redis
 https://www.docker.com/blog/how-to-use-the-redis-docker-official-image/
 
