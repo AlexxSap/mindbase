@@ -488,3 +488,12 @@ https://www.poxate.com/blog/awful-ways-to-create-pipelines-with-go/
 
 Создание игры с Ebitengine
 https://www.youtube.com/playlist?list=PLvN4CrYN-8i7xnODFyCMty6ossz4eW0Cn
+
+Простые highload паттерны на Go
+https://habr.com/ru/articles/682618/
+
+Средние highload паттерны на Go
+https://habr.com/ru/articles/684904/
+
+Build an OTP-Based Authentication Server with Go
+https://dev.to/vishaaxl/build-an-otp-based-authentication-server-with-go-part-1-760
