@@ -15,6 +15,7 @@ https://www.youtube.com/watch?v=fPUdAFx9CCs
 
 Продвинутые структуры Redis
 https://habr.com/ru/companies/skbkontur/articles/836944/
+
 Основы использования Redis в Go
 https://habr.com/ru/sandbox/210873/
 https://habr.com/ru/articles/860060/

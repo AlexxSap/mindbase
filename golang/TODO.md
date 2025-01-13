@@ -309,6 +309,13 @@ https://eli.thegreenplace.net/2021/rest-servers-in-go-part-1-standard-library/
 6+ главных алгоритмов балансировки нагрузки
 https://proglib.io/sh/xcSABgw3QE
 
+# Games
+Создание игры с Ebitengine
+https://www.youtube.com/playlist?list=PLvN4CrYN-8i7xnODFyCMty6ossz4eW0Cn
+
+Как я создал 2D-игру с помощью Ebiten за 40 минут
+https://nuancesprog.ru/p/23395/
+
 # Прочее
 Паттерны многопоточности в Go
 https://habr.com/ru/articles/852556/
@@ -486,8 +493,6 @@ https://www.tural.pro/blogs/how-to-format-time-in-go-golang
 Awful ways to create Pipelines with Go
 https://www.poxate.com/blog/awful-ways-to-create-pipelines-with-go/
 
-Создание игры с Ebitengine
-https://www.youtube.com/playlist?list=PLvN4CrYN-8i7xnODFyCMty6ossz4eW0Cn
 
 Простые highload паттерны на Go
 https://habr.com/ru/articles/682618/
@@ -497,3 +502,12 @@ https://habr.com/ru/articles/684904/
 
 Build an OTP-Based Authentication Server with Go
 https://dev.to/vishaaxl/build-an-otp-based-authentication-server-with-go-part-1-760
+
+7 типичных ошибок в Go-интерфейсах
+https://nuancesprog.ru/p/22380/
+
+Мониторинг приложения Golang с Prometheus, Grafana, New Relic и Sentry
+https://nuancesprog.ru/p/25427/
+
+Создание кастомного балансировщика нагрузки на Go для gRPC с приоритизацией адресов
+https://nuancesprog.ru/p/25597/
