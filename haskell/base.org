@@ -77,6 +77,13 @@ analyzeGold standard =
     _   -> "I don't know such a standard..."
 #+end_src
 
+=Именованные образцы=
+#+begin_src haskell
+firstLetter :: String –> String
+firstLetter "" = "Упс, пустая строка!"
+firstLetter all@(x:xs) = "Первая буква строки " ++ all ++ " это " ++ [x]
+#+end_src
+
 * let
 
 #+begin_src haskell
