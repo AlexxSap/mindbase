@@ -22,6 +22,12 @@ yay -S haskell-language-server-static
 stack install fourmolu
 ```
 
+Удалить ghcup можно командой
+```
+ghcup nuke
+```
+После этого ручками удалить папку ~/.ghcup
+
 ## Настройка emacs
 
 В файле init.el раскомментируем
