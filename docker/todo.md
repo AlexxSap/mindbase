@@ -8,3 +8,6 @@ https://helloabhii.hashnode.dev/containerizing-a-go-web-application-with-docker
 
 How to Deploy Go Applications With Docker
 https://dev.to/goodylili/how-to-deploy-go-applications-with-docker-50n3
+
+How to Containerize a Golang App With Docker for Development and Production
+https://bartlomiejmika.com/post/2022/how-to-containerize-a-golang-app-with-docker-for-development-and-production/

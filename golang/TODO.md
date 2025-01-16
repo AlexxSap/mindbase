@@ -132,6 +132,9 @@ https://habr.com/ru/articles/351060/
 
 # Производительность 
 
+Выжимаем из Go максимум производительности 
+https://www.youtube.com/watch?v=QMC9Kg4Ogxg&ab_channel=GolangChannel
+
 Optimizing Memory Usage in Go: Mastering Data Structure Alignment
 https://dev.to/yanev/optimizing-memory-usage-in-go-mastering-data-structure-alignment-4beb
 
