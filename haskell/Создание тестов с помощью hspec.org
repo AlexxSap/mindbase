@@ -1,0 +1,46 @@
+#+title: Создание Тестов С Помощью Hspec
+
+https://hspec.github.io/
+https://tech.fpcomplete.com/haskell/library/hspec/
+
+1. Установка hspec
+#+begin_src
+cabal update && cabal install --package-env=. --lib hspec hspec-contrib QuickCheck HUnit
+#+end_src
+И добавляем его в path (в файле .bashrc)
+#+begin_src
+export PATH="$HOME/.cabal/packages/hackage.haskell.org/:$PATH"
+#+end_src
+
+2. Создаём новый проект =example=. Переходим в каталог проекта и находим файл =example.cabal=. Находим секцию =test-suite example-test= и в =build-depends:= и дописываем зависимости
+  #+begin_src
+  hspec >= 2.7
+, hspec-discover >= 2.7
+  #+end_src
+
+3. Добавляем файл =src/MySum.hs=
+#+begin_src haskell
+module MySum where
+
+sum' :: Int -> Int -> Int
+sum' x y = x + y
+#+end_src
+
+4. Добавляем файл =test/Spec.hs=
+#+begin_src haskell
+{-# OPTIONS_GHC -F -pgmF hspec-discover #-}
+#+end_src
+
+5. Добавляем тестовый файл =test/MySumSpec.hs=
+#+begin_src haskell
+module MySumSpec (spec) where
+
+import Test.Hspec
+import MySum
+
+spec :: Spec
+spec = do
+  describe "testing sum' function" $ do
+    it "sum some two integers" $ do
+      sum' 3 4 `shouldBe` 7
+#+end_src
