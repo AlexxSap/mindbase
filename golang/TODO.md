@@ -14,6 +14,7 @@ https://www.youtube.com/watch?v=e7iSoqxlTuY
 https://www.youtube.com/watch?v=e7iSoqxlTuY&ab_channel=%7Bмеждускобок%7D
 https://www.youtube.com/watch?v=rVXgW8dGH00
 https://www.youtube.com/watch?v=I00m_XM58bk&ab_channel=ЭйчНавыки—менторскаяпрограмма
+https://www.youtube.com/watch?v=n6NUsAprtRg&ab_channel=ЭйчНавыки—менторскаяпрограмма
 
 Задачи и решения
 https://habr.com/ru/companies/rebrainme/articles/540354/
