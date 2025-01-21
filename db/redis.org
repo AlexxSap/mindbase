@@ -88,3 +88,13 @@ pipe.Set(Ctx, "language", "golang")
 pipe.Set(Ctx, "year", 2009)
 results, err := pipe.Exec()
 #+end_src
+
+* TODOS
+https://habr.com/ru/articles/860060/
+types
+https://habr.com/ru/articles/204354/
+https://betterstack.com/community/guides/scaling-go/redis-caching-golang/#step-7-deleting-data-from-the-cache
+https://www.alexedwards.net/blog/working-with-redis
+https://programmersought.com/article/881110946393/
+https://www.geeksforgeeks.org/complete-guide-on-redis-data-types-with-commands-and-storage/#6-streams-in-redis
+https://habr.com/ru/companies/skbkontur/articles/836944/
