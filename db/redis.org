@@ -1,8 +1,5 @@
 #+title: Redis
 
-https://www.docker.com/blog/how-to-use-the-redis-docker-official-image/
-https://habr.com/ru/companies/stm_labs/articles/841792/
-
 * Установка и запуск из docker
 #+begin_src shell
 # установка из образа
@@ -81,4 +78,13 @@ func main() {
 	}
 	fmt.Println(val)
 }
+#+end_src
+
+* Transaction pipelines
+Позволяет клиенту Redis отправлять несколько запросов на сервер, не дожидаясь ответов и читая их все сразу.
+#+begin_src go
+pipe := db.Client.TxPipeline()
+pipe.Set(Ctx, "language", "golang")
+pipe.Set(Ctx, "year", 2009)
+results, err := pipe.Exec()
 #+end_src
