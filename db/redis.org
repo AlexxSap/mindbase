@@ -134,6 +134,24 @@ func main() {
 }
 #+end_src
 
+* Пример работы со структурами
+#+begin_src go
+type Person struct {
+    Name string `redis:"name"`
+    Age  int    `redis:"age"`
+}
+...
+client.HSet(ctx, "STRUCT", Person{"John Doe", 15})
+...
+var person Person
+err = rdb.HGetAll(ctx, "STRUCT").Scan(&person)
+if err != nil {
+	fmt.Println("Key STRUCT not found in Redis cache")
+} else {
+	fmt.Printf("STRUCT has value %+v\n", person)
+}
+#+end_src
+
 * Transaction pipelines
 Позволяет клиенту Redis отправлять несколько запросов на сервер, не дожидаясь ответов и читая их все сразу.
 #+begin_src go
