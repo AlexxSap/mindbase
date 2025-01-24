@@ -114,17 +114,19 @@ func main() {
 		DB:       0,
 	})
 
-	{
-		pong, err := client.Ping(context.Background()).Result()
-		fmt.Println(pong, err)
-	}
+	ctx := context.Background()
+	status, err := client.Ping(ctx).Result()
+    if err != nil {
+        log.Fatalln("Redis connection was refused")
+    }
+    fmt.Println(status)
 
-	err := client.Set(context.Background(), "some", "value", 0).Err()
+	err := client.Set(ctx, "some", "value", 0).Err()
 	if err != nil {
 		panic(err)
 	}
 
-	val, err := client.Get(context.Background(), "some").Result()
+	val, err := client.Get(ctx, "some").Result()
 	if err != nil {
 		panic(err)
 	}
