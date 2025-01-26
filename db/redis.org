@@ -152,6 +152,102 @@ if err != nil {
 }
 #+end_src
 
+* Pipelines
+Позволяет выполнить несколько команд в одной операции
+#+begin_src go
+pipe := rdb.Pipeline()
+
+incr := pipe.Incr(ctx, "pipeline_counter")
+pipe.Expire(ctx, "pipeline_counter", time.Hour)
+
+cmds, err := pipe.Exec(ctx)
+if err != nil {
+	panic(err)
+}
+
+// The value is available only after Exec is called.
+fmt.Println(incr.Val())
+#+end_src
+
+или можно использовать замыкание. В cmds содержится результат выполненных операций.
+#+begin_src go
+var incr *redis.IntCmd
+
+cmds, err := rdb.Pipelined(ctx, func(pipe redis.Pipeliner) error {
+	incr = pipe.Incr(ctx, "pipelined_counter")
+	pipe.Expire(ctx, "pipelined_counter", time.Hour)
+	return nil
+})
+if err != nil {
+	panic(err)
+}
+
+for _, cmd := range cmds {
+    fmt.Println(cmd.(*redis.StringCmd).Val())
+}
+
+// The value is available only after the pipeline is executed.
+fmt.Println(incr.Val())
+#+end_src
+
+* Транзакции
+Используя транзакции, вы можете отслеживать изменения в ключах и выполнять конвейер только в том случае, если отслеживаемые ключи не были изменены другим клиентом. Такой метод разрешения конфликтов также известен как оптимистическая блокировка.
+#+begin_src
+WATCH mykey
+
+val = GET mykey
+val = val + 1
+
+MULTI
+SET mykey $val
+EXEC
+#+end_src
+
+Можно использовать транзакционные конвейеры с Watch.
+#+begin_src go
+// Redis transactions use optimistic locking.
+const maxRetries = 1000
+
+// Increment transactionally increments the key using GET and SET commands.
+func increment(key string) error {
+	// Transactional function.
+	txf := func(tx *redis.Tx) error {
+		// Get the current value or zero.
+		n, err := tx.Get(ctx, key).Int()
+		if err != nil && err != redis.Nil {
+			return err
+		}
+
+		// Actual operation (local in optimistic lock).
+		n++
+
+		// Operation is commited only if the watched keys remain unchanged.
+		_, err = tx.TxPipelined(ctx, func(pipe redis.Pipeliner) error {
+			pipe.Set(ctx, key, n, 0)
+			return nil
+		})
+		return err
+	}
+
+    // Retry if the key has been changed.
+	for i := 0; i < maxRetries; i++ {
+		err := rdb.Watch(ctx, txf, key)
+		if err == nil {
+			// Success.
+			return nil
+		}
+		if err == redis.TxFailedErr {
+			// Optimistic lock lost. Retry.
+			continue
+		}
+		// Return any other error.
+		return err
+	}
+
+	return errors.New("increment reached maximum number of retries")
+}
+#+end_src
+
 * Transaction pipelines
 Позволяет клиенту Redis отправлять несколько запросов на сервер, не дожидаясь ответов и читая их все сразу.
 #+begin_src go
