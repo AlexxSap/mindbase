@@ -249,6 +249,10 @@ https://voskan.host/2023/08/14/building-microservices-with-golang-and-rabbitmq/
 https://habr.com/ru/companies/avito/articles/799689/
 
 # Серверы
+
+Web Crawler with Golang: Step-by-Step Tutorial 2025
+https://dev.to/scraper0024/web-crawler-with-golang-step-by-step-tutorial-2025-51p6?utm_source=tg&utm_medium=go&utm_campaign=230125
+
 спользование Redis в Go
 https://habr.com/ru/articles/860060/
 
@@ -515,3 +519,6 @@ https://nuancesprog.ru/p/25427/
 
 Создание кастомного балансировщика нагрузки на Go для gRPC с приоритизацией адресов
 https://nuancesprog.ru/p/25597/
+
+Design Patterns in Golang: A Comprehensive Guide
+https://dev.to/coolwednesday/design-patterns-in-golang-a-comprehensive-guide-560i
