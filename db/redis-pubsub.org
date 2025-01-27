@@ -1,0 +1,53 @@
+#+title: Redis Pubsub
+
+#+begin_src go
+package main
+
+import (
+	"context"
+	"fmt"
+	"time"
+
+	"github.com/redis/go-redis/v9"
+)
+
+func main() {
+	// соединяемся с клиентом
+	client := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+	})
+
+	// проверяем соединение
+	ctx := context.Background()
+	status, err := client.Ping(ctx).Result()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("status: ", status)
+
+	// подписываемся на канал
+	ch_name := "some_chanel"
+	pubsub := client.Subscribe(ctx, ch_name)
+	// ждём подписки
+	_, err = pubsub.Receive(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	time.AfterFunc(time.Second, func() {
+		_ = pubsub.Close()
+	})
+
+	// публикуем сообщение в канал
+	err = client.Publish(ctx, ch_name, "some_string").Err()
+	if err != nil {
+		panic(err)
+	}
+
+	// читаем сообщения из канала
+	ch := pubsub.Channel()
+	for msg := range ch {
+		fmt.Println(msg.Channel, msg.Payload)
+	}
+}
+#+end_src
