@@ -8,6 +8,9 @@ docker pull redis
 # запуск
 docker run --name some-redis -p 6379:6379 -d redis
 
+# запуск контейнера
+docker start -a some-redis
+
 # подключение к командной строке redis
 docker network create some-network
 docker run -it --network some-network --rm redis redis-cli -h some-redis
