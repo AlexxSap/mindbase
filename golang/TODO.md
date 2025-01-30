@@ -44,14 +44,6 @@ https://golang.withcodeexample.com/blog/introduction-to-golang-best-practices/
 Классный блог 
 https://antonz.org/all/
 
-# БД
-
-Использование Go с MongoDB с помощью драйвера Go MongoDB
-https://www.digitalocean.com/community/tutorials/how-to-use-go-with-mongodb-using-the-mongodb-go-driver-ru
-
-Взаимодействие с MongoDB посредством Go
-https://ocakhasan.github.io/golang-mongodb-query-examples/
-
 # gRPC
 
 Go Protobuf: The new Opaque API

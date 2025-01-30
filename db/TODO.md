@@ -2,6 +2,12 @@
 MongoDB. Полный курс
 https://www.youtube.com/watch?v=sXcZQ5Zg-YM&ab_channel=webDev
 
+Использование Go с MongoDB с помощью драйвера Go MongoDB
+https://www.digitalocean.com/community/tutorials/how-to-use-go-with-mongodb-using-the-mongodb-go-driver-ru
+
+Взаимодействие с MongoDB посредством Go
+https://ocakhasan.github.io/golang-mongodb-query-examples/
+
 # tarantool
 https://www.tarantool.io/ru/doc/latest/
 Начинаем работать с Tarantool
