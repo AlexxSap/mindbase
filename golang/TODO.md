@@ -243,6 +243,9 @@ https://habr.com/ru/companies/avito/articles/799689/
 
 # Серверы
 
+Как работает HTTP/2 и как использовать его в Go
+https://habr.com/ru/articles/878148/
+
 Web Crawler with Golang: Step-by-Step Tutorial 2025
 https://dev.to/scraper0024/web-crawler-with-golang-step-by-step-tutorial-2025-51p6?utm_source=tg&utm_medium=go&utm_campaign=230125
 
