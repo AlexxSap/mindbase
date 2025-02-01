@@ -126,6 +126,9 @@ https://habr.com/ru/articles/351060/
 
 # Производительность 
 
+Zero-Allocation in Go (Golang)
+https://dev.to/saleh_rahimzadeh/zero-allocation-in-go-golang-237k
+
 Выжимаем из Go максимум производительности 
 https://www.youtube.com/watch?v=QMC9Kg4Ogxg&ab_channel=GolangChannel
 
@@ -314,9 +317,6 @@ https://eli.thegreenplace.net/2021/rest-servers-in-go-part-1-standard-library/
 https://proglib.io/sh/xcSABgw3QE
 
 # Games
-Создание игры с Ebitengine
-https://www.youtube.com/playlist?list=PLvN4CrYN-8i7xnODFyCMty6ossz4eW0Cn
-
 Как я создал 2D-игру с помощью Ebiten за 40 минут
 https://nuancesprog.ru/p/23395/
 
@@ -330,12 +330,9 @@ https://habr.com/ru/companies/ru_mts/articles/680324/
 Как писать качественные unit-тесты: процент покрытия, мутанты и работа с моками
 https://habr.com/ru/articles/854546/
 
-highload 0паттерны на Go
+highload паттерны на Go
 https://habr.com/ru/articles/682618/
 https://habr.com/ru/articles/684904/
-
-воркспейсы
-https://go.dev/doc/tutorial/workspaces
 
 json
 https://habr.com/ru/articles/797019/
