@@ -321,6 +321,16 @@ https://proglib.io/sh/xcSABgw3QE
 https://nuancesprog.ru/p/23395/
 
 # Прочее
+
+Modern Web Development with Go
+https://engineering.turistikrota.com/modern-web-development-with-go-a-lightweight-alternative-to-react-ssr-cccce8631773?gi=45acda2fd789
+
+Линтер
+https://github.com/mgechev/revive
+
+Ginkgo
+https://onsi.github.io/ginkgo/?utm_source=tg&utm_medium=go&utm_campaign=030225
+
 Паттерны многопоточности в Go
 https://habr.com/ru/articles/852556/
 
