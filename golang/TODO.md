@@ -193,8 +193,6 @@ https://habr.com/ru/articles/834900/
 Практическое руководство: создание микросервисов с использованием Go
 https://oscarjohn.hashnode.dev/creating-microservices-with-go-a-practical-approach
 
-Building a Kafka Producer and Consumer in Go
-https://blog.indalyadav.com/building-a-kafka-producer-and-consumer-in-go
 
 Create a simple API server image for docker and Kubernetes
 https://blog.wongandre.com/create-a-simple-api-server-image-for-docker-and-kubernetes
@@ -202,9 +200,6 @@ https://blog.wongandre.com/create-a-simple-api-server-image-for-docker-and-kuber
 Учебник по куберу
 https://ru.werf.io/guides/golang/100_basic.html
 
-RabbitMQ
-https://programmingpercy.tech/blog/event-driven-architecture-using-rabbitmq/
-https://programmingpercy.tech/blog/using-rabbitmq-streams-in-go/
 
 Building Microservices in Go: A Practical Guide with gRPC
 https://arielorozco.com/building-microservices-in-go-a-practical-guide-with-grpc
@@ -218,8 +213,6 @@ https://dev.to/encore/your-program-may-not-actually-be-type-safe-2g17
 How To Build A Containerized Microservice in Golang: A Step-by-step Guide with Example Use-Case
 https://dev.to/nikl/how-to-build-a-containerized-microservice-in-golang-a-step-by-step-guide-with-example-use-case-5ea8
 
-Простейший пример kafka + golang
-https://habr.com/ru/articles/764582/
 
 Микросервисы с go-micro
 https://www.youtube.com/watch?v=vEjX-2QkdRk
@@ -238,9 +231,6 @@ https://www.youtube.com/watch?v=DfMxFFJF3C4
 
 Проектирование отказоустойчивых микросервисов в Go (https://rkiselenko.dev/blog/resilient-microservice/)
 
-Подробный гайд по разработке масштабируемых микросервисов с использованием Go и RabbitMQ
-https://voskan.host/2023/08/14/building-microservices-with-golang-and-rabbitmq/
-
 Работа с Kubernetes: поднимаем локальный кластер и деплоим в него приложения
 https://habr.com/ru/companies/avito/articles/799689/
 
@@ -258,8 +248,6 @@ https://habr.com/ru/articles/860060/
 Building a fast URL Shortener with Go and Redis
 https://dev.to/mahadevans87/building-a-fast-url-shortener-with-go-and-redis-31b9
 
-How to Build a Real-Time Notification System with Go and Kafka
-https://www.freecodecamp.org/news/build-a-real-time-notification-system-with-go-and-kafka/#heading-lets-test-the-real-time-notification-system
 
 Создание сервера Golang с gRPC и Rest API при помощи Swagger
 https://eliofery.github.io/blog/2024-02-01-sozdanie-servera-golang-s-grpc-i-rest-api-ispolzuya-swagger-backend.html
