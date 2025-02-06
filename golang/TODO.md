@@ -462,6 +462,9 @@ https://habr.com/ru/articles/827544/?utm_campaign=827544
 Статья как введение в структурированный параллелизм 
 https://medium.com/@okoanton/structured-concurrency-in-go-c6e8cb1e2af7
 
+Pipeline Concurrency Pattern in Go
+https://dev.to/souvikinator/pipeline-concurrency-pattern-in-go-a-comprehensive-visual-guide-2j0l
+
 errors
 https://adrianlarion.com/golang-error-handling-demystified-errors-is-errors-as-errors-unwrap-custom-errors-and-more/
 
