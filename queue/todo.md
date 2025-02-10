@@ -25,3 +25,7 @@ https://programmingpercy.tech/blog/using-rabbitmq-streams-in-go/
 
 Подробный гайд по разработке масштабируемых микросервисов с использованием Go и RabbitMQ
 https://voskan.host/2023/08/14/building-microservices-with-golang-and-rabbitmq/
+
+https://www.youtube.com/watch?v=hbseyn-CfXY&ab_channel=VladMishustin
+
+https://www.youtube.com/watch?v=V5t_3RxBals&ab_channel=UWDC
