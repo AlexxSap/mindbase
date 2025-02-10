@@ -492,10 +492,6 @@ https://habr.com/ru/companies/yandex_praktikum/articles/854482/
 How to format time in Go/Golang
 https://www.tural.pro/blogs/how-to-format-time-in-go-golang
 
-Awful ways to create Pipelines with Go
-https://www.poxate.com/blog/awful-ways-to-create-pipelines-with-go/
-
-
 Простые highload паттерны на Go
 https://habr.com/ru/articles/682618/
 
@@ -505,14 +501,9 @@ https://habr.com/ru/articles/684904/
 Build an OTP-Based Authentication Server with Go
 https://dev.to/vishaaxl/build-an-otp-based-authentication-server-with-go-part-1-760
 
-7 типичных ошибок в Go-интерфейсах
-https://nuancesprog.ru/p/22380/
-
 Мониторинг приложения Golang с Prometheus, Grafana, New Relic и Sentry
 https://nuancesprog.ru/p/25427/
 
 Создание кастомного балансировщика нагрузки на Go для gRPC с приоритизацией адресов
 https://nuancesprog.ru/p/25597/
 
-Design Patterns in Golang: A Comprehensive Guide
-https://dev.to/coolwednesday/design-patterns-in-golang-a-comprehensive-guide-560i
