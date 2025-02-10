@@ -1,0 +1,10 @@
+Микросервисы на пальцах: API‑Gateway, API‑Composition, KrakenD, FastAPI
+https://habr.com/ru/companies/selectel/articles/881022/
+
+Архитектурные паттерны для высокой масштабируемости
+https://habr.com/ru/articles/871500/
+https://habr.com/ru/articles/871784/
+
+System Design для начинающих: всё, что вам нужно.
+https://habr.com/ru/articles/873388/
+https://habr.com/ru/articles/877312/
