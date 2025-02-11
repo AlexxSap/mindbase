@@ -242,19 +242,11 @@ https://habr.com/ru/articles/878148/
 Web Crawler with Golang: Step-by-Step Tutorial 2025
 https://dev.to/scraper0024/web-crawler-with-golang-step-by-step-tutorial-2025-51p6?utm_source=tg&utm_medium=go&utm_campaign=230125
 
-спользование Redis в Go
-https://habr.com/ru/articles/860060/
-
-Building a fast URL Shortener with Go and Redis
-https://dev.to/mahadevans87/building-a-fast-url-shortener-with-go-and-redis-31b9
-
-
 Создание сервера Golang с gRPC и Rest API при помощи Swagger
 https://eliofery.github.io/blog/2024-02-01-sozdanie-servera-golang-s-grpc-i-rest-api-ispolzuya-swagger-backend.html
 
 Кратко про сетевые протоколы в Golang: TCP, QUIC и UDP
 https://habr.com/ru/companies/otus/articles/830096/
-
 
 Routing Enhancements for Go 1.22
 https://go.dev/blog/routing-enhancements
@@ -312,9 +304,6 @@ https://nuancesprog.ru/p/23395/
 
 Modern Web Development with Go
 https://engineering.turistikrota.com/modern-web-development-with-go-a-lightweight-alternative-to-react-ssr-cccce8631773?gi=45acda2fd789
-
-Линтер
-https://github.com/mgechev/revive
 
 Ginkgo
 https://onsi.github.io/ginkgo/?utm_source=tg&utm_medium=go&utm_campaign=030225
