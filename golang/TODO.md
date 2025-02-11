@@ -507,3 +507,6 @@ https://nuancesprog.ru/p/25427/
 Создание кастомного балансировщика нагрузки на Go для gRPC с приоритизацией адресов
 https://nuancesprog.ru/p/25597/
 
+OpenTelemetry: A Guide to Observability with Go
+https://www.lucavall.in/blog/opentelemetry-a-guide-to-observability-with-go
+

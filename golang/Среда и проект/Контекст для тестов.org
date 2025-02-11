@@ -1,0 +1,58 @@
+#+title: Контекст Для Тестов
+
+Допустим, мы хотим протестировать этот жутко полезный сервер:
+#+begin_src go
+// Дает ответы на все вопросы.
+type Server struct{}
+
+// Возвращает ответ сервера.
+func (s *Server) Get(query string) int {
+  return 42
+}
+
+// Запускает сервер. Остановка через отмену контекста.
+func startServer(ctx context.Context) *Server {
+  go func() {
+    select {
+    case <-ctx.Done():
+      // Освобождаем ресурсы.
+    }
+  }()
+  return &Server{}
+}
+#+end_src
+
+Вот чудесный тест, который я написал:
+#+begin_src go
+func Test(t *testing.T) {
+  srv := startServer(context.Background())
+  if srv.Get("how much?") != 42 {
+    t.Fatal("unexpected value")
+  }
+}
+#+end_src
+
+Тест проходит, но есть проблемка: я использовал пустой контекст, так что на самом деле сервер не остановился. Такие утечки ресурсов могут стать проблемой — особенно если тестов много.
+Исправить это несложно — достаточно использовать контекст с отменой:
+#+begin_src go
+func Test(t *testing.T) {
+  ctx, cancel := context.WithCancel(context.Background())
+  defer cancel()
+
+  srv := startServer(ctx)
+  if srv.Get("how much?") != 42 {
+    t.Fatal("unexpected value")
+  }
+}
+#+end_src
+Но практика показывает, что люди часто забывают это делать
+Поэтому в Go 1.24 добавили метод T.Context (https://tip.golang.org/pkg/testing#T.Context). Он возвращает контекст, который автоматически отменяется перед тем, как тест завершится:
+#+begin_src go
+func Test(t *testing.T) {
+  srv := startServer(t.Context())
+  if srv.Get("how much?") != 42 {
+    t.Fatal("unexpected value")
+  }
+}
+#+end_src
+Удобно!

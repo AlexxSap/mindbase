@@ -6,3 +6,9 @@ https://habr.com/ru/articles/871784/
 System Design для начинающих: всё, что вам нужно.
 https://habr.com/ru/articles/873388/
 https://habr.com/ru/articles/877312/
+
+Как не сломать продакшен: 8 основных паттернов распределенных систем
+https://proglib.io/p/kak-ne-slomat-prodakshen-8-osnovnyh-patternov-raspredelennyh-sistem-2025-02-10
+
+9 основных паттернов для проектирования распределенных систем
+https://proglib.io/p/9-osnovnyh-patternov-dlya-proektirovaniya-raspredelennyh-sistem-2024-07-30
