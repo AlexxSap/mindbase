@@ -245,6 +245,9 @@ https://dev.to/scraper0024/web-crawler-with-golang-step-by-step-tutorial-2025-51
 Создание сервера Golang с gRPC и Rest API при помощи Swagger
 https://eliofery.github.io/blog/2024-02-01-sozdanie-servera-golang-s-grpc-i-rest-api-ispolzuya-swagger-backend.html
 
+TCP-чат на Go
+https://medium.com/@pickleprat/building-a-tcp-chatroom-in-golang-6f6bd2b11bb7?utm_source=tg&utm_medium=go&utm_campaign=170225
+
 Кратко про сетевые протоколы в Golang: TCP, QUIC и UDP
 https://habr.com/ru/companies/otus/articles/830096/
 
