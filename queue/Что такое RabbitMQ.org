@@ -110,3 +110,53 @@ docker run -d --name rabbitmq \
   -v rabbitmq_data:/var/lib/rabbitmq \
   rabbitmq:management
 #+end_src
+
+* Запуск RabbitMQ черех docker-compose
+Запуск =RabbitMQ= через Docker Compose — это удобный способ настроить и запустить =RabbitMQ= с минимальными усилиями, особенно если вам нужно интегрировать его с другими сервисами.
+1. Создайте файл =docker-compose.yml= в рабочем каталоге
+ #+begin_src
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    hostname: rabbitmq # имя сервера
+    ports:
+      - "5672:5672" # AMQP порт для клиентских подключений
+      - "15672:15672" # HTTP порт для веб-интерфейса управления
+    environment:
+      RABBITMQ_DEFAULT_USER: guest       # Имя пользователя (по умолчанию)
+      RABBITMQ_DEFAULT_PASS: guest       # Пароль пользователя (по умолчанию)
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq # Для сохранения данных между перезапусками
+ #+end_src
+
+ Объяснение конфигурации
+- image: rabbitmq:management
+  Используется официальный образ RabbitMQ с поддержкой веб-интерфейса управления (management).
+- ports
+  5672: AMQP порт для клиентских подключений.
+  15672: HTTP порт для доступа к веб-интерфейсу управления.
+- environment
+  RABBITMQ_DEFAULT_USER и RABBITMQ_DEFAULT_PASS: Настройка учетных данных для входа в RabbitMQ. По умолчанию используется guest:guest.
+- volumes
+  ./rabbitmq:/var/lib/rabbitmq: Сохраняет данные RabbitMQ в volume Docker, чтобы они не пропадали при перезапуске контейнера.
+
+2. В той же директории, где находится файл docker-compose.yml, выполните следующую команду:
+#+begin_src
+docker-compose up -d
+#+end_src
+=-d=: Запускает контейнеры в фоновом режиме.
+
+3. Остановка и удаление контейнера
+Остановка:
+#+begin_src
+docker-compose down
+#+end_src
+Эта команда остановит и удалит контейнер, но данные в volume останутся сохранными.
+
+Удаление volume (если нужно очистить данные):
+#+begin_src
+docker volume rm $(docker volume ls -q -f name=rabbitmq_data)
+#+end_src
