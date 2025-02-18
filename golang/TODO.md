@@ -248,6 +248,9 @@ https://eliofery.github.io/blog/2024-02-01-sozdanie-servera-golang-s-grpc-i-rest
 TCP-чат на Go
 https://medium.com/@pickleprat/building-a-tcp-chatroom-in-golang-6f6bd2b11bb7?utm_source=tg&utm_medium=go&utm_campaign=170225
 
+Parallel Streaming Pattern in Go: How to Scan Large S3 or GCS Buckets Significantly Faster
+https://destel.dev/blog/fast-listing-of-files-from-s3-gcs-and-other-object-storages
+
 Кратко про сетевые протоколы в Golang: TCP, QUIC и UDP
 https://habr.com/ru/companies/otus/articles/830096/
 
