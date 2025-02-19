@@ -1,3 +1,10 @@
+* Сайты
+https://www.vseti.app/jobs
+https://getmatch.ru/
+https://geeklink.io/
+https://geekjob.ru/
+https://career.habr.com/
+
 * Senior Go/Golang Developer/Разработчик
 Компания: TQB
 ЗП: от 400 000 ₽
