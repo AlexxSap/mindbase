@@ -47,6 +47,9 @@ https://antonz.org/all/
 
 # gRPC
 
+How Protobuf Works
+https://victoriametrics.com/blog/go-protobuf/
+
 Go Protobuf: The new Opaque API
 https://go.dev/blog/protobuf-opaque
 
@@ -134,6 +137,9 @@ https://www.youtube.com/watch?v=QMC9Kg4Ogxg&ab_channel=GolangChannel
 
 Optimizing Memory Usage in Go: Mastering Data Structure Alignment
 https://dev.to/yanev/optimizing-memory-usage-in-go-mastering-data-structure-alignment-4beb
+
+Generator Concurrency Pattern in Go
+https://dev.to/souvikinator/generator-concurrency-pattern-in-go-a-comprehensive-guide-6om
 
 Про использование benchstat в бенчмарках
 https://www.bwplotka.dev/2024/go-microbenchmarks-benchstat/
