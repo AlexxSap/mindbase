@@ -22,3 +22,6 @@ https://habr.com/ru/companies/vk/articles/321998/
 # PostgreSQL
 https://www.youtube.com/watch?v=gA3A_epB3So&ab_channel=Диджитализируй%21
 База по оптимизации PostgreSQL: схема, индексы, чтение EXPLAIN, методы доступа и соединения, тюнинг
+
+20+ нюансов PostgreSQL, о которых должен знать продвинутый бэкендер
+https://proglib.io/p/20-nyuansov-postgresql-o-kotoryh-dolzhen-znat-prodvinutyy-bekender-2025-02-17
