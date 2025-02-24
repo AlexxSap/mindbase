@@ -1,0 +1,5 @@
+#+title: Как Ускорить Api
+
+
+#+ATTR_ORG: :width 500 :align left
+[[file:./pic/4.png]]
