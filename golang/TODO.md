@@ -47,6 +47,9 @@ https://antonz.org/all/
 
 # gRPC
 
+Scaling gRPC With Kubernetes (Using Go)
+https://nyadgar.com/posts/scaling-grpc-with-kubernetes-using-go/
+
 How Protobuf Works
 https://victoriametrics.com/blog/go-protobuf/
 
@@ -192,6 +195,9 @@ https://habr.com/ru/companies/otus/articles/828672/
 https://habr.com/ru/companies/ozontech/articles/817309/?utm_campaign=817309
 
 # Микро
+
+Паттерн Outbox - теория и практика | Архитектура Микросервисов
+https://www.youtube.com/watch?v=OnVoIAAJeOk
 
 Микросервисы на Go: Как заставить систему работать на тебя
 https://habr.com/ru/articles/834900/
@@ -511,3 +517,25 @@ https://nuancesprog.ru/p/25597/
 OpenTelemetry: A Guide to Observability with Go
 https://www.lucavall.in/blog/opentelemetry-a-guide-to-observability-with-go
 
+synctest
+https://go.dev/blog/synctest
+
+tools
+https://www.alexedwards.net/blog/how-to-manage-tool-dependencies-in-go-1.24-plus
+
+Как я создавал Observability для своих pet-проектов
+https://habr.com/ru/articles/885224/
+https://habr.com/ru/articles/888682/
+
+Let's Implement Consistent Hashing From Scratch
+https://beyondthesyntax.substack.com/p/lets-implement-consistent-hashing
+
+Syscall и cgo в Go
+https://habr.com/ru/companies/otus/articles/886062/
+
+Faster Go maps with Swiss Tables
+https://go.dev/blog/swisstable
+
+Приложение на Go шаг за шагом
+https://habr.com/ru/companies/yandex_praktikum/articles/854482/
+https://habr.com/ru/companies/yandex_praktikum/articles/885946/
