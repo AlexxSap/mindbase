@@ -248,6 +248,9 @@ https://habr.com/ru/companies/avito/articles/799689/
 
 # Серверы
 
+Базовая архитектура сервиса на GO
+https://habr.com/ru/articles/887102/
+
 Как работает HTTP/2 и как использовать его в Go
 https://habr.com/ru/articles/878148/
 
@@ -539,3 +542,6 @@ https://go.dev/blog/swisstable
 Приложение на Go шаг за шагом
 https://habr.com/ru/companies/yandex_praktikum/articles/854482/
 https://habr.com/ru/companies/yandex_praktikum/articles/885946/
+
+Самый подробный гайд по планировщику максимально простым языком
+https://youtu.be/kedW1xO3Zbo

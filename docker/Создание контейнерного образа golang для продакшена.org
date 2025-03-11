@@ -1,0 +1,55 @@
+#+title: Создание Контейнерного Образа Golang Для Продакшена
+
+Одна из причин, по которой я люблю Go, — это простота сборки и контейнеризации. Однако важно, чтобы продакшен-приложение имело минимальную поверхность атаки, было портативным и занимало мало места.
+
+Давайте разберёмся, как этого добиться.
+
+1. Используем многоступенчатую сборку
+#+begin_src
+FROM golang:1.24.0-bullseye AS builder
+#+end_src
+Берём официальный образ Go 1.24.0 и называем этот этап builder. Мы создаём многоступенчатый Docker-образ, поскольку Go компилируется в бинарный файл, и сам Go нам для работы не нужен — можно удалить зависимости после сборки.
+Подробнее: Docker multi-stage build (https://docs.docker.com/build/building/multi-stage/)
+
+2. Копируем код проекта
+#+begin_src
+COPY . /workdir
+WORKDIR /workdir
+#+end_src
+Это перемещает файлы проекта в контейнер и устанавливает рабочую директорию /workdir
+
+3. Улучшаем безопасность компиляции
+#+begin_src
+ENV CGO_CPPFLAGS="-D_FORTIFY_SOURCE=2 -fstack-protector-all"
+#+end_src
+Опции компилятора C для защиты стека и предотвращения атак.
+Подробнее: Stack protection in GCC & Clang (https://developers.redhat.com/articles/2022/06/02/use-compiler-flags-stack-protection-gcc-and-clang#control_flow_integrity)
+#+begin_src
+ENV GOFLAGS="-buildmode=pie"
+#+end_src
+Команда для сборки Position Independent Executable (PIE) — это добавляет дополнительный уровень безопасности  (https://t.me/juniorGolang)
+
+4. Используем distroless-образ для финального контейнера
+#+begin_src
+FROM gcr.io/distroless/base-debian11:nonroot
+#+end_src
+На этом этапе мы используем Distroless вместо обычного Linux-образа.
+Почему это важно? Distroless-образы меньше, безопаснее и не содержат ненужных пакетов. Подробнее: GoogleContainerTools/distroless (https://github.com/GoogleContainerTools/distroless)
+
+5. Копируем собранный бинарник
+#+begin_src
+COPY --from=builder /workdir/app /bin/app
+#+end_src
+Переносим скомпилированный Go-файл в финальный образ. Замените app на имя вашего основного Go-файла.
+
+6. Запускаем контейнер с минимальными привилегиями
+#+begin_src
+USER 65534
+#+end_src
+Запускаем контейнер от пользователя с минимальными правами (обычно это nobody), что повышает безопасность.
+#+begin_src
+ENTRYPOINT ["/bin/app"]
+#+end_src
+Определяем команду для запуска контейнера. Не забудьте заменить app на название вашего бинарника.
+
+Вот и всё! Минимальный, безопасный и продакшен-готовый контейнерный образ Go.
