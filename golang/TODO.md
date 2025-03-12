@@ -448,15 +448,6 @@ https://matttproud.com/blog/posts/go-testing-harness.html
 Написание функционального тестирования в Go
 https://habr.com/ru/articles/836664/
 
-Объяснение Go maps
-https://victoriametrics.com/blog/go-map/
-
-Как использовать defer в Go
-https://habr.com/ru/companies/otus/articles/833702/
-
-Используем gocv, чтобы определить возраст, эмоции и пол человека по фото
-https://habr.com/ru/companies/first/articles/833934/
-
 Как работают массивы в Go
 https://victoriametrics.com/blog/go-array/
 
@@ -523,21 +514,12 @@ https://www.lucavall.in/blog/opentelemetry-a-guide-to-observability-with-go
 synctest
 https://go.dev/blog/synctest
 
-tools
-https://www.alexedwards.net/blog/how-to-manage-tool-dependencies-in-go-1.24-plus
-
 Как я создавал Observability для своих pet-проектов
 https://habr.com/ru/articles/885224/
 https://habr.com/ru/articles/888682/
 
-Let's Implement Consistent Hashing From Scratch
-https://beyondthesyntax.substack.com/p/lets-implement-consistent-hashing
-
 Syscall и cgo в Go
 https://habr.com/ru/companies/otus/articles/886062/
-
-Faster Go maps with Swiss Tables
-https://go.dev/blog/swisstable
 
 Приложение на Go шаг за шагом
 https://habr.com/ru/companies/yandex_praktikum/articles/854482/
