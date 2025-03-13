@@ -111,14 +111,6 @@ https://siddhesh-dev.co/dockerizing-golang-cli-tool-a-step-by-step-guide
 How to Deploy Go Applications With Docker
 https://dev.to/goodylili/how-to-deploy-go-applications-with-docker-50n3
 
-# PDF
-
-Integrating UniPDF Library with Web Applications: A Comprehensive Guide
-https://unidoclib.hashnode.dev/integrating-unipdf-library-with-web-applications-a-comprehensive-guide
-
-Automating PDF Watermarking in Golang with UniPDF
-https://unidoclib.hashnode.dev/automating-pdf-watermarking-in-golang-with-unipdf
-
 # БОТ
 
 Создаем Telegram-бота для новостей на Go, PostgreSQL и OpenAI API
@@ -158,7 +150,6 @@ https://sourcegraph.com/blog/slow-to-simd
 
 Оптимизация Go: как повысить скорость и эффективность кода
 https://habr.com/ru/companies/simbirsoft/articles/819015/?utm_campaign=819015
-
 
 Ускоряем Go: известные и не очень методы оптимизации и связанные с ними штуки
 https://habr.com/ru/articles/790758/
@@ -224,7 +215,6 @@ https://dev.to/encore/your-program-may-not-actually-be-type-safe-2g17
 
 How To Build A Containerized Microservice in Golang: A Step-by-step Guide with Example Use-Case
 https://dev.to/nikl/how-to-build-a-containerized-microservice-in-golang-a-step-by-step-guide-with-example-use-case-5ea8
-
 
 Микросервисы с go-micro
 https://www.youtube.com/watch?v=vEjX-2QkdRk
@@ -376,9 +366,6 @@ https://dev.to/ebuckley/how-to-build-a-desktop-markdown-editor-1agm
 Upgradable Read Write Lock for Go
 https://upstash.com/blog/upgradable-rwlock-for-go
 
-A Guide to Effective Go Documentation
-https://nirdoshgautam.dev/effective-go-documentation
-
 Базовые паттерны конкурентности
 https://www.youtube.com/watch?v=_Pg6mb8H8fk
 
@@ -427,29 +414,14 @@ https://www.bytesizego.com/blog/guide-to-logging-in-go
 Sync.Pool в деталях
 https://victoriametrics.com/blog/go-sync-pool/index.html
 
-Топ-5 стратегий кэширования
-https://x.com/sahnlam/status/1820314227879625111
-
 Лучшие практики для Go-разработчика
 https://google.github.io/styleguide/go/best-practices.html
-
- Вендоринг в Go на практике
- https://victoriametrics.com/blog/vendoring-go-mod-vendor/
- 
-Как работает go mod vendor
-https://victoriametrics.com/blog/vendoring-go-mod-vendor/
- 
-Реализация in-memory кэша на Go
-https://www.mohitkhare.com/blog/go-in-memory-cache/
 
 Go: как работает система тестирования  
 https://matttproud.com/blog/posts/go-testing-harness.html
 
 Написание функционального тестирования в Go
 https://habr.com/ru/articles/836664/
-
-Как работают массивы в Go
-https://victoriametrics.com/blog/go-array/
 
 7 Common Interface Mistakes in Go
 https://medium.com/@andreiboar/7-common-interface-mistakes-in-go-1d3f8e58be60
