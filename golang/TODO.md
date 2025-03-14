@@ -348,20 +348,11 @@ https://bitfieldconsulting.com/posts/generics
 итераторы
 https://bitfieldconsulting.com/golang/iterators
 
-Как устроена память в Go
-https://habr.com/ru/companies/vk/articles/776766/
-
 Sending Bulk Emails with Golang using SMTP: A Step-by-Step Guide
 https://blog.aswinbenny.in/sending-bulk-emails-with-golang-using-smtp-a-step-by-step-guide
 
-Мапы в Go: уровень Pro
-https://habr.com/ru/companies/avito/articles/774618/
-
 Add context to errors
 https://dev.to/szymongib/add-context-to-errors-37ab
-
-How to build a desktop markdown editor
-https://dev.to/ebuckley/how-to-build-a-desktop-markdown-editor-1agm
 
 Upgradable Read Write Lock for Go
 https://upstash.com/blog/upgradable-rwlock-for-go
