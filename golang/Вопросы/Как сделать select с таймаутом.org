@@ -1,0 +1,87 @@
+#+title: Как Сделать Select С Таймаутом
+
+Чтобы не ждать данные в select бесконечно нужно реализовать таймаут. В Go сделать это можно несколькими способами:
+
+1. Использование =time.After=
+Подходит для простых случаев, но создает новую time.After при каждом вызове.
+#+begin_src go
+select {
+case msg := <-ch:
+    fmt.Println("Получено:", msg)
+case <-time.After(2 * time.Second):
+    fmt.Println("Таймаут!")
+}
+#+end_src
+
+2. Использование =context.WithTimeout=
+Можно передавать ctx в функции, что удобно для управления таймаутами в API-запросах или базах данных.
+#+begin_src go
+ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+defer cancel()
+
+select {
+case msg := <-ch:
+    fmt.Println("Получено:", msg)
+case <-ctx.Done():
+    fmt.Println("Таймаут:", ctx.Err())
+}
+#+end_src
+
+3. Использование =time.NewTimer=
+В отличие от time.After, NewTimer можно сбрасывать timer.Reset(duration), если нужно обновить таймаут.
+
+#+begin_src go
+timer := time.NewTimer(2 * time.Second)
+defer timer.Stop()
+
+select {
+case msg := <-ch:
+    fmt.Println("Получено:", msg)
+case <-timer.C:
+    fmt.Println("Таймаут!")
+}
+#+end_src
+
+4. Использование =ticker= для периодического опроса с таймаутом
+Подходит для ожидания с периодической проверкой состояния.
+
+#+begin_src go
+ticker := time.NewTicker(500 * time.Millisecond)
+defer ticker.Stop()
+
+timeout := time.After(2 * time.Second)
+
+for {
+    select {
+    case msg := <-ch:
+        fmt.Println("Получено:", msg)
+        return
+    case <-ticker.C:
+        fmt.Println("Ожидание...")
+    case <-timeout:
+        fmt.Println("Таймаут!")
+        return
+    }
+}
+#+end_src
+
+5. Принудительное завершение через select с =done= каналом
+
+Полезно, когда нужно дождаться завершения другой горутины, но не бесконечно.
+#+begin_src go
+done := make(chan struct{})
+
+go func() {
+    time.Sleep(3 * time.Second)
+    close(done)
+}()
+
+select {
+case msg := <-ch:
+    fmt.Println("Получено:", msg)
+case <-done:
+    fmt.Println("Горутина завершена, но данных нет.")
+case <-time.After(2 * time.Second):
+    fmt.Println("Таймаут!")
+}
+#+end_src
