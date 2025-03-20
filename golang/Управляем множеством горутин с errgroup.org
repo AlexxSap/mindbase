@@ -1,0 +1,178 @@
+#+title: Управляем Множеством Горутин С Errgroup
+
+"golang.org/x/sync/errgroup"
+
+Это утилита из официальной библиотеки Go =x=, которая используется для одновременного выполнения нескольких =goroutines= и обработки ошибок.
+Она реализует =errgroup.Group= на основе =sync.WaitGroup=, предоставляя более мощные функции для параллельного программирования.
+
+=Преимущества errgroup=
+По сравнению с =sync.WaitGroup=, =errgroup.Group= обладает следующими преимуществами:
+1. Обработка ошибок: =sync.WaitGroup= отвечает только за ожидание завершения =goroutines= и не обрабатывает возвращаемые значения или ошибки. Хотя =errgroup.Group= не может напрямую обрабатывать возвращаемые значения, он может немедленно прервать выполнение других =goroutines= при возникновении ошибки в =goroutine= и вернуть первую ошибку, не являющуюся =nil= в методе =Wait=.
+2. Отмена контекста: =errgroup= может использоваться в сочетании с =context.Context=. Когда =goroutine= сталкивается с ошибкой, он может автоматически отменить другие goroutines, эффективно контролируя ресурсы и избегая ненужной работы.
+3. Упрощение параллельного программирования: использование =errgroup= позволяет сократить объём шаблонного кода для обработки ошибок. Разработчикам не нужно вручную управлять состояниями ошибок и логикой синхронизации, что делает параллельное программирование более простым и удобным в обслуживании.
+4. Ограничение количества одновременных подключений: =errgroup= предоставляет интерфейс для ограничения количества одновременных подключений =goroutines= во избежание перегрузки, которой нет в =sync.WaitGroup=.
+
+=Пример использования errgroup.Group=
+#+begin_src go
+import (
+    "fmt"
+    "net/http"
+    "golang.org/x/sync/errgroup"
+)
+
+func main() {
+    var urls = []string{
+        "http://www.golang.org/",
+        "http://www.google.com/",
+        "http://www.somestupidname.com/",
+    }
+
+    var g errgroup.Group
+
+    for _, url := range urls {
+        g.Go(func() error {
+            resp, err := http.Get(url)
+            if err != nil {
+                return err
+            }
+            defer resp.Body.Close()
+            fmt.Printf("fetch url %s status %s\n", url, resp.Status)
+            return nil
+        })
+    }
+
+    if err := g.Wait(); err != nil {
+        fmt.Printf("Error: %s\n", err)
+    }
+}
+#+end_src
+
+=Отмена контекста=
+=errgroup= позволяет =errgroup.WithContext= добавить функцию отмены.
+
+#+begin_src go
+package main
+
+import (
+    "context"
+    "fmt"
+    "net/http"
+    "sync"
+    "golang.org/x/sync/errgroup"
+)
+
+func main() {
+    var urls = []string{
+        "http://www.golang.org/",
+        "http://www.google.com/",
+        "http://www.somestupidname.com/",
+    }
+
+    g, ctx := errgroup.WithContext(context.Background())
+
+    var result sync.Map
+
+    for _, url := range urls {
+        g.Go(func() error {
+            req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
+            if err != nil {
+                return err
+            }
+
+            resp, err := http.DefaultClient.Do(req)
+            if err != nil {
+                return err
+            }
+            defer resp.Body.Close()
+
+            result.Store(url, resp.Status)
+            return nil
+        })
+    }
+
+    if err := g.Wait(); err != nil {
+        fmt.Println("Error: ", err)
+    }
+
+    result.Range(func(key, value any) bool {
+        fmt.Printf("fetch url %s status %s\n", key, value)
+        return true
+    })
+}
+#+end_src
+
+=Ограничение количества параллелизмов=
+
+=errgroup= обеспечивает =errgroup.SetLimit= ограничение количества одновременно выполняемых =goroutines= операций.
+
+#+begin_src go
+package main
+
+import (
+    "fmt"
+    "time"
+    "golang.org/x/sync/errgroup"
+)
+
+func main() {
+    var g errgroup.Group
+    g.SetLimit(3)
+
+    for i := 1; i <= 10; i++ {
+        g.Go(func() error {
+            fmt.Printf("Goroutine %d is starting\n", i)
+            time.Sleep(2 * time.Second)
+            fmt.Printf("Goroutine %d is done\n", i)
+            return nil
+        })
+    }
+
+    if err := g.Wait(); err != nil {
+        fmt.Printf("Encountered an error: %v\n", err)
+    }
+
+    fmt.Println("All goroutines complete.")
+}
+#+end_src
+
+=Try to Start=
+
+=errgroup= предоставляет =errgroup.TryGo= возможность попытаться запустить задачу, которая должна использоваться в сочетании с =errgroup.SetLimit=.
+
+#+begin_src go
+
+Попробуйте начать
+errgroupпредоставляет errgroup.TryGo возможность попытаться запустить задачу, которая должна использоваться в сочетании с errgroup.SetLimit.
+
+package main
+
+import (
+    "fmt"
+    "time"
+    "golang.org/x/sync/errgroup"
+)
+
+func main() {
+    var g errgroup.Group
+    g.SetLimit(3)
+
+    for i := 1; i <= 10; i++ {
+        if g.TryGo(func() error {
+            fmt.Printf("Goroutine %d is starting\n", i)
+            time.Sleep(2 * time.Second)
+            fmt.Printf("Goroutine %d is done\n", i)
+            return nil
+        }) {
+            fmt.Printf("Goroutine %d started successfully\n", i)
+        } else {
+            fmt.Printf("Goroutine %d could not start (limit reached)\n", i)
+        }
+    }
+
+    if err := g.Wait(); err != nil {
+        fmt.Printf("Encountered an error: %v\n", err)
+    }
+
+    fmt.Println("All goroutines complete.")
+}
+#+end_src
