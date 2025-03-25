@@ -7,6 +7,9 @@ https://habr.com/ru/companies/piter/articles/352978/
 Apache Kafka: погружение на 45 минут
 https://www.youtube.com/watch?v=V5t_3RxBals&ab_channel=UWDC
 
+работа с Kafka в Go: практическое применение
+https://habr.com/ru/articles/894056/
+
 Лучший Гайд по Kafka для Начинающих За 1 Час
 https://www.youtube.com/watch?v=hbseyn-CfXY&ab_channel=VladMishustin
 

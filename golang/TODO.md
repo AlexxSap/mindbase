@@ -241,6 +241,12 @@ https://habr.com/ru/companies/avito/articles/799689/
 Базовая архитектура сервиса на GO
 https://habr.com/ru/articles/887102/
 
+Go's http.ServeMux Is All You Need
+https://dev.to/leapcell/gos-httpservemux-is-all-you-need-1mam
+
+Building a Secure Session Manager in Go
+https://themsaid.com/building-secure-session-manager-in-go
+
 Как работает HTTP/2 и как использовать его в Go
 https://habr.com/ru/articles/878148/
 
