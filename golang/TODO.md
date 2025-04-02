@@ -317,6 +317,9 @@ https://proglib.io/sh/xcSABgw3QE
 Как я создал 2D-игру с помощью Ebiten за 40 минут
 https://nuancesprog.ru/p/23395/
 
+RPG in Go
+https://vkvideo.ru/playlist/-228916121_1
+
 # Прочее
 
 Modern Web Development with Go
