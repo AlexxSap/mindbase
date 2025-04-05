@@ -145,3 +145,78 @@ JWT также может использовать асимметричные а
 - Использовать белый список алгоритмов. Разрешать только конкретные алгоритмы подписи на сервере, например, RS256. Все токены с неподдерживаемыми алгоритмами должны быть отклонены.
 - Строго разделять симметричные и асимметричные алгоритмы. Если используется асимметричная схема, как RS256, то симметричные алгоритмы (например, HS256) не должны быть допустимы.
 - Проверка библиотеки. Убедитесь, что библиотека для работы с JWT правильно реализует проверку подписей, и не использует публичный ключ как секретную фразу при симметричных алгоритмах.
+
+* Пример генерации токена
+#+begin_src go
+package main
+
+import (
+	"fmt"
+	"time"
+
+	jwt "github.com/golang-jwt/jwt/v5"
+)
+
+func main() {
+	// Создаем claims (утверждения), которые будут включены в токен
+	claims := jwt.MapClaims{
+		"usr":   "alex",                                 // имя пользователя
+		"isAdm": false,                                  // является ли пользователь админом
+		"exp":   time.Now().Add(2 * time.Minute).Unix(), // время жизни токена
+	}
+
+	// Генерируем подписанный JWT токен с алгоритмом HMAC (HS256)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	// Задаем секретный ключ для подписи токена
+	key := "my_secret_key"
+
+	// Подписываем токен и получаем его строковое представление
+	str, err := token.SignedString([]byte(key))
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Сгенерированный JWT токен: %s\n", str)
+}
+#+end_src
+
+* Проверка токена
+#+begin_src go
+
+package main
+
+import (
+	"fmt"
+	"log"
+	"time"
+
+	jwt "github.com/golang-jwt/jwt/v5"
+)
+
+func main() {
+	key := "my_secret_key"
+    str := "..." // строка токена
+	// Разбираем токен
+	readedToker, err := jwt.Parse(str,
+		func(token *jwt.Token) (any, error) {
+			// Убедитесь, что используется правильный алгоритм подписи
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, fmt.Errorf("unknown sign method: %v", token.Header["alg"])
+			}
+			return []byte(key), nil
+		})
+
+	if err != nil {
+		panic(err)
+	}
+
+	// Проверяем, является ли токен валидным
+	if readedClaims, ok := readedToker.Claims.(jwt.MapClaims); ok && readedToker.Valid {
+		fmt.Println("Токен валиден!")
+		fmt.Printf("Имя пользователя: %v\n", readedClaims["usr"])
+		fmt.Printf("Роль администратора: %v\n", readedClaims["isAdm"])
+		fmt.Printf("Время истечения: %v\n", time.Unix(int64(readedClaims["exp"].(float64)), 0))
+	} else {
+		log.Fatalf("Ошибка при проверке токена: %v", err)
+	}
+}
+#+end_src
