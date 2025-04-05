@@ -112,6 +112,8 @@ How to Deploy Go Applications With Docker
 https://dev.to/goodylili/how-to-deploy-go-applications-with-docker-50n3
 
 # БОТ
+Пишем Telegram-бота на Go
+https://habr.com/ru/articles/897802/
 
 Создаем Telegram-бота для новостей на Go, PostgreSQL и OpenAI API
 https://www.youtube.com/watch?app=desktop&v=tqQr2tNpJrA
@@ -312,13 +314,6 @@ https://eli.thegreenplace.net/2021/rest-servers-in-go-part-1-standard-library/
 
 6+ главных алгоритмов балансировки нагрузки
 https://proglib.io/sh/xcSABgw3QE
-
-# Games
-Как я создал 2D-игру с помощью Ebiten за 40 минут
-https://nuancesprog.ru/p/23395/
-
-RPG in Go
-https://vkvideo.ru/playlist/-228916121_1
 
 # Прочее
 
