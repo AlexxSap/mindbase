@@ -1,4 +1,3 @@
-![[Pasted image 20240915195330.png]]
 
 Модель OSI vs Стек протоколов TCP/IP
 
