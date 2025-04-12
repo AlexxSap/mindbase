@@ -47,6 +47,9 @@ https://antonz.org/all/
 
 # gRPC
 
+From net/rpc to gRPC in Go Applications
+https://victoriametrics.com/blog/go-net-rpc/index.html
+
 Scaling gRPC With Kubernetes (Using Go)
 https://nyadgar.com/posts/scaling-grpc-with-kubernetes-using-go/
 
