@@ -1,0 +1,123 @@
+#+title: Документирование
+
+Документирование кода — это важнейший аспект разработки, особенно в языках программирования, таких как Go (Golang), где инструменты вроде godoc автоматически генерируют документацию на основе комментариев.
+
+* Правила документирования функций
+1. =Используйте краткое и понятное описание функции=
+   Первая строка комментария должна быть кратким описанием того, что делает функция. Она должна быть написана в третьем лице и начинаться с глагола.
+#+begin_src go
+// Sum calculates the sum of two integers and returns the result.
+func Sum(a int, b int) int {
+    return a + b
+}
+#+end_src
+Здесь первая строка (Sum calculates...) четко объясняет, что функция делает, не вдаваясь в детали.
+
+2. =Указывайте параметры и возвращаемые значения=
+   Если функция принимает параметры или возвращает значения, их назначение должно быть описано в документации. Это помогает другим разработчикам понять, как использовать функцию.
+  #+begin_src go
+// Multiply multiplies two integers and returns the product.
+// Parameters:
+// - a: The first integer to multiply.
+// - b: The second integer to multiply.
+// Returns:
+// - The product of a and b.
+func Multiply(a int, b int) int {
+    return a * b
+}
+#+end_src
+Здесь мы явно указали, что представляют собой параметры a и b, а также то, что функция возвращает.
+
+3. =Добавляйте примеры использования (если необходимо)=
+   Если функция сложная или её использование неочевидно, добавьте пример кода в комментарии. Это поможет пользователям быстрее понять, как её применять.
+  #+begin_src go
+// Factorial calculates the factorial of a non-negative integer.
+// Example usage:
+//   result := Factorial(5) // result will be 120
+func Factorial(n int) int {
+    if n == 0 {
+        return 1
+    }
+    return n * Factorial(n-1)
+}
+#+end_src
+
+4. =Описывайте возможные ошибки и особые случаи=
+   Если функция может возвращать ошибку или имеет особые случаи поведения (например, панику или ограничения), это нужно явно указать.
+#+begin_src go
+// Divide divides two numbers and returns the result.
+// If the divisor is zero, it returns an error.
+func Divide(dividend float64, divisor float64) (float64, error) {
+    if divisor == 0 {
+        return 0, fmt.Errorf("division by zero")
+    }
+    return dividend / divisor, nil
+}
+#+end_src
+
+5. =Сохраняйте форматирование и стиль=
+   Go требует, чтобы комментарии были отформатированы определённым образом. Важно следовать соглашениям:
+   - Комментарий должен начинаться с заглавной буквы.
+   - Каждая строка комментария должна быть короткой и читаемой.
+   - Между комментарием и функцией не должно быть пустых строк.
+
+#+begin_src go
+ // IsValid checks if a string is a valid email address.
+// It uses a simple regex pattern for validation.
+func IsValid(email string) bool {
+    pattern := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
+    matched, _ := regexp.MatchString(pattern, email)
+    return matched
+}
+#+end_src
+
+* Правила документирования пакетов
+Документирование пакетов и файлов в Go — это не менее важный аспект, чем документирование функций. Хорошо написанная документация для пакета помогает другим разработчикам быстро понять его назначение, возможности и особенности использования.
+
+1. =Начните с краткого описания пакета=
+   Первая строка комментария пакета должна быть кратким и ясным описанием его назначения. Она должна начинаться с заглавной буквы и быть написана в третьем лице.
+   Здесь мы сразу понимаем, что пакет mathutils предназначен для выполнения математических операций.
+#+begin_src go
+// Package mathutils provides utility functions for common mathematical operations.
+package mathutils
+#+end_src
+
+2. =Добавьте подробное описание, если это необходимо=
+   Если пакет сложный или имеет много функциональности, добавьте более подробное описание после первой строки. Это может включать информацию о том, как использовать пакет, его основные возможности и ограничения.
+#+begin_src go
+// Package stringutil provides utility functions for manipulating strings.
+// It includes functions for reversing strings, checking palindromes,
+// and performing case conversions. All functions are designed to handle
+// edge cases like empty strings gracefully.
+package stringutil
+#+end_src
+
+3. =Укажите зависимости или требования=
+   Если пакет зависит от других библиотек, внешних инструментов или требует определённых условий для работы, это нужно явно указать.
+#+begin_src go
+// Package database provides utilities for interacting with a PostgreSQL database.
+// It requires the "github.com/lib/pq" driver for database connections.
+// Ensure that the PostgreSQL server is running and accessible before using this package.
+package database
+ #+end_src
+
+ 4. =Добавьте примеры использования пакета=
+    Если пакет сложный или его использование неочевидно, добавьте пример кода в документацию. Это поможет другим разработчикам быстрее понять, как использовать пакет.
+#+begin_src go
+// Package logger provides a simple logging utility for writing messages to a file.
+// Example usage:
+//   log := logger.New("app.log")
+//   log.Info("Application started")
+//   log.Error("Failed to connect to the database")
+package logger
+#+end_src
+
+5. =Опишите особые случаи и потенциальные ошибки=
+   Если пакет имеет особые случаи поведения (например, обработку ошибок или ограничения), это нужно явно указать в документации.
+#+begin_src go
+// Package httpclient provides a wrapper for making HTTP requests.
+// It supports GET, POST, PUT, and DELETE methods. Note that the package
+// does not handle timeouts by default. Users should set a timeout explicitly
+// to avoid potential hanging requests.
+package httpclient
+#+end_src
