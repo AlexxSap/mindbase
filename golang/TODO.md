@@ -208,6 +208,8 @@ https://blog.wongandre.com/create-a-simple-api-server-image-for-docker-and-kuber
 Учебник по куберу
 https://ru.werf.io/guides/golang/100_basic.html
 
+gRPC in Go: Streaming RPCs, Interceptors, and Metadata
+https://victoriametrics.com/blog/go-grpc-basic-streaming-interceptor/
 
 Building Microservices in Go: A Practical Guide with gRPC
 https://arielorozco.com/building-microservices-in-go-a-practical-guide-with-grpc
