@@ -121,3 +121,33 @@ package logger
 // to avoid potential hanging requests.
 package httpclient
 #+end_src
+
+* Тестируемые примеры
+https://go.dev/blog/examples
+Это фрагменты кода Go, которые отображаются в качестве документации по пакету и проверяются при запуске в качестве тестов.
+Их также может запустить пользователь, перейдя на веб-страницу godoc для пакета и нажав соответствующую кнопку «Запустить».
+Наличие исполняемой документации для пакета гарантирует, что информация не устареет по мере изменения API.
+
+Как и в случае с обычными тестами, примеры — это функции, которые находятся в файлах _test.go пакета. Однако в отличие от обычных тестовых функций, функции-примеры не принимают аргументов и начинаются со слова =Example= вместо =Test=.
+#+begin_src go
+func ExampleString() {
+    fmt.Println(reverse.String("hello"))
+    // Output: olleh
+}
+#+end_src
+является примером для функции String.
+Если мы полностью удалим выходной комментарий, то функция не выполнится.
+
+Примеры имен функций:
+#+begin_src go
+func ExampleFoo()     // documents the Foo function or type
+func ExampleBar_Qux() // documents the Qux method of type Bar
+func Example()        // documents the package as a whole
+#+end_src
+
+Для заданного идентификатора можно привести несколько примеров, используя суффикс, начинающийся с подчёркивания, за которым следует строчная буква. Каждый из этих примеров описывает функцию String:
+#+begin_src go
+func ExampleString()
+func ExampleString_second()
+func ExampleString_third()
+#+end_src
