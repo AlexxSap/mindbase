@@ -129,6 +129,9 @@ https://habr.com/ru/articles/351060/
 
 # Производительность 
 
+How to Write Benchmark Tests for Your Golang Functions
+https://www.freecodecamp.org/news/how-to-write-benchmark-tests-for-your-golang-functions/
+
 Zero-Allocation in Go (Golang)
 https://dev.to/saleh_rahimzadeh/zero-allocation-in-go-golang-237k
 
@@ -244,6 +247,12 @@ https://www.youtube.com/watch?v=DfMxFFJF3C4
 https://habr.com/ru/companies/avito/articles/799689/
 
 # Серверы
+
+How to Easily Handle 200k RPS with Golang
+https://medium.com/@nikitaburov/how-to-easily-handle-200k-rps-with-golang-8b62967a01dd
+
+Пишем web-фреймворк на Go: как работают современные web-фреймворки под капотом
+https://habr.com/ru/articles/902496/
 
 Базовая архитектура сервиса на GO
 https://habr.com/ru/articles/887102/
