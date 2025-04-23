@@ -129,14 +129,12 @@ https://habr.com/ru/articles/351060/
 
 # Производительность 
 
-How to Write Benchmark Tests for Your Golang Functions
-https://www.freecodecamp.org/news/how-to-write-benchmark-tests-for-your-golang-functions/
-
 Zero-Allocation in Go (Golang)
 https://dev.to/saleh_rahimzadeh/zero-allocation-in-go-golang-237k
 
 Выжимаем из Go максимум производительности 
 https://www.youtube.com/watch?v=QMC9Kg4Ogxg&ab_channel=GolangChannel
+https://habr.com/ru/companies/vk/articles/824484/
 
 Optimizing Memory Usage in Go: Mastering Data Structure Alignment
 https://dev.to/yanev/optimizing-memory-usage-in-go-mastering-data-structure-alignment-4beb
