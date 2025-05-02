@@ -154,37 +154,15 @@ https://github.com/moderato-app/live-pprof
 From slow to SIMD:
 https://sourcegraph.com/blog/slow-to-simd
 
-Оптимизация Go: как повысить скорость и эффективность кода
-https://habr.com/ru/companies/simbirsoft/articles/819015/?utm_campaign=819015
-
 Ускоряем Go: известные и не очень методы оптимизации и связанные с ними штуки
 https://habr.com/ru/articles/790758/
-
-Профилирование Go приложений
-https://www.youtube.com/watch?v=c4bldaCjYRY
-https://www.youtube.com/watch?v=sNjvpHUHMh8
-
-Профилирование Go-приложений в 2023
-https://www.youtube.com/watch?v=sNjvpHUHMh8
-
-Go за гранью скорости: pprof на проде | avito.code - YouTube
-https://www.youtube.com/watch?v=OEUIzg-IeyM
 
 аллокатор
 https://www.youtube.com/watch?v=wJtgOTmePp0&ab_channel=GolangChannel
 
-Go за гранью скорости: pprof и бенчмарки
-https://www.youtube.com/watch?v=o67Elk87kTA
-
 Detecting Memory Leaks in a Golang Application: Best Practices and Tools
 https://www.codemio.com/2023/05/detecting-memory-leaks-in-golang.html
 
-Продвинутые техники оптимизации кода на Go
-https://golang.withcodeexample.com/blog/advanced-techniques-for-code-optimization-in-go/
-
- Профилирование в Go: практическое руководство
- https://nyadgar.com/posts/go-profiling-like-a-pro/
- 
 MapReduce
 https://habr.com/ru/companies/otus/articles/828672/
 

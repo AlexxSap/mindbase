@@ -1,0 +1,88 @@
+#+title: Профилирование С Помощью Pprof
+
+* Общее
+=pprof= - сэмплирующий прфайлер.
+=pprof= позволяет понять как быстро работает приложение, как много памяти выделяет, как часто запускается и работает сборщик мусора. Он позволяет найти на каких конкретно строках кода сколько памяти выделяется, как много времени выполняться та или иная строка кода.
+
+* Сбор профиля при запуске бенчмарков
+https://www.youtube.com/live/o67Elk87kTA
+
+- простой запуск бенчмарка
+#+begin_src
+go test -bench=BenchmarkNearest -benchmem
+#+end_src
+вывод:
+#+begin_src
+goos: linux
+goarch: amd64
+pkg: github.com/AlexxSap/cronparser
+cpu: Intel(R) Core(TM) i5-2410M CPU @ 2.30GHz
+BenchmarkNearestDate-4            578660              3034 ns/op             228 B/op          7 allocs/op
+#+end_src
+вывод показывает количество прогонов, время на 1 прогон, сколько памяти выделено за 1 прогон и сколько выделений памяти было за один прогон.
+
+- добавляем профайл через =-cpuprofile=
+#+begin_src
+go test -bench=BenchmarkNearest -benchmem -cpuprofile=pr1.pro
+#+end_src
+запускаем =pprof=, чтобы открыть файл
+#+begin_src
+go tool pprof pr1.pro
+#+end_src
+вывод:
+#+begin_src
+File: cronparser.test
+Build ID: 60d0a139d2411d2e8a8b8ab4cb77899c7ec1adab
+Type: cpu
+Time: 2025-05-02 15:16:52 MSK
+Duration: 2.61s, Total samples = 2.50s (95.83%)
+Entering interactive mode (type "help" for commands, "o" for options)
+(pprof)
+#+end_src
+можно ввести команду =top= для простотка самых нагруженных операций
+#+begin_src
+(pprof) top
+Showing nodes accounting for 1140ms, 45.60% of 2500ms total
+Dropped 69 nodes (cum <= 12.50ms)
+Showing top 10 nodes out of 87
+      flat  flat%   sum%        cum   cum%
+     160ms  6.40%  6.40%      200ms  8.00%  strings.Fields
+     150ms  6.00% 12.40%      500ms 20.00%  github.com/AlexxSap/cronparser.newToken
+     150ms  6.00% 18.40%      310ms 12.40%  strings.Replace
+     150ms  6.00% 24.40%      210ms  8.40%  time.Time.absSec
+     110ms  4.40% 28.80%      350ms 14.00%  fmt.(*pp).doPrintf
+     100ms  4.00% 32.80%      140ms  5.60%  fmt.(*fmt).fmtInteger
+     100ms  4.00% 36.80%      170ms  6.80%  strings.Count
+      80ms  3.20% 40.00%      250ms 10.00%  runtime.mallocgcSmallScanNoHeader
+      70ms  2.80% 42.80%       70ms  2.80%  runtime.(*mspan).writeHeapBitsSmall
+      70ms  2.80% 45.60%       70ms  2.80%  runtime.nextFreeFast (inline)
+(pprof)
+#+end_src
+
+с помощью команды list можно посмотреть сколько затратил конкретный вызов в функции. Но нужно делать этот вызов в каталоге с файлом, где содержится код нужной функции
+#+begin_src
+(pprof) list newToken
+#+end_src
+
+- добавляем профайл через =-memprofile=
+#+begin_src
+go test -bench=BenchmarkNearest -memprofile=pr1.pro
+#+end_src
+
+далее работаем аналогочино cpuprofile
+
+* Использование benchstat
+Чтобы уведить изменения в производительности нужно использовать =benchstat=
+Для этого выполняем бенчмарки до (benchOld) и после (benchNew) изменений.
+#+begin_src
+go test -bench=BenchmarkNearest -benchmem -count=5 > benchOld
+#+end_src
+далее запускаем =benchStat=
+#+begin_src
+benchstat benchOld benchNew
+#+end_src
+
+* Добавление pprof handler в сервис
+https://www.youtube.com/live/OEUIzg-IeyM
+
+* Вызов методов pprof в коде
