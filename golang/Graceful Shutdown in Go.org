@@ -1,0 +1,98 @@
+#+title: Graceful Shutdown In Go
+
+Любое приложение должно при завершении работы:
+1. Закрыть точку входа (HTTP-сервер, очередь сообщений и т.д.), но сохранить исходящие соединения (БД, кэш) активными.
+2. Дождаться окончания всех текущих запросов, и при превышении допустимого времени вернуть корректную ошибку.
+3. Освободить критические ресурсы (соединения с БД, файловые блокировки, слушатели). :contentReference[oaicite:0]{index=0}
+
+* Обработка сигналов
+В Unix-системах сигналы (=SIGTERM=, =SIGINT=, =SIGHUP=) — это программные прерывания, уведомляющие процесс о необходимости завершения или перезагрузки конфигурации.
+По умолчанию Go-рантайм ловит многие сигналы, но для «мягкой» остановки обычно интересуют только =SIGTERM= и =SIGINT=.
+#+begin_src go
+func main() {
+    // 1) Создаем канал для сигналов
+    signalChan := make(chan os.Signal, 1)
+    signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
+
+    // 2) Запускаем сервер и другую работу здесь...
+
+    // 3) Ждем сигнала
+    <-signalChan
+    fmt.Println("Received termination signal, shutting down…")
+}
+#+end_src
+
+* Таймаут для завершения
+В =Kubernetes= по умолчанию даётся 30 секунд на грациозную остановку (terminationGracePeriodSeconds).
+Хорошей практикой является резервирование 20% времени (примерно 6 секунд) на «подстраховку» завершения.
+#+begin_src go
+
+timeout := 25 * time.Second
+ctx, cancel := context.WithTimeout(context.Background(), timeout)
+defer cancel()
+
+if err := server.Shutdown(ctx); err != nil {
+    log.Fatalf("Server forced to shutdown: %v", err)
+}
+#+end_src
+
+* Остановка приёма новых запросов
+Метод =http.Server.Shutdown= закрывает слушатели и не принимает новые соединения, при этом дожидаясь окончания активных хэндлеров.
+Однако в контейнеризированных окружениях нужно сначала «провалить» readiness-пробу, чтобы снять pod из балансировщика, и только затем вызывать =Shutdown=.
+#+begin_src go
+var shuttingDown atomic.Bool
+
+http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+    if shuttingDown.Load() {
+        w.WriteHeader(http.StatusServiceUnavailable)
+        return
+    }
+    w.WriteHeader(http.StatusOK)
+})
+
+// При получении сигнала:
+shuttingDown.Store(true)
+// Ждем несколько секунд, пока traffic прекратится
+time.Sleep(5 * time.Second)
+server.Shutdown(ctx)
+#+end_src
+
+* Обработка активных запросов
+После вызова =Shutdown(ctx)= сервер ждет либо завершения всех соединений, либо истечения контекста.
+Чтобы уведомить свои хэндлеры о «скоро закрытии», используйте контекст:
+
+1. Middleware с каналом отмены
+#+begin_src go
+func WithGracefulShutdown(next http.Handler, cancelCh <-chan struct{}) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        ctx, cancel := WithCancellation(r.Context(), cancelCh)
+        defer cancel()
+        next.ServeHTTP(w, r.WithContext(ctx))
+    })
+}
+#+end_src
+
+2. =BaseContext= для всего сервера
+#+begin_src go
+ongoingCtx, cancelFn := context.WithCancel(context.Background())
+server := &http.Server{
+    Addr:        ":8080",
+    Handler:     yourHandler,
+    BaseContext: func(_ net.Listener) context.Context { return ongoingCtx },
+}
+// После готовности к остановке:
+cancelFn()
+#+end_src
+
+* Освобождение ресурсов
+Не закрывайте ресурсы сразу при получении сигнала — хэндлеры могут ими ещё пользоваться.
+Лучше дождаться окончания работы (или таймаута), а затем в обратном порядке инициализации вызвать =Close=.
+Стандартный приём в Go — =defer=:
+#+begin_src go
+db := connectDB()
+defer db.Close()
+
+cache := connectCache()
+defer cache.Close()
+#+end_src
+ОС сама освободит память и файловые дескрипторы при завершении процесса, но для внешних систем (БД, брокеры сообщений) рекомендуются явные Close()/Flush() для корректного завершения транзакций и избежания потерь данных.
