@@ -484,3 +484,6 @@ https://habr.com/ru/companies/yandex_praktikum/articles/885946/
 
 Самый подробный гайд по планировщику максимально простым языком
 https://youtu.be/kedW1xO3Zbo
+
+Rate limiter Implemention With Golang And Redis
+https://medium.com/@yuseferi/in-part-1-of-this-article-we-talked-about-why-tracking-iot-device-heartbeats-is-critical-and-why-22f04e947a7e

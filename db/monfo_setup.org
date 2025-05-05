@@ -1,0 +1,63 @@
+#+title: Monfo Setup
+
+* Запуск MongoDB в Docker
+
+#+begin_src
+docker run --name my-mongo -d -p 27017:27017 mongo
+#+end_src
+Пояснение:
+- =-name my-mongo=: задаёт имя контейнера (в данном случае my-mongo).
+- =-d=: запускает контейнер в фоновом режиме (detached mode).
+- =-p 27017:27017=: пробрасывает порт 27017 контейнера на порт 27017 хоста. Это стандартный порт MongoDB.
+- =mongo=: указывает образ MongoDB из Docker Hub.
+
+Теперь вы можете подключиться к MongoDB с помощью клиента, например mongosh (MongoDB Shell) или любого другого инструмента.
+Пример подключения через mongosh:
+#+begin_src
+mongosh "mongodb://localhost:27017"
+#+end_src
+
+Настройка постоянного хранилища
+#+begin_src
+docker run --name my-mongo -d -p 27017:27017 -v ~/mongo-data:/data/db mongo
+#+end_src
+Пояснение:
+- =-v ~/mongo-data:/data/db=: монтирует папку ~/mongo-data на вашем компьютере в директорию /data/db внутри контейнера. Это гарантирует, что данные будут сохраняться локально.
+
+Использование аутентификации
+Если вы хотите запустить MongoDB с аутентификацией, добавьте переменные окружения
+#+begin_src
+docker run --name my-mongo -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=example mongo
+#+end_src
+Пояснение:
+- =MONGO_INITDB_ROOT_USERNAME=: имя пользователя для root.
+- =MONGO_INITDB_ROOT_PASSWORD=: пароль для root.
+
+ Теперь вы можете подключаться к MongoDB с использованием этих данных:
+#+begin_src
+mongosh "mongodb://root:example@localhost:27017"
+#+end_src
+
+* Остановка и удаление контейнера
+
+Если вам нужно остановить контейнер:
+#+begin_src
+docker stop my-mongo
+#+end_src
+
+Чтобы снова запустить его:
+#+begin_src
+docker start my-mongo
+#+end_src
+
+Для удаления контейнера:
+#+begin_src
+docker rm my-mongo
+#+end_src
+
+* Обновление MongoDB
+Если вы хотите обновить MongoDB до новой версии, удалите старый контейнер и запустите новый с последней версией образа:
+#+begin_src
+docker pull mongo
+docker run --name my-mongo -d -p 27017:27017 mongo
+#+end_src
