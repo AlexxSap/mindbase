@@ -1,0 +1,50 @@
+#+title: Противодавление
+
+С помощью буферизованного канала можно также реализовать такой прием, как противодавление.
+Хотя это не столь очевидно, система работает в целом лучше, когда ее компоненты ограничивают объем выполняемой ими работы. Мы можем ограничить количество одновременных запросов в системе, используя буферизованный канал и оператор =select=.
+
+#+begin_src go
+type PressureGauge struct {
+	ch chan struct{}
+}
+
+func New(limit int) *PressureGauge {
+	return &PressureGauge{
+		ch: make(chan struct{}, limit),
+	}
+}
+
+func (pg *PressureGauge) Process(f func()) error {
+	select {
+		case <-pg.ch <- struct{}{}:
+		f()
+		<-pg.ch
+		return nil
+	default:
+		return errors.New("no more capacity")
+	}
+}
+#+end_src
+
+Следующий небольшой пример показывает, как этот код можно использовать в сочетании со встроенным HTTP-сервером
+#+begin_src go
+func doThingThatShouldBeLimited() string {
+	time.Sleep(2 * time.Second)
+	return "done"
+}
+
+func main() {
+	pg := New(10)
+	http.HandleFunc("/request", func(w http.ResponseWriter, r *http.Request) {
+		err := pg.Process(func() {
+			w.Write([]byte(doThingThatShouldBeLimited()))
+		})
+
+		if err != nil {
+			w.WriteHeader(http.StatusTooManyRequests)
+			w.Write([]byte("Too many requests"))
+		}
+	})
+	http.ListenAndServe(":8080", nil)
+}
+#+end_src
