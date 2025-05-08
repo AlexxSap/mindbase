@@ -35,6 +35,11 @@ docker run --name my-mongo -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root 
 
  Теперь вы можете подключаться к MongoDB с использованием этих данных:
 #+begin_src
+// если запускается контейнер
+docker run -it -p 28000:27017 --name mongoContainer mongo:latest mongosh
+// если контейнер запущен
+docker exec -it mongoContainer mongosh
+// если без уонтейнера
 mongosh "mongodb://root:example@localhost:27017"
 #+end_src
 
@@ -60,4 +65,41 @@ docker rm my-mongo
 #+begin_src
 docker pull mongo
 docker run --name my-mongo -d -p 27017:27017 mongo
+#+end_src
+
+* .mongorc.js
+Если вы часто загружаете скрипты, можно поместить их в файл в каталоге данных (или в ~) .mongorc.js (или .mongoshrc.js для mongosh). Этот файл запускается всякий раз, когда вы запускаете оболочку.
+
+Вы можете отключить загрузку своего файла .mongorc.js, используя опцию =--norc= при запуске оболочки.
+
+В нём можно устанавливать глобальные значения или запрещать действия
+#+begin_src js
+var no = function() {
+    print("Not on my watch.");
+};
+// Предотвращаем удаление баз данных;
+db.dropDatabase = DB.prototype.dropDatabase = no;
+// Предотвращаем удаление коллекций;
+DBCollection.prototype.drop = no;
+// Предотвращаем удаление индекса;
+DBCollection.prototype.dropIndex = no;
+// Предотвращаем удаление индексов;
+DBCollection.prototype.dropIndexes = no;
+#+end_src
+
+Приглашение оболочки по умолчанию можно переопределить путем установки переменной =prompt= в строку либо в функцию.
+#+begin_src js
+prompt = function() {
+    if (typeof db == 'undefined’) {
+        return '(nodb)> ';
+    }
+    // Проверка последней операции;
+    try {
+        db.runCommand({getLastError:1});
+    }
+    catch (e) {
+        print(e);
+    }
+    return db+"> ";
+};
 #+end_src
