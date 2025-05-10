@@ -36,6 +36,8 @@ db.dropDatabase()
 #+end_src
 
 * Типы данных
+Документ (одна запись) не должен быть больше 16 Мб
+
 1. Null
    {"x" : null}
    Нулевой тип можно использовать для обозначения как нулевого значения, так и несуществующего поля
@@ -72,3 +74,60 @@ db.dropDatabase()
 11. Код
     {"x" : function() { /* ... */ }}
     MongoDB также позволяет хранить произвольный код JavaScript в запросах и документах
+
+* Вставка
+Чтобы вставить один документ, используйте метод коллекции =insertOne= (=insertOne= добавит в документ ключ "_id")
+#+begin_src js
+db.movies.insertOne({"title" : "Stand by Me"})
+#+end_src
+Если вам нужно вставить несколько документов - =insertMany=.
+#+begin_src js
+> db.movies.insertMany([
+{"title" : "Ghostbusters"},
+{"title" : "E.T."},
+{"title" : "Blade Runner"}]);
+
+> db.movies.find()
+{ "_id" : ObjectId("572630ba11722fac4b6b4996"), "title" : "Ghostbusters" }
+{ "_id" : ObjectId("572630ba11722fac4b6b4997"), "title" : "E.T." }
+{ "_id" : ObjectId("572630ba11722fac4b6b4998"), "title" : "Blade Runner" }
+#+end_src
+Текущие версии MongoDB не принимают сообщения длиннее =48 МБ=, поэтому существует ограничение на количество, которое можно поместить в одну массовую вставку. Если вы попытаетесь вставить более 48 МБ, многие драйверы разделят вставку на несколько вставок по 48 МБ.
+
+Есть флаг =ordered=. По умолчанию true. Если true, то при ошибке =insertMany= ничего не будет вставлено.
+Если false, то будут вставлены документы, которые не вызвали ошибок.
+#+begin_src js
+> db.movies.insertMany([
+... {"_id" : 3, "title" : "Sixteen Candles"},
+... {"_id" : 4, "title" : "The Terminator"},
+... {"_id" : 4, "title" : "The Princess Bride"}, // тут ошибка - будль id, только этот док не будет вставлен
+... {"_id" : 5, "title" : "Scarface"}],
+... {"ordered" : false})
+#+end_src
+
+* Удаление
+Методы =deleteOne= и =deleteMany=
+Чтобы удалить документ со значением ="_id"= , равным =4=, используем метод =deleteOne=
+#+begin_src js
+> db.movies.find()
+{ "_id" : 0, "title" : "Top Gun"}
+{ "_id" : 1, "title" : "Back to the Future"}
+{ "_id" : 3, "title" : "Sixteen Candles"}
+{ "_id" : 4, "title" : "The Terminator"}
+{ "_id" : 5, "title" : "Scarface"}
+> db.movies.deleteOne({"_id" : 4})
+{ "acknowledged" : true, "deletedCount" : 1 }
+> db.movies.find()
+{ "_id" : 0, "title" : "Top Gun"}
+{ "_id" : 1, "title" : "Back to the Future"}
+{ "_id" : 3, "title" : "Sixteen Candles"}
+{ "_id" : 5, "title" : "Scarface"}
+#+end_src
+
+Если указанный фильтр соответствует нескольким документам, то =deleteOne= удалит только одну (первую) запись.
+
+Всю коллекцию можно удалить методом =drop=
+#+begin_src js
+> db.movies.drop()
+true
+#+end_src
