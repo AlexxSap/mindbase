@@ -131,3 +131,104 @@ db.movies.insertOne({"title" : "Stand by Me"})
 > db.movies.drop()
 true
 #+end_src
+
+* Обновление
+Методы =updateOne= и =updateMany= принимают документ фильтра в качестве первого параметра и документ модификатора, описывающий изменения, которые необходимо внести, в качестве второго параметра.
+Метод =replaceOne= также принимает фильтр в качестве первого параметра, а в качестве второго параметра ожидает документ, которым он заменит документ, соответствующий фильтру.
+
+=$inc= - оператор обновления (можно использовать только для значений типа integer, long, double или decimal)
+#+begin_src js
+> db.analytics.updateOne({"url" : "www.example.com"},
+... {"$inc" : {"pageviews" : 1}})
+#+end_src
+
+=$set= - устанавливает (или создаёт) значение поля
+#+begin_src js
+> db.users.updateOne({"_id" : ObjectId("4b253b067525f35f94b60a31")},
+... {"$set" : {"favorite book" : "War and Peace"}})
+#+end_src
+
+=$unset= - удаление поля
+#+begin_src js
+> db.users.updateOne({"name" : "joe"},
+... {"$unset" : {"favorite book" : 1}})
+#+end_src
+
+* Обновление массивов
+=$push= добавляет элементы в конец массива
+#+begin_src js
+> db.blog.posts.updateOne({"title" : "A blog post"},
+... {"$push" : {"comments" :
+...
+                {"name" : "joe", "email" : "joe@example.com",
+...
+                 "content" : "nice post."}}})
+#+end_src
+
+=$slice= - модификатор длинны массива
+=$each= - сдвиг нескольких значений
+=$sort= - сортировка
+#+begin_src js
+> db.movies.updateOne({"genre" : "horror"},
+... {"$push" : {"top10" : {"$each" : [{"name" : "Nightmare on Elm Street",
+...
+                                       "rating" : 6.6},
+...
+                                      {"name" : "Saw", "rating" : 4.3}],
+...
+                           "$slice" : -10,
+...
+                           "$sort" : {"rating" : -1}}}})
+#+end_src
+
+=$ne= - отсутствие
+#+begin_src js
+> db.papers.updateOne({"authors cited" : {"$ne" : "Richie"}},
+... {$push : {"authors cited" : "Richie"}})
+#+end_src
+
+=$addToSet= - добавление без дублирования
+#+begin_src js
+> db.users.findOne({"_id" : ObjectId("4b2d75476cc613d5ee930164")})
+{
+    "_id" : ObjectId("4b2d75476cc613d5ee930164"),
+    "username" : "joe",
+    "emails" : [
+        "joe@example.com",
+        "joe@gmail.com",
+        "joe@yahoo.com"
+    ]
+}
+
+> db.users.updateOne({"_id" : ObjectId("4b2d75476cc613d5ee930164")},
+... {"$addToSet" : {"emails" : "joe@gmail.com"}})
+#+end_src
+
+=$pop= - удаление элемента из массива.
+#+begin_src js
+{"$pop" : {"key" : 1}} // удаляет элемент с конца
+{"$pop" : {"key" : -1}} // удаляет его с начала
+#+end_src
+
+=$pull= используется для удаления элементов массива (всех совпадающих), соответствующих заданным критериям
+#+begin_src js
+> db.lists.insertOne({"todo" : ["dishes", "laundry", "dry cleaning"]})
+> db.lists.updateOne({}, {"$pull" : {"todo" : "laundry"}})
+#+end_src
+
+позиционный оператор =$= - определяет, какому элементу массива соответствует документ запроса, и обновляет (только первое совпадение) этот элемент.
+#+begin_src js
+> db.blog.updateOne({"comments.author" : "John"},
+... {"$set" : {"comments.$.author" : "Jim"}})
+#+end_src
+
+=arrayFilters= - позволяет изменять элементы массива, соответствующие конкретным критериям.
+#+begin_src js
+db.blog.updateOne(
+{"post" : post_id },
+{ $set: { "comments.$[elem].hidden" : true } },
+{
+    arrayFilters: [ { "elem.votes": { $lte: -5 } } ]
+}
+)
+#+end_src
