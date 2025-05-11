@@ -154,6 +154,32 @@ true
 ... {"$unset" : {"favorite book" : 1}})
 #+end_src
 
+Третьим параметром методов =updateMany= и =updateOne= является флаг =upsert= - Если не найден ни один документ, который соответствует фильтру, будет создан новый документ путем объединения критериев и обновленных документов.
+#+begin_src js
+> db.analytics.updateOne({"url" : "/blog"}, {"$inc" : {"pageviews" : 1}},
+... {"upsert" : true})
+#+end_src
+
+=$setOnInsert= – это оператор, который устанавливает значение поля только при вставке документа.
+#+begin_src js
+> db.users.updateOne({}, {"$setOnInsert" : {"createdAt" : new Date()}},
+... {"upsert" : true})
+#+end_src
+
+=findOneAndDelete=, =findOneAndReplace= и =findOneAndUpdate= - различие между этими методами и, например, методом =updateOne=
+заключается в том, что они позволяют атомарно получить значение модифицированного документа. Документ возвращается до модификации, если не установлен флаг =returnNewDocument=
+#+begin_src js
+> db.processes.findOneAndUpdate({"status" : "READY"},
+... {"$set" : {"status" : "RUNNING"}},
+... {"sort" : {"priority" : -1},
+... "returnNewDocument": true})
+{
+    "_id" : ObjectId("4b3e7a18005cab32be6291f7"),
+    "priority" : 1,
+    "status" : "RUNNING"
+}
+#+end_src
+
 * Обновление массивов
 =$push= добавляет элементы в конец массива
 #+begin_src js
