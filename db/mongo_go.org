@@ -1,0 +1,166 @@
+#+title: working with mongo and go
+
+https://ocakhasan.github.io/golang-mongodb-query-examples/#how-to-connect-to-mongodb-with-golang
+
+* Соединение с базой и создание документа
+#+begin_src go
+package main
+
+import (
+	"context"
+	"log"
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+)
+
+type Car struct {
+	Id        primitive.ObjectID `bson:"_id"`
+	CreatedAt time.Time          `bson:"createdAt"`
+	Brand     string             `bson:"brand"`
+	Model     string             `bson:"model"`
+	Year      int                `bson:"year"`
+}
+
+func main() {
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	db := client.Database("testdb")
+	defer func() {
+		if err := client.Disconnect(ctx); err != nil {
+			log.Fatal(err)
+		}
+	}()
+
+	exampleData := Car{
+		Id:        primitive.NewObjectID(),
+		CreatedAt: time.Now().UTC(),
+		Brand:     "Mercedes",
+		Model:     "G-360",
+		Year:      2002,
+	}
+
+	res, err := db.Collection("cars").InsertOne(ctx, exampleData)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("inserted %v", res.InsertedID)
+}
+#+end_src
+
+* Вставка нескольких документов
+#+begin_src go
+var data []interface{}
+
+res, err := db.Collection("cars").InsertMany(context.Background(), data)
+if err != nil {
+	log.Fatal(err)
+}
+
+log.Printf("%v documents inserted", len(res.InsertedIDs))
+#+end_src
+
+* Поиск документа
+#+begin_src go
+condition := bson.M{}
+
+/// если нужно условие
+///condition := bson.M{
+///    "brand": "Toyota"
+///}
+
+/// или Find для нескольких
+cur, err := db.Collection("cars").FindOne(context.Background(), condition)
+if err != nil {
+	log.Fatal(err)
+}
+
+var data []Car
+if err := cur.All(context.Background(), &data); err != nil {
+	log.Fatal(err)
+}
+
+for _, car := range data {
+	log.Printf("the brand is %v\n", car.Brand)
+}
+#+end_src
+
+* Поиск последнего созданного документа
+#+begin_src go
+var opts = options.FindOne().SetSort(bson.M{
+    "createdAt": -1,
+})
+res := db.Collection("cars").FindOne(context.Background(), bson.M{}, opts)
+if res.Err() != nil {
+    log.Fatal(err)
+}
+#+end_src
+
+* Условия выборки
+#+begin_src go
+var opts = options.Find().SetProjection(
+		bson.M{
+			"brand": 1,
+			"isNew": bson.M{
+				"$cond": bson.M{
+					"if": bson.M{"$gte": bson.A{"$year", 2022}},
+					"then": true,
+					"else": false},
+			},
+		})
+cur, err := db.Collection("cars").Find(context.Background(), bson.M{}, opts)
+#+end_src
+
+* Обновление документа
+#+begin_src go
+filter := bson.M{
+	"brand": "Toyota",
+	"model": "Corolla",
+}
+
+update := bson.M{
+	"year": 2022,
+}
+
+/// если нужно вернуть обновлённый документ
+opts := options.FindOneAndUpdate().SetReturnDocument(options.After)
+
+res := db.Collection("cars").FindOneAndUpdate(context.Background(), filter, update, opts)
+/// если не нужно смотреть res
+///if res.Err() != nil {
+///	log.Fatal(err)
+/// }
+
+var updatedData Car
+if err := res.Decode(&updatedData); err != nil {
+	log.Fatal(err)
+}
+#+end_src
+
+* Удаление документа
+#+begin_src go
+	filter := bson.M{
+		"brand": "Toyota",
+		"model": "Corolla",
+	}
+
+	/// чтобы удалить один нужно использовать DeleteOne
+	res, err := db.Collection("cars").DeleteMany(context.Background(), filter)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// 1 document is deleted.
+	log.Printf("%v document is deleted", res.DeletedCount)
+#+end_src
