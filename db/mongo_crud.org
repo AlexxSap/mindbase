@@ -258,3 +258,70 @@ db.blog.updateOne(
 }
 )
 #+end_src
+
+* Чтение документов
+#+begin_src js
+db.c.find()
+#+end_src
+вернёт все документы коллекции =c=
+
+Нельзя в критерии ссылаться на значение другого документа (критерий должен быть константой)
+
+=Формат операции=
+=коллекция=.find(=критерий_запроса=, =поля_выдачи=)
+, где:
+- коллекция - коллекция в которой ищем
+- критерий_запроса - документ, определяющий условие поиска
+- поля_выдачи - поля, которые должны быть возврщены в документе-результате
+
+#+begin_src js
+> db.users.find(
+    {"username" : "joe", "age" : 27},
+    {"some_field" : 1, "_id" : 0})
+#+end_src
+выдаст документ с полем =some_field=, без поля =_id= (по умолчанию он возвращается всегда) у которого такие =username= и =age=
+
+=Критерии запроса=
+- Условия $lt, $lte, $gt, $gte, $ne
+#+begin_src js
+> db.users.find({"age": {"$gte": 18, "$lte": 30}})
+#+end_src
+- Вхождение $in, $nin
+#+begin_src js
+> db.raffle.find({"ticket_no": {"$in": [725, 542, 390]}})
+#+end_src
+- Или $or
+#+begin_src js
+> db.raffle.find({"$or": [{"ticket_no": 725}, {"winner": true}]})
+> db.raffle.find({"$or" : [{"ticket_no" : {"$in" : [725, 542, 390]}}, {"winner" : true}]})
+#+end_src
+- Остаток от деления $mod
+#+begin_src js
+> db.users.find({"id_num": {"$mod": [5, 1]}})
+#+end_src
+- Отрицание $not
+#+begin_src js
+> db.users.find({"id_num": {"$not": {"$mod": [5, 1]}}})
+#+end_src
+- Существование $exists
+#+begin_src js
+> db.c.find({"z" : {"$eq" : null, "$exists" : true}})
+#+end_src
+- Регулярное выражение $regex
+#+begin_src js
+> db.users.find( {"name" : {"$regex" : /joe/i}})
+#+end_src
+- Сопоставление массивов по нескольким элементам $all
+#+begin_src js
+> db.food.find({fruit : {$all : ["apple", "banana"]}})
+#+end_src
+- Размер массива $size
+#+begin_src js
+> db.food.find({"fruit" : {"$size": 3}})
+#+end_src
+- Возврат подмножества элементов $slice
+#+begin_src js
+> db.blog.posts.findOne(criteria, {"comments" : {"$slice" : 10}}) // первые 10
+> db.blog.posts.findOne(criteria, {"comments" : {"$slice" : -10}})// последние 10
+> db.blog.posts.findOne(criteria, {"comments" : {"$slice" : [23, 10]}}) // 10 штук начиная с 24
+#+end_src
