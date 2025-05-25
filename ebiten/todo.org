@@ -12,3 +12,18 @@ https://nuancesprog.ru/p/23395/
 
 RPG in Go
 https://vkvideo.ru/playlist/-228916121_1
+
+Go gamedev: низкоуровневое API рисования в Ebitengine
+https://habr.com/ru/articles/825450/
+
+Делаем RPG на Go: часть 0
+https://habr.com/ru/articles/791192/
+
+Делаем RPG на Go: часть 0.5
+https://habr.com/ru/articles/799497/
+
+Разработка игр на Go: шейдеры
+https://habr.com/ru/articles/730848/
+
+Go ebiten: разбираемся с рендерингом и позиционированием текста
+https://habr.com/ru/articles/671556/
