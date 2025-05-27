@@ -71,3 +71,39 @@ uv cache dir: Show the uv cache directory path.
 uv tool dir: Show the uv tool directory path.
 uv python dir: Show the uv installed Python versions path.
 uv self update: Update uv to the latest version.
+
+* Проект
+чтобы установить версию для каталога
+#+begin_src
+uv python pin 3.14
+#+end_src
+
+запуск кода
+#+begin_src
+uv run main.py
+#+end_src
+
+инициализация проекта
+#+begin_src
+uv init
+#+end_src
+
+добавить зависимости в проект
+#+begin_src
+uv add requests
+#+end_src
+
+запуск скрипта с консоли
+#+begin_src
+echo 'print("hello world!")' | uv run -
+#+end_src
+
+запуск скрипта с зависимостями
+#+begin_src
+uv run --with dep_name example.py
+#+end_src
+
+можно указать конкретную версию питонадля запуска
+#+begin_src
+uv run example.py --python 3.12
+#+end_src
