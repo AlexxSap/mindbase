@@ -1,0 +1,46 @@
+#+title: Однострочники
+
+#+begin_src python
+# Создание списка чисел от 1 до N
+numbers = list(range(1, 11))
+
+# Фильтрация элементов списка с помощью лямбда-функции
+filtered = list(filter(lambda x: x % 2 == 0, range(1, 11)))
+# или
+[x for x in range(10)] if x % 2 == 0]
+
+# Генерация случайного числа в заданном диапазоне
+import random; random_number = random.randint(1, 100)
+
+# Разворот строки
+reversed_string = "hello"[::-1]
+
+# преобразовать список в стоку
+''.join(lst)
+
+# Проверка, является ли строка палиндромом
+is_palindrome = lambda s: s == s[::-1]; print(is_palindrome("radar"))
+
+# Подсчет количества уникальных элементов в списке
+unique_count = len(set([1, 2, 2, 3, 4, 4]))
+
+# Чтение файла в одну строку
+content = open("file.txt").read()
+
+# Создание словаря из двух списков
+dictionary = dict(zip(['a', 'b', 'c'], [1, 2, 3]))
+
+# объединить 2 словаря
+{**d1, **d2}
+
+# Вычисление факториала числа
+factorial = lambda n: 1 if n == 0 else n * factorial(n - 1); print(factorial(5))
+# или
+math.prod(range(1, n+1))
+
+# Поиск максимального значения в словаре
+max_value = max({'a': 10, 'b': 20, 'c': 15}.values())
+
+# Однострочник для HTTP-запроса - Отправляет GET-запрос и получает текст ответа
+import requests; response = requests.get("https://example.com ").text
+#+end_src
