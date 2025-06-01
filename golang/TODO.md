@@ -426,6 +426,9 @@ https://dev.to/souvikinator/pipeline-concurrency-pattern-in-go-a-comprehensive-v
 errors
 https://adrianlarion.com/golang-error-handling-demystified-errors-is-errors-as-errors-unwrap-custom-errors-and-more/
 
+Архитектурный паттерн для централизованной обработки ошибок в хендлерах на Go
+https://habr.com/ru/articles/914112/
+
 Фаззинг-тестирование в Go, gofuzz и go-fuzz
 https://b.sattellite.me/2022/01/2022-01-golang-fuzzing/
 https://github.com/google/gofuzz
