@@ -305,6 +305,9 @@ https://eli.thegreenplace.net/2021/rest-servers-in-go-part-1-standard-library/
 6+ главных алгоритмов балансировки нагрузки
 https://proglib.io/sh/xcSABgw3QE
 
+Пишем балансировщик нагрузки на Golang
+https://nuancesprog.ru/p/27839/
+
 # Прочее
 
 Modern Web Development with Go
@@ -496,3 +499,6 @@ https://habr.com/ru/companies/oleg-bunin/articles/791420/
 
 Go-микросервисы: Стандартизация архитектуры с Clean Architecture и DDD
 https://habr.com/ru/articles/911018/
+
+Синхронизация данных в реальном времени между MongoDB и Elasticsearch на Golang
+https://nuancesprog.ru/p/28870/
