@@ -37,11 +37,6 @@ https://blog.iddqd.uk/interview-section-network
 Структуры данных
 https://habr.com/ru/articles/456194/
 
-#### [Golang Best Practices](https://golang.withcodeexample.com/series/golang-best-practices "Golang Best Practices")
-
-Introduction to Golang Best Practices
-https://golang.withcodeexample.com/blog/introduction-to-golang-best-practices/
-
 Классный блог 
 https://antonz.org/all/
 
@@ -173,6 +168,9 @@ https://habr.com/ru/companies/otus/articles/828672/
 https://habr.com/ru/companies/ozontech/articles/817309/?utm_campaign=817309
 
 # Микро
+
+Леонид Ченский — Пишем микросервисы на Go как в BigTech, с нуля
+https://www.youtube.com/live/xx6tFa8O09A
 
 Паттерн Outbox - теория и практика | Архитектура Микросервисов
 https://www.youtube.com/watch?v=OnVoIAAJeOk
