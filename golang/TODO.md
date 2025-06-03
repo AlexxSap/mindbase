@@ -47,6 +47,9 @@ https://antonz.org/all/
 
 # gRPC
 
+Василий Близнецов — Современные решения для работы с Protocol Buffers
+https://www.youtube.com/live/5vOMbrs9X1w
+
 From net/rpc to gRPC in Go Applications
 https://victoriametrics.com/blog/go-net-rpc/index.html
 
