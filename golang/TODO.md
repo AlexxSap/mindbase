@@ -309,6 +309,10 @@ https://proglib.io/sh/xcSABgw3QE
 Пишем балансировщик нагрузки на Golang
 https://nuancesprog.ru/p/27839/
 
+# AI
+Why I’m excited about Go for agents
+https://docs.hatchet.run/blog/go-agents
+
 # Прочее
 
 Modern Web Development with Go
