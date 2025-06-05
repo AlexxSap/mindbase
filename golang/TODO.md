@@ -261,9 +261,6 @@ https://habr.com/ru/companies/otus/articles/830096/
 Routing Enhancements for Go 1.22
 https://go.dev/blog/routing-enhancements
 
-Building Real-Time Applications With Go and WebSockets
-https://golangprojectstructure.com/build-real-time-applications-with-go-and-websockets/
-
 TCP based file transfer in go
 https://vsik.hashnode.dev/tcp-based-file-transfer-in-go
 
@@ -308,10 +305,6 @@ https://proglib.io/sh/xcSABgw3QE
 
 Пишем балансировщик нагрузки на Golang
 https://nuancesprog.ru/p/27839/
-
-# AI
-Why I’m excited about Go for agents
-https://docs.hatchet.run/blog/go-agents
 
 # Прочее
 
