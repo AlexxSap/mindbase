@@ -1,0 +1,59 @@
+#+title: Докер Образ Для Прода
+
+https://habr.com/ru/articles/917226/
+
+1. Выбрать базовый образ
+   ногие берут базовый образ, не задумываясь. Например, python:3.12. Это "толстый" образ с кучей ненужных пакетов. Он может весить 1+ ГБ.
+
+2. Не используй latest
+   latest — это ловушка. Сегодня образ один, завтра он обновится, и всё сломается. Причём сломается неожиданно — у тебя в проде или в CI.
+
+3. .dockerignore — must-have
+   Без .dockerignore ты случайно кладёшь в образ лишнее. Это увеличивает размер, сбивает кеш, и вообще плохо.
+
+4. Volume: будь осторожен
+   Проблема: когда ты монтируешь volume, он затирает всё внутри контейнера.
+#+begin_src
+docker run -v $(pwd):/app myapp
+#+end_src
+
+   В результате:
+   - Всё, что ты собрал — перезаписано.
+   - Права доступа могут сломать работу.
+
+   Что делать -Используй именованные volume:
+#+begin_src
+docker volume create mydata
+docker run -v mydata:/data myapp
+#+end_src
+
+5. CMD и ENTRYPOINT
+   Нюанс: CMD подменяется, ENTRYPOINT — остаётся.
+#+begin_src
+CMD ["python", "app.py"] 
+#+end_src
+    Ты запустил:
+    docker run myapp bash
+    А получил: python app.py bash
+    Правильно так:
+#+begin_src
+ENTRYPOINT ["python", "app.py"]
+CMD ["--debug"]
+#+end_src
+
+6. USER: не запускай всё от root
+   По умолчанию Docker запускается от root. Это опасно. Особенно если есть volume или доступ к сокету.
+   Добавь:
+#+begin_src
+RUN useradd -m myuser
+USER myuser
+#+end_src
+
+7. Уменьшение размера образа
+   Каждый MB важен, особенно в CI/CD. Что можно сделать:
+   - Убирать временные пакеты после использования.
+#+begin_src
+RUN apt-get install -y gcc && pip install some-lib && apt-get remove -y gcc
+#+end_src
+   - Использовать --no-cache и чистить /tmp.
+   - Применять slim, а не full-образы.
