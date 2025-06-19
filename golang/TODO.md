@@ -320,6 +320,9 @@ https://habr.com/ru/articles/852556/
 Конкурентность в Go: пять примеров
 https://habr.com/ru/companies/ru_mts/articles/680324/
 
+7 шаблонов конкурентности в Go, которые вам стоит знать
+https://habr.com/ru/articles/919754/
+
 Как писать качественные unit-тесты: процент покрытия, мутанты и работа с моками
 https://habr.com/ru/articles/854546/
 
