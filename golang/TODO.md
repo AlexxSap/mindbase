@@ -40,6 +40,9 @@ https://habr.com/ru/articles/456194/
 Классный блог 
 https://antonz.org/all/
 
+Самоучитель
+https://proglib.io/p/samouchitel-po-go-dlya-nachinayushchih-chast-1-osobennosti-i-sfera-primeneniya-go-ustanovka-nastroyka-2023-11-23
+
 # gRPC
 
 Василий Близнецов — Современные решения для работы с Protocol Buffers
@@ -345,6 +348,7 @@ https://bitfieldconsulting.com/posts/generics
 
 итераторы
 https://bitfieldconsulting.com/golang/iterators
+https://www.youtube.com/watch?v=jmU7h2pbHV0
 
 Sending Bulk Emails with Golang using SMTP: A Step-by-Step Guide
 https://blog.aswinbenny.in/sending-bulk-emails-with-golang-using-smtp-a-step-by-step-guide
