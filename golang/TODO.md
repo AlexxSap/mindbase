@@ -311,6 +311,15 @@ https://nuancesprog.ru/p/27839/
 
 # Прочее
 
+The Evolution of Caching Libraries in Go
+https://maypok86.github.io/otter/blog/cache-evolution/
+
+Cascading context cancellation in Go: from source code to production patterns
+https://dev.to/flew1x/cascading-context-cancellation-in-go-from-source-code-to-production-patterns-177j
+
+How to manage configuration settings in Go web applications
+https://www.alexedwards.net/blog/how-to-manage-configuration-settings-in-go-web-applications
+
 Modern Web Development with Go
 https://engineering.turistikrota.com/modern-web-development-with-go-a-lightweight-alternative-to-react-ssr-cccce8631773?gi=45acda2fd789
 
@@ -479,6 +488,9 @@ https://nuancesprog.ru/p/25597/
 OpenTelemetry: A Guide to Observability with Go
 https://www.lucavall.in/blog/opentelemetry-a-guide-to-observability-with-go
 
+OpenTelemetry for Go: measuring the overhead
+https://coroot.com/blog/opentelemetry-for-go-measuring-the-overhead/
+
 synctest
 https://go.dev/blog/synctest
 
@@ -507,3 +519,10 @@ https://habr.com/ru/articles/911018/
 
 Синхронизация данных в реальном времени между MongoDB и Elasticsearch на Golang
 https://nuancesprog.ru/p/28870/
+
+# Безопасность
+Unexpected security footguns in Go's parsers
+https://blog.trailofbits.com/2025/06/17/unexpected-security-footguns-in-gos-parsers/
+
+Google OAuth2 Login in Go: A Minimal and Complete Guide
+https://medium.com/@aynacialiriza/google-oauth2-login-in-go-a-minimal-and-complete-guide-0e9af75908de

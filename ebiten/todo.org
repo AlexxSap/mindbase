@@ -27,3 +27,6 @@ https://habr.com/ru/articles/730848/
 
 Go ebiten: разбираемся с рендерингом и позиционированием текста
 https://habr.com/ru/articles/671556/
+
+Invaders - Creating a Space Invaders remake game with Ebitengine
+https://www.idiotcoder.com/invaders
