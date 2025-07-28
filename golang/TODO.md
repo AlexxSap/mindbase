@@ -91,6 +91,10 @@ https://www.youtube.com/watch?v=z-mHhobE0Pw
 https://www.youtube.com/watch?v=osIX2lO1rzM
 
 # CLI
+
+Writing Idiomatic Go CLIs
+https://www.bytesizego.com/blog/idiomatic-go-cli
+
 Tips for building Bubble Tea programs
 https://leg100.github.io/en/posts/building-bubbletea-programs/
 
@@ -310,6 +314,9 @@ https://proglib.io/sh/xcSABgw3QE
 https://nuancesprog.ru/p/27839/
 
 # Прочее
+
+Graceful Goroutine Shutdowns in Go: A Practical Guide
+https://dev.to/jones_charles_ad50858dbc0/graceful-goroutine-shutdowns-in-go-a-practical-guide-2b9a
 
 The Evolution of Caching Libraries in Go
 https://maypok86.github.io/otter/blog/cache-evolution/
