@@ -372,6 +372,9 @@ https://blog.aswinbenny.in/sending-bulk-emails-with-golang-using-smtp-a-step-by-
 Add context to errors
 https://dev.to/szymongib/add-context-to-errors-37ab
 
+Барьеры памяти «Golang»
+https://habr.com/ru/articles/930864/
+
 Upgradable Read Write Lock for Go
 https://upstash.com/blog/upgradable-rwlock-for-go
 
