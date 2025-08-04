@@ -1,0 +1,297 @@
+#+title: 1.25
+
+* Синтетическое время в тестах
+Пакет =synctest= пригодится в тестах, где используются =time.Sleep=, =time.After=, =time.Timer= и другие «ждуны».
+Он предоставляет искусственные часы, которые автоматически идут вперед всякий раз, когда тестируемая горутина заблокирована.
+
+Например, чтобы протестировать такую функцию:
+#+begin_src go
+func Slowpoke() int {
+  start := time.Now()
+  time.Sleep(30 * time.Second)
+  fmt.Println("Finished after", time.Since(start))
+  return 42
+}
+#+end_src
+
+Не нужно ждать 30 секунд. Заворачиваем в =synctest.Test()=:
+#+begin_src go
+func TestSlowpoke(t *testing.T) {
+  synctest.Test(t, func(t *testing.T) {
+    res := Slowpoke()
+    if res != 42 {
+      t.Fatalf("expected 42, got %d", res)
+    }
+  })
+}
+#+end_src
+И тест проходит моментально:
+#+begin_src go
+=== RUN   TestSlowpoke
+Finished after 30s
+--- PASS: TestSlowpoke (0.00s)
+#+end_src
+
+* JSON v2
+
+Изменений вагон, и многие обратно-несовместимые. Здесь приведу только краткий список, а за подробностями приглашаю в отдельную статью (https://antonz.org/go-json-v2/) — там на каждое изменение есть пример.
+
+Итак:
+- Базовые функции =Marshal/Unmarshal= остались, но теперь в них можно передавать опции, которые управляют логикой кодирования значений в JSON. Например, пустой срез — это null или []. Опций много, несколько десятков. Их можно комбинировать.
+  - =FormatNilMapAsNull= и =FormatNilSliceAsNull= определяет как кодировать nil maps и slices
+  - =MatchCaseInsensitiveNames= делает кодирование регистронезависимым
+  - =Multiline= раскладывает объект на несколько строк
+  - =OmitZeroStructFields= пропыскает (не пишет) пустые поля в вывод
+  - =SpaceAfterColon= и =SpaceAfterComma= добавляет пробел после каждого : или ,
+  - =StringifyNumbers= представляет числа как строки.
+  - =WithIndent= и =WithIndentPrefix= добавляет отсуп во вложенных объектах.
+
+    Комбинация опций:
+#+begin_src go
+alice := Person{Name: "Alice", Age: 25}
+opts := json.JoinOptions(
+    jsontext.SpaceAfterColon(true),
+    jsontext.SpaceAfterComma(true),
+)
+b, _ := json.Marshal(alice, opts)
+fmt.Println(string(b))
+#+end_src
+
+- Добавились функции =MarshalWrite/UnmarshalRead=, они работают с =io.Writer= вместо среза байт.
+#+begin_src go
+// Marshal Alice.
+alice := Person{Name: "Alice", Age: 25}
+out := new(strings.Builder)
+json.MarshalWrite(out, alice)
+fmt.Println(out.String())
+
+// Unmarshal Bob.
+in := strings.NewReader(`{"Name":"Bob","Age":30}`)
+var bob Person
+json.UnmarshalRead(in, &bob)
+fmt.Println(bob)
+#+end_src
+
+- Добавились функции =MarshalEncode/UnmarshalDecode=, они работают с =Encoder/Decoder= вместо среза байт. Итого, у нас теперь три пары функций маршалинга-анмаршалинга.
+- Типы =Encoder= и =Decoder= переехали в отдельный пакет =jsontext=, их интерфейсы сильно изменились.
+- Добавились новые теги. Например, =format:template= задает формат выходного значения, а =inline= делает «плоский» объект вместо иерархичного.
+- Появилась возможность создавать маршалеры и анмаршалеры «на лету» и передавать их в функции маршалинга/анмаршалинга.
+  С помощью функций
+#+begin_src go
+func MarshalFunc[T any](fn func(T) ([]byte, error)) *Marshalers
+func UnmarshalFunc[T any](fn func([]byte, T) error) *Unmarshalers
+#+end_src
+
+#+begin_src go
+boolMarshaler := json.MarshalFunc(
+    func(val bool) ([]byte, error) {
+        if val {
+            return []byte(`"✓"`), nil
+        }
+        return []byte(`"✗"`), nil
+    },
+)
+
+// Pass the custom marshaler to Marshal
+// using the WithMarshalers option.
+val := true
+data, err := json.Marshal(val, json.WithMarshalers(boolMarshaler))
+fmt.Println(string(data), err)
+
+// Custom unmarshaler for bool values.
+boolUnmarshaler := json.UnmarshalFunc(
+    func(data []byte, val *bool) error {
+        *val = string(data) == `"✓"`
+        return nil
+    },
+)
+
+// Pass the custom unmarshaler to Unmarshal
+// using the WithUnmarshalers option.
+src := []byte(`"✓"`)
+var val bool
+err := json.Unmarshal(src, &val, json.WithUnmarshalers(boolUnmarshaler))
+fmt.Println(val, err)
+#+end_src
+
+- Заметно изменились умолчательные правила маршалинга и анмаршалинга. Старые правила можно вернуть через опции.
+- Производительность маршалинга не изменилась, а анмаршалинг ускорился в 3-10 раз.
+- Тэги
+  - старые тэги сохраняются: =omitzero= и =omitempty= пропускают пустое поле, =string= представляет число как строку, =-= игнорирует поле
+  - =case:ignore= или =case:strict= определяет регистрозавсимость
+  - =format:template= форматирует поле по шаблону
+  - =inline= встраивает объект-поле, в родительский объект
+  - =unknown= собирает все неизвестные поля
+- Отличия
+  - v1 кодировал nil slice как null, v2 - как []. Это можно поменять опцией FormatNilSliceAsNull
+  - v1 кодировал nil map как null, v2 - как {}. Это можно поменять опцией FormatNilMapAsNull.
+  - v1 кодировал byte array как массив чисел, v2 - как base64-encoded string. Это можно поменять опцией format:array и тэгом  format:base64
+  - v1 разрешал невалидные UTF-8 символы в строке, v2 - нет. Это можно поменять опцией AllowInvalidUTF8
+  - v1 декодер был не чувствителен к регистру, v2 чувствтелен. Это можно поменять опцией MatchCaseInsensitiveNames или тэгом case
+  - v1 декодер разрешал дублированные поля, v2 - нет. Это можно изменить опцией AllowDuplicateNames
+
+* GOMAXPROCS для контейнеров
+Параметр рантайма =GOMAXPROCS= определяет максимальное количество потоков операционной системы, которые планировщик Go может использовать для одновременного выполнения горутин.
+Начиная с Go 1.5, по умолчанию он равен значению =runtime.NumCPU=, то есть количеству логических CPU на машине.
+Программы на Go часто запускаются в контейнерах под управлением =Docker= или =Kubernetes=. В этих системах можно ограничить использование процессора для контейнера с помощью функции Linux, которая называется =cgroups=.
+До версии 1.25 рантайм Go не учитывал ограничение по CPU (CPU-квоту) при установке значения =GOMAXPROCS=. Как бы вы ни ограничивали ресурсы процессора, =GOMAXPROCS= всегда устанавливался равным количеству CPU на хосте.
+А теперь начал учитывать
+Если лимит CPU изменяется, рантайм автоматически обновляет значение =GOMAXPROCS=. Сейчас это происходит не чаще одного раза в секунду.
+
+* Новый сборщик мусора
+Алгоритм сборки мусора под кодовым названием =Green Tea= хорошо подходит для программ, которые создают много маленьких объектов и работают на современных машинах с большим количеством ядер.
+Старый сборщик мусора сканирует память не по порядку, а скачет туда-сюда. Из-за этого все работает неоптимально, потому что много времени уходит на доступ к памяти. Проблема усугубляется на многоядерных системах с неоднородным доступом к памяти (так называемая NUMA-архитектура, когда у каждого процессора или группы процессоров есть своя «локальная» память).
+=Green Tea= работает иначе. Вместо того чтобы сканировать отдельные маленькие объекты, он сканирует память большими, непрерывными блоками — спанами (spans). Каждый спан содержит много маленьких объектов одного размера. Благодаря работе с большими блоками GC может сканировать память быстрее и лучше использовать кэш процессора.
+Результаты бенчмарков разнятся, но команда Go ожидает, что в реальных программах с большим количеством GC затраты на сборку мусора снизятся на 10–40%.
+
+* Анти-CSRF
+Новый тип =http.CrossOriginProtection= (https://tip.golang.org/pkg/net/http#CrossOriginProtection) защищает от CSRF-атак (https://developer.mozilla.org/en-US/docs/Web/Security/Attacks/CSRF), отклоняя небезопасные кросс-доменные запросы из браузера.
+
+Кросс-доменные запросы определяются так:
+1. Проверкой по заголовку Sec-Fetch-Site (https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Sec-Fetch-Site).
+2. Сравнением домена в заголовке Origin с доменом в заголовке Host.
+
+Вот пример, где мы включаем =CrossOriginProtection= и явно разрешаем несколько дополнительных источников.
+
+Регистрируем пару обработчиков:
+#+begin_src go
+mux := http.NewServeMux()
+mux.HandleFunc("GET /get", func(...))
+mux.HandleFunc("POST /post", func(...))
+#+end_src
+
+Настраиваем защиту от CSRF-атак:
+#+begin_src go
+antiCSRF := http.NewCrossOriginProtection()
+antiCSRF.AddTrustedOrigin("https://example.com")
+antiCSRF.AddTrustedOrigin("https://*.example.com")
+#+end_src
+
+Подключаем защиту ко всем обработчикам:
+#+begin_src go
+srv := http.Server{
+  Addr:    ":8080",
+  Handler: antiCSRF.Handler(mux),
+}
+log.Fatal(srv.ListenAndServe())
+#+end_src
+
+Теперь сервер будет автоматически отклонять кросс-доменные запросы:
+#+begin_src
+curl --data "ok" -H "sec-fetch-site:cross-site" localhost:8080/post
+cross-origin request detected from Sec-Fetch-Site header
+#+end_src
+
+* WaitGroup.Go
+#+begin_src go
+var wg sync.WaitGroup
+wg.Go(func() {
+  fmt.Println("Hello, World!")
+})
+wg.Wait()
+#+end_src
+
+* Flight recorder
+
+=Flight recording= — это способ трассировки, который собирает данные о выполнении программы (например, вызовы функций и выделение памяти) со скользящим окном по времени или размеру трейса.
+Это помогает компактно записывать важные моменты в работе программы, даже если заранее неизвестно, когда они произойдут.
+Новый тип =trace.FlightRecorder= (https://tip.golang.org/pkg/runtime/trace#FlightRecorder) реализует этот подход в Go.
+
+Сначала настраиваем скользящее окно:
+#+begin_src go
+// Сохранять как минимум 5 последних секунд
+// трассировки, с размером буфера не более 3 МБ.
+cfg := trace.FlightRecorderConfig{
+    MinAge:   5 * time.Second,
+    MaxBytes: 3 << 20, // 3MB
+}
+#+end_src
+
+Затем создаем трассировщик и запускаем его:
+#+begin_src go
+rec := trace.NewFlightRecorder(cfg)
+rec.Start()
+defer rec.Stop()
+#+end_src
+
+Пишем код приложения как обычно, а когда что-то происходит — сохраняем трассировку в файл:
+#+begin_src go
+file, _ := os.Create("/tmp/trace.out")
+defer file.Close()
+n, _ := rec.WriteTo(file)
+#+end_src
+
+И смотрим трассировку в браузере командой go tool.
+
+* Больше Root-методов
+
+Тип =os.Root= (https://tip.golang.org/pkg/os#Root) ограничивает работу с файловой системой конкретным каталогом. Теперь он поддерживает несколько новых методов, аналогичных функциям пакета os:
+— Chmod меняет права доступа к файлу.
+— Chown меняет идентификатор пользователя (uid) и группы (gid) файла.
+— Chtimes меняет время последнего доступа и изменения файла.
+— Link создает жесткую ссылку на файл.
+— MkdirAll создает новый каталог и все родительские каталоги.
+— ReadFile читает файл и возвращает его содержимое.
+— Readlink возвращает путь, на который указывает символическая ссылка.
+— RemoveAll удаляет файл или каталог со всем содержимым.
+— Rename переименовывает (перемещает) файл или каталог.
+— Symlink создает символическую ссылку на файл.
+— WriteFile записывает данные в файл.
+
+Пример:
+#+begin_src go
+root, _ := os.OpenRoot("data")
+root.Chmod("01.txt", 0600)
+
+finfo, _ := root.Stat("01.txt")
+fmt.Println(finfo.Mode().Perm())
+
+// output: -rw-------
+#+end_src
+Теперь, когда os.Root содержит все основные операции, вам вряд ли понадобятся файловые функции пакета os. Это делает работу с файлами намного безопаснее.
+
+* Атрибуты и вывод тестов
+
+Тесты — сильная сторона Go. В 1.25 они станут еще чуточку лучше.
+Новый метод =T.Attr= (https://tip.golang.org/pkg/testing#T.Attr) добавляет дополнительную информацию к тесту. Например, ссылку на задачу, описание тест-кейса или что-то еще, что поможет анализировать результаты тестов:
+#+begin_src go
+func TestAttrs(t *testing.T) {
+  t.Attr("issue", "demo-1234")
+  t.Attr("description", "Testing for the impossible")
+
+  if 21*2 != 42 {
+    t.Fatal("What in the world happened to math?")
+  }
+}
+/// output:
+=== RUN   TestAttrs
+=== ATTR  TestAttrs issue demo-1234
+=== ATTR  TestAttrs description Testing for the impossible
+--- PASS: TestAttrs (0.00s)
+#+end_src
+
+А метод =T.Output= (https://tip.golang.org/pkg/testing#T.Output) предоставляет доступ к потоку вывода (io.Writer), который использует тест. Удобно, если вы хотите отправлять логи приложения прямо в лог теста — так их проще читать или автоматически анализировать.
+
+* Группировка атрибутов в логах
+При структурном логировании связанные атрибуты часто объединяют под одним ключом:
+#+begin_src go
+logger.Info("deposit",
+    slog.Bool("ok", true),
+    slog.Group("amount",
+        slog.Int("value", 1000),
+        slog.String("currency", "USD"),
+    ),
+)
+#+end_src
+
+Новая функция =slog.GroupAttrs= создавёт группу из переданных =slog.Attr=:
+#+begin_src go
+attrs := []slog.Attr{
+    slog.Int("value", 1000),
+    slog.String("currency", "USD"),
+}
+logger.Info("deposit",
+    slog.Bool("ok", true),
+    slog.GroupAttrs("amount", attrs...),
+)
+#+end_src
