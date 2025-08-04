@@ -1,0 +1,128 @@
+#+title: 1.24
+
+* Случайный текст
+Небольшое, но весьма приятное дополнение стандартной библиотеки.
+Появилась функция crypto/rand.Text (https://tip.golang.org/pkg/crypto/rand#Text), которая возвращает криптографически случайную строку:
+#+begin_src go
+text := rand.Text()
+fmt.Println(text)
+// 4PJOOV7PVL3HTPQCD5Z3IYS5TC
+#+end_src
+Результат содержит как минимум 128 случайных бит. Этого достаточно для защиты от атак перебором, а вероятность коллизий крайне мала. Так что функция отлично подходит для генерации секретных ключей, паролей, и тому подобного добра.
+
+* пропуск нулевых значений в JSON
+Новая опция =omitzero= инструктирует JSON-маршалер пропускать нулевые значения.
+Вообще у нас уже был для этого =omitempty=, но =omitzero= вроде как поудобнее будет.
+Например, он пропускает нулевые значения =time.Time=, чего =omitempty= делать не умеет.
+
+Вот omitempty:
+#+begin_src go
+type Person struct {
+  Name      string    `json:"name"`
+  BirthDate time.Time `json:"birth_date,omitempty"`
+}
+
+alice := Person{Name: "Alice"}
+b, err := json.Marshal(alice)
+fmt.Println(string(b))
+
+{"name":"Alice","birth_date":"0001-01-01T00:00:00Z"}
+#+end_src
+
+А вот =omitzero=:
+#+begin_src go
+type Person struct {
+  Name      string    `json:"name"`
+  BirthDate time.Time `json:"birth_date,omitzero"`
+}
+
+alice := Person{Name: "Alice"}
+b, err := json.Marshal(alice)
+fmt.Println(string(b))
+
+{"name":"Alice"}
+#+end_src
+
+Если у типа есть метод =IsZero() bool= — именно он используется при маршалинге, чтобы определить, нулевое значение или нет.
+Если метода нет, используется стандартное понятие нулевого значения (https://go.dev/ref/spec#The_zero_value) (0 для целого, "" для строки, и так далее).
+
+* Больше итераторов
+Вот притащили еще горстку в пакете strings (https://tip.golang.org/pkg/strings).
+
+=Lines= итерирует по строкам, разделенным \n:
+#+begin_src go
+s := "one\ntwo\nsix"
+for line := range strings.Lines(s) {
+  fmt.Print(line)
+}
+
+// one
+// two
+// six
+#+end_src
+
+=SplitSeq= итерирует по частям, разделенным произвольным разделителем:
+#+begin_src go
+s := "one-two-six"
+for part := range strings.SplitSeq(s, "-") {
+  fmt.Println(part)
+}
+// one
+// two
+// six
+#+end_src
+
+=SplitAfterSeq= как =SplitSeq=, но делит после разделителя:
+#+begin_src go
+s := "one-two-six"
+for part := range strings.SplitAfterSeq(s, "-") {
+  fmt.Println(part)
+}
+// one-
+// two-
+// six
+#+end_src
+
+=FieldsSeq= итерирует по частям, разделенным пробельными символами (unicode.IsSpace) и их последовательностями:
+#+begin_src go
+s := "one two\nsix"
+for part := range strings.FieldsSeq(s) {
+  fmt.Println(part)
+}
+// one
+// two
+// six
+#+end_src
+
+=FieldsFuncSeq= как =FieldsSeq=, но логику «пробельных» символов определяете вы сами:
+#+begin_src go
+f := func(c rune) bool {
+  return !unicode.IsLetter(c) && !unicode.IsNumber(c)
+}
+
+s := "one,two;six..."
+for part := range strings.FieldsFuncSeq(s, f) {
+  fmt.Println(part)
+}
+
+// one
+// two
+// six
+#+end_src
+
+Ровно такие же итераторы добавили в пакет bytes (https://tip.golang.org/pkg/bytes).
+
+* Заглушить логи
+Мы уже как-то обсуждали (https://t.me/thank_go/158) несложный способ создать бесшумный логгер (например, для тестов) — использовать =slog.TextHandler= в связке с =io.Discard=:
+#+begin_src go
+log := slog.New(
+  slog.NewTextHandler(io.Discard, nil),
+)
+log.Info("Prints nothing")
+#+end_src
+
+А в Go 1.24 появился еще более простой способ — через =slog.DiscardHandler= (https://tip.golang.org/pkg/log/slog#DiscardHandler):
+#+begin_src go
+log := slog.New(slog.DiscardHandler)
+log.Info("Prints nothing")
+#+end_src
