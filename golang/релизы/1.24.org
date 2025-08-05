@@ -126,3 +126,247 @@ log.Info("Prints nothing")
 log := slog.New(slog.DiscardHandler)
 log.Info("Prints nothing")
 #+end_src
+
+* Контекст для тестов
+В Go 1.24 добавили метод T.Context (https://tip.golang.org/pkg/testing#T.Context). Он возвращает контекст, который автоматически отменяется перед тем, как тест завершится:
+#+begin_src go
+func Test(t *testing.T) {
+  srv := startServer(t.Context())
+  if srv.Get("how much?") != 42 {
+    t.Fatal("unexpected value")
+  }
+}
+#+end_src
+
+* B.Loop
+Вы наверняка знакомы с циклом в бенчмарках (for range b.N):
+#+begin_src go
+var sink int
+
+func BenchmarkSlicesMax(b *testing.B) {
+  // Setup the benchmark.
+  s := randomSlice(10_000)
+  b.ResetTimer()
+
+  // Run the benchmark.
+  for range b.N {
+    sink = slices.Max(s)
+  }
+}
+#+end_src
+
+Go сам управляет бенчмарком, определяет разумное значение b.N, и пишет результаты. Это удобно.
+Но есть и нюансы:
+— Функция бенчмарка выполняется несколько раз, поэтому сетап тоже выполняется несколько раз (и ничего с этим не поделаешь).
+— Чтобы сетап не повлиял на результат, приходится вызывать b.ResetTimer().
+— Чтобы компилятор не заоптимизировал тестируемый код, приходится использовать sink.
+
+Go 1.24 предлагает кое-что получше — =testing.B.Loop= (https://tip.golang.org/pkg/testing#B.Loop):
+#+begin_src go
+func BenchmarkSlicesMax(b *testing.B) {
+  // Setup the benchmark.
+  s := randomSlice(10_000)
+
+  // Run the benchmark.
+  for b.Loop() {
+    slices.Max(s)
+  }
+}
+#+end_src
+
+=b.Loop= решает все проблемы b.N:
+— Функция бенчмарка выполняется один раз, поэтому и сетап тоже выполняется только однажды.
+— Все, что находится вне b.Loop, не влияет на результат, поэтому b.ResetTimer() не нужен.
+— Компилятор никогда не оптимизирует вызовы функций внутри b.Loop.
+
+* os.Root
+Новый тип =os.Root= (https://tip.golang.org/pkg/os#Root) ограничивает операции с файловой системой определенной директорией.
+Функция =OpenRoot= открывает директорию и возвращает =Root=:
+#+begin_src go
+dir, err := os.OpenRoot("data")
+fmt.Println(dir.Name(), err)
+// data <nil>
+#+end_src
+
+Методы =Root= работают внутри директории и не позволяют использовать пути за ее пределами:
+#+begin_src go
+file, err := dir.Open("01.txt")
+fmt.Println(file.Name(), err)
+// data/01.txt <nil>
+
+file, err = dir.Open("../main.txt")
+fmt.Println(err)
+// openat ../main.txt: path escapes from parent
+#+end_src
+
+Методы =Root= поддерживают большинство операций с файловой системой, доступных в пакете os:
+#+begin_src go
+file, err := dir.Create("new.txt")
+stat, err := dir.Stat("02.txt")
+err = dir.Remove("03.txt")
+#+end_src
+
+Поработав с =Root=, не забудьте положить на место его закрыть:
+#+begin_src go
+dir, err := os.OpenRoot(path)
+defer dir.Close()
+// do stuff
+#+end_src
+
+На большинстве платформ создание =Root= открывает файловый дескриптор.
+Если директорию переместить пока =Root= открыт, методы будут корректно использовать новый каталог.
+
+* Конкурентно-безопасная карта
+Лирическое отступление. Обычная карта в Go никогда не скукоживается, только растет пока не поглотит вселенную. GC не освобождает память, занятую самой картой, даже если удалять из нее элементы. Не изменилось это и в новой «швейцарской» карте в Go 1.24.
+
+Но есть в Go еще одна карта, конкурентно-безопасная (sync.Map (https://tip.golang.org/pkg/sync#Map)). И по странному стечению обстоятельств, в Go 1.24 у нее тоже новая реализация! Теперь она основана на concurrent hash-trie (помесь хэш-таблицы и префиксного дерева) и работает быстрее, особенно при модификациях карты.
+
+Кроме того, новая sync.Map лучше освобождает память, чем предыдущая. Та тоже умела это делать, но там использовалась «поколенческая» модель, и память собиралась с запаздыванем. В новой никаких поколений нет, и память освобождается по мере удаления элементов.
+
+Исходно новую расчудесную карту сделали для пакета unique (https://t.me/thank_go/140) в Go 1.23 — там как раз нужен был конкурентно-безопасный кэш. А теперь заметили, что и для пакета sync новая реализация отлично подходит. В результате sync.Map теперь по сути фасад к HashTrieMap (https://github.com/golang/go/blob/master/src/internal/sync/hashtriemap.go).
+
+Если вы страшный ретроград, вернуться к старой sync.Map можно через переменную GOEXPERIMENT=nosynchashtriemap при сборке.
+
+* Швейцарские таблицы
+Спустя много лет команда Go решила изменить реализацию map!
+
+Теперь она основана на =SwissTable= (https://abseil.io/about/design/swisstables) и предлагает несколько оптимизаций (со слов разработчиков, лично не проверял):
+— Чтение и запись в больших картах (>1024 записей) быстрее на ~30%.
+— Запись в аллоцированных картах (с установленной емкостью) быстрее на ~35%.
+— Итерация в целом быстрее на ~10%, для карт с низкой наполненностью (большая емкость, мало записей) на ~60%.
+
+Вернуться к старой реализации можно через переменную окружения GOEXPERIMENT=noswissmap при сборке (надо сказать, что не все остались довольны (https://x.com/valyala/status/1879988053076504761) новыми картами).
+
+* Улучшенная очистка
+Есть большой блоб
+#+begin_src go
+b := newBlob(1000)
+fmt.Printf("b=%v, type=%T\n", b, b)
+
+b=Blob(1000 KB), type=*main.Blob
+#+end_src
+
+Что если мы хотим запустить некоторую функцию очистки (cleanup function), когда объект будет собран сборщиком мусора?
+Раньше для этого мы бы вызывали =runtime.SetFinalizer=, который сложно использовать. Теперь есть его улучшенная версия — =runtime.AddCleanup= (https://tip.golang.org/pkg/runtime#AddCleanup):
+#+begin_src go
+func main() {
+  b := newBlob(1000)
+  now := time.Now()
+  // Регистрируем функцию, которую рантайм
+  // вызовет после сборки памяти объекта b.
+  runtime.AddCleanup(b, cleanup, now)
+
+  time.Sleep(10 * time.Millisecond)
+  b = nil
+  runtime.GC()
+  time.Sleep(10 * time.Millisecond)
+}
+
+func cleanup(created time.Time) {
+  fmt.Printf(
+    "object is cleaned up! lifetime = %dms\n",
+    time.Since(created)/time.Millisecond,
+  )
+}
+
+// object is cleaned up! lifetime = 10ms
+#+end_src
+=AddCleanup= прикрепляет функцию очистки к объекту. Она выполняется после того как объект становится недоступен (на него больше никто не ссылается).
+Функция очистки выполняется в отдельной горутине — она последовательно обрабатывает все вызовы очистки в рамках программы. К одному и тому же указателю можно прикрепить несколько функций очистки.
+Обратите внимание, что функция очистки не обязательно выполняется сразу после того, как объект стал недоступен; она может выполниться в любое время в будущем.
+
+* Псевдонимы generic-типов
+Сначала напоминалка: псевдоним типа (type alias) в Go создает синоним для типа, не создавая новый тип.
+Когда тип определен на основе другого типа, типы отличаются:
+#+begin_src go
+type ID int
+
+var n int = 10
+var id ID = 10
+
+id = ID(n)
+fmt.Printf("id is %T\n", id)
+
+// id is main.ID
+#+end_src
+
+Когда тип объявлен как псевдоним другого типа, типы остаются одинаковыми:
+#+begin_src go
+type ID = int
+
+var n int = 10
+var id ID = 10
+
+id = n // works fine
+fmt.Printf("id is %T\n", id)
+
+// id is int
+#+end_src
+
+Go 1.24 поддерживает generic-псевдонимы типов: псевдоним типа может быть параметризован, как и определенный тип.
+Например, можно определить =Set= как generic-псевдоним для =map= с логическими значениями (не то чтобы это было сильно полезно, но):
+#+begin_src go
+type Set[T comparable] = map[T]bool
+set := Set[string]{"one": true, "two": true}
+
+fmt.Println("'one' in set:", set["one"])
+fmt.Println("'six' in set:", set["six"])
+fmt.Printf("set is %T\n", set)
+
+// 'one' in set: true
+// 'six' in set: false
+// Set is map[string]bool
+#+end_src
+
+* json вывод для build, install и test
+Команды =go build=, =go install=, и =go test= теперь принимают флаг =-json=, который преобразует вывод этих утилит в json формат.
+
+* Пропуск пустого значения в json
+Новая опция =omitzero= позволяет пропускать пустое значение при маршалинге.
+#+begin_src go
+type Person struct {
+    Name      string    `json:"name"`
+    BirthDate time.Time `json:"birth_date,omitzero"`
+}
+
+alice := Person{Name: "Alice"}
+b, err := json.Marshal(alice)
+fmt.Println(string(b), err)
+// {"name":"Alice"} <nil>
+#+end_src
+
+Если у типа определён метод =IsZero() bool=, то именно он будет определять пустое значение или нет.
+
+* tool
+[[file:../Среда и проект/tool.org]]
+
+* HTTP protocols
+Новые поля =Server.Protocols= и =Transport.Protocols= в пакете =net/http= предоставляют простой способ задать версию HTTP протокола для сервера и клиента:
+#+begin_src go
+t := http.DefaultTransport.(*http.Transport).Clone()
+
+// Use either HTTP/1 or HTTP/2.
+t.Protocols = new(http.Protocols)
+t.Protocols.SetHTTP1(true)
+t.Protocols.SetHTTP2(true)
+
+cli := &http.Client{Transport: t}
+res, err := cli.Get("http://httpbingo.org/status/200")
+if err != nil {
+    panic(err)
+}
+res.Body.Close()
+#+end_src
+
+Поддерживаемые протоколы:
+- =HTTP1= - HTTP/1.0 и HTTP/1.1. HTTP1 поддерживается и небезопасным TCP и безопасным TLS.
+- =HTTP2= - HTTP/2 протокол поверх TLS.
+- =UnencryptedHTTP2= - HTTP/2 поверх небезопасного TCP.
+
+* Weak pointers
+#+begin_src go
+func main() {
+    wb := weak.Make(newBlob(1000)) // 1000 KB
+    fmt.Println(wb.Value())
+}
+#+end_src
