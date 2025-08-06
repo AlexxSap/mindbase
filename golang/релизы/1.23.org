@@ -1,0 +1,165 @@
+#+title: 1.23
+
+* Итераторы
+- Range
+  Итератор — это функция, которая передаёт последовательные элементы функцию обратного вызова.
+  Функция останавливается либо когда последовательность заканчивается, либо когда функция обратного вызова возвращает false, указывая на необходимость досрочного прекращения итерации.
+ #+begin_src go
+for key, val := range m.Range {
+	fmt.Println(key, val)
+}
+ #+end_src
+=range= принимает такие функции:
+#+begin_src go
+func(func() bool)
+func(func(K) bool)
+func(func(K, V) bool)
+#+end_src
+
+- Типы итераторов
+Типы итераторов формально определены в новом пакете iter:
+#+begin_src go
+type (
+	Seq[V any]     func(yield func(V) bool)
+	Seq2[K, V any] func(yield func(K, V) bool)
+)
+#+end_src
+
+Имя параметра =yield= — это просто соглашение.
+=Seq= и =Seq2= можно рассматривать как =push= итераторы, передающие значения в функцию =yield=.
+
+#+begin_src go
+// Reversed returns an iterator that loops over a slice in reverse order.
+func Reversed[V any](s []V) iter.Seq[V] {
+	return func(yield func(V) bool) {
+		for i := len(s) - 1; i >= 0; i-- {
+			if !yield(s[i]) {
+				return
+			}
+		}
+	}
+}
+
+// PrintAll prints all elements in a sequence.
+func PrintAll[V any](s iter.Seq[V]) {
+	for v := range s {
+		fmt.Print(v, " ")
+	}
+	fmt.Println()
+}
+
+func main() {
+	s := []int{1, 2, 3, 4, 5}
+	PrintAll(Reversed(s))
+}
+#+end_src
+
+- pull итераторы
+  Вы можете преобразовать итератор =push= в итератор =pull= с помощью =iter.Pull=
+ #+begin_src go
+func main() {
+	s := []int{1, 2, 3, 4, 5}
+	// uses the Reversed iterator defined previously
+	next, stop := iter.Pull(Reversed(s))
+	defer stop()
+
+	for {
+		v, ok := next()
+		if !ok {
+			break
+		}
+		fmt.Print(v, " ")
+	}
+}
+ #+end_src
+
+=Pull= запускает итератор и возвращает пару функций — =next= и =stop= — которые возвращают следующее значение из итератора и останавливают его соответственно.
+Вы вызываете =next= для получения следующего значения из итератора — отсюда и название.
+Если клиенты не используют последовательность до конца, они должны вызвать =stop=, что позволит функции итератора завершить работу и вернуть результат. Как показано в примере, для этого обычно используют =defer=.
+
+- Итераторы среза
+  Пакет =slices= добавляет несколько функций, работающих с итераторами.
+  - =All= возвращает итератор по индексам и значениям среза:
+#+begin_src go
+
+s := []string{"a", "b", "c"}
+for i, v := range slices.All(s) {
+	fmt.Printf("%d:%v ", i, v)
+}
+#+end_src
+
+- =Values= возвращает итератор по элементам срез:
+- =Backward= возвращает итератор, который выполняет цикл по срезу в обратном направлении
+- =Collect= собирает значения из итератора в новый сре.
+- =AppendSeq= добавляет значения из итератора в существующий сре.
+- =Sorted= собирает значения из итератора в новый срез, а затем сортирует его
+- =SortedFunc= похож на Sorted, но с функцией сравнени:
+- =SortedStableFunc= похож на SortFunc, но использует алгоритм стабильной сортировки
+- =Chunk= возвращает итератор для последовательных подмножеств длиной до n элементов:
+#+begin_src go
+s := []int{1, 2, 3, 4, 5}
+chunked := slices.Chunk(s, 2)
+for v := range chunked {
+	fmt.Printf("%v ", v)
+}
+#+end_src
+
+- итераторы карт (map)
+  Пакет =maps= добавляет несколько функций, работающих с итераторами:
+  - =All= возвращает итератор для пар «ключ-значение» на карте
+  - =Keys= возвращает итератор для ключей на карте
+  - =Values= возвращает итератор для значений на карте
+  - =Insert= добавляет пары «ключ-значение» из итератора в существующую карту (перезаписывая существующие элементы)
+  - =Collect= собирает пары «ключ-значение» из итератора в новую карту и возвращает её
+
+* Изменения в работе таймеров
+=Timer= и =Ticker=, на которые больше не ссылается программа, сразу же становятся пригодными для сборки мусора, даже если их Stop-методы не были вызваны.
+* Уникальные значения
+Новый пакет =unique= предоставляет средства для канонизации значений.
+#+begin_src go
+var words []unique.Handle[string]
+...
+words = make([]unique.Handle[string], nWords)
+for i := range nWords {
+	words[i] = unique.Make(generate())
+}
+#+end_src
+Функция =Make= может канонизировать любое значение сопоставимого типа. Она создаёт ссылку на каноническую копию значения в виде Handle.
+Два =Handle= равны тогда и только тогда, когда равны значения, использованные для создания дескрипторов.
+Это позволяет программам дедуплицировать значения и сокращать объём используемой памяти.
+Сравнение двух =Handle= значений эффективно и сводится к простому сравнению указателей.
+Внутри =unique= поддерживается глобальный параллельный кэш всех добавленных значений, что гарантирует их уникальность и эффективное повторное использование.
+
+* HTTP-файлы cookie
+В пакете =http= внесён ряд изменений, связанных с обработкой файлов =cookie=.
+- Функция =ParseCookie= анализирует значение заголовка cookie и возвращает все установленные в нём файлы cookie
+#+begin_src go
+line := "session_id=abc123; dnt=1; lang=en; lang=de"
+cookies, err := http.ParseCookie(line)
+if err != nil {
+	panic(err)
+}
+for _, cookie := range cookies {
+	fmt.Printf("%s: %s\n", cookie.Name, cookie.Value)
+}
+#+end_src
+Поскольку одно и то же имя файла cookie может встречаться несколько раз, возвращаемые значения могут содержать несколько значений для одного ключа.
+
+- Функция =ParseSetCookie= анализирует значение заголовка Set-Cookie и возвращает cookie
+#+begin_src go
+line := "session_id=abc123; SameSite=None; Secure; Partitioned; Path=/; Domain=.example.com"
+cookie, err := http.ParseSetCookie(line)
+if err != nil {
+	panic(err)
+}
+fmt.Println("Name:", cookie.Name)
+fmt.Println("Value:", cookie.Value)
+fmt.Println("Path:", cookie.Path)
+fmt.Println("Domain:", cookie.Domain)
+fmt.Println("Secure:", cookie.Secure)
+fmt.Println("Partitioned:", cookie.Partitioned)
+#+end_src
+
+- Поле =Partitioned= идентифицирует файлы cookie с атрибутом =Partitioned= (ограничивает область действия файла cookie определенным разделом контекста просмотра, например сайтом верхнего уровня или определенным поддоменом).
+- Поле =Quoted= указывает, было ли значение изначально заключено в кавычки
+- Метод =Request.CookiesNamed= извлекает все файлы cookie с указанным именем.
