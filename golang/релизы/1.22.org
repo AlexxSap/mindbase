@@ -1,0 +1,59 @@
+#+title: 1.22
+
+* Исправление захвата переменной в цикле
+Исправлен старый баг с использованием переменной цикла в горутинах. Теперь её не нужно явно копировать.
+#+begin_src go
+values := []int{1, 2, 3, 4, 5}
+for _, val := range values {
+    go func() {
+        fmt.Printf("%d ", val)
+    }()
+}
+#+end_src
+
+* Итераторация по диапазону
+Теперь можно так
+#+begin_src go
+for i := range 10 {
+    fmt.Print(10 - i, " ")
+}
+// 10 9 8 7 6 5 4 3 2 1
+#+end_src
+
+* Новый пакет math/rand/v2
+Изменения в новом пакете:
+- нет методов =read=
+- функция N принимает любые целочисленные типы
+#+begin_src go
+var max int = 100
+n := rand.N(max)
+#+end_src
+Так же добавлены функции для конкретного типа: IntN, Int32, Int32N, Int64, Int64N.
+Так же для беззнаковых.
+
+* Улучшение http роутинга
+Теперь он проще и выразительнее
+#+begin_src go
+mux.HandleFunc("POST /items/create", func(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprint(w, "POST item created")
+})
+
+mux.HandleFunc("/items/{id}", func(w http.ResponseWriter, r *http.Request) {
+    id := r.PathValue("id")
+    fmt.Fprintf(w, "Item ID = %s", id)
+})
+
+/// ... ловит весь дальнейший путь
+mux.HandleFunc("/files/{path...}", func(w http.ResponseWriter, r *http.Request) {
+    path := r.PathValue("path")
+    fmt.Fprintf(w, "File path = %s", path)
+})
+#+end_src
+
+Шаблон, заканчивающийся на /, как всегда, соответствует всем путям, в которых он является префиксом. Чтобы соответствовать точному шаблону, включая завершающую косую черту, добавьте в конце {$}: /exact/match/{$}.
+
+* Слайсы
+Добавлены новые функции:
+- =Concat= для объединений слайсов
+- Функии, которые уменьшают размер (Delete, DeleteFunc, Compact, CompactFunc, и Replace) теперь зануляют удалённые элементы в источнике.
+- Функция =Insert= теперь вызывает панику, если индекс вне диапазона.
