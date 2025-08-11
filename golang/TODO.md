@@ -134,6 +134,9 @@ https://habr.com/ru/articles/351060/
 
 # Производительность 
 
+Барьеры памяти «Golang»
+https://habr.com/ru/articles/930864/
+
 Zero-Allocation in Go (Golang)
 https://dev.to/saleh_rahimzadeh/zero-allocation-in-go-golang-237k
 
@@ -419,6 +422,9 @@ https://rednafi.com/go/type_assertion_vs_type_switches/
 
 Структурированное логирование в Go с помощью Slog
 https://habr.com/ru/companies/slurm/articles/798207/
+
+Logging in Go with Slog: A Practitioner's Guide
+https://www.dash0.com/guides/logging-in-go-with-slog
 
 Логирование в Go: от основ до профи
 https://www.bytesizego.com/blog/guide-to-logging-in-go
