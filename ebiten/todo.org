@@ -1,4 +1,5 @@
-
+Making Games in Go for Absolute Beginners
+https://threedots.tech/post/making-games-in-go/
 
 Разработка игр на Ebitengine
 https://www.quasilyte.dev/ebiten/ru/
