@@ -98,6 +98,9 @@ https://www.bytesizego.com/blog/idiomatic-go-cli
 Tips for building Bubble Tea programs
 https://leg100.github.io/en/posts/building-bubbletea-programs/
 
+Bubble Tea — TUI-фреймворк для Go. Мои открытия и ошибки
+https://habr.com/ru/articles/939574/
+
 Golang Tutorial: Build A Beautiful CLI Todo App With Support for Piping - YouTube
 https://www.youtube.com/watch?v=j1CXoOQXbco
 
@@ -365,6 +368,9 @@ https://eli.thegreenplace.net/2024/ranging-over-functions-in-go-123/
 generics
 https://bitfieldconsulting.com/posts/generics
 
+Generics in Go — From Basics to Advanced for Senior Developers
+https://medium.com/@sogol.hedayatmanesh/generics-in-go-from-basics-to-advanced-for-senior-developers-887790b018d0
+
 итераторы
 https://bitfieldconsulting.com/golang/iterators
 https://www.youtube.com/watch?v=jmU7h2pbHV0
@@ -437,6 +443,9 @@ https://google.github.io/styleguide/go/best-practices.html
 
 Go: как работает система тестирования  
 https://matttproud.com/blog/posts/go-testing-harness.html
+
+Самый лучший мок на свете: разбираемся с инструментами для генерации моков в Go
+https://habr.com/ru/companies/avito/articles/939388/
 
 Написание функционального тестирования в Go
 https://habr.com/ru/articles/836664/
