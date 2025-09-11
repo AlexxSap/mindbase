@@ -43,6 +43,9 @@ https://antonz.org/all/
 Самоучитель
 https://proglib.io/p/samouchitel-po-go-dlya-nachinayushchih-chast-1-osobennosti-i-sfera-primeneniya-go-ustanovka-nastroyka-2023-11-23
 
+Несколько занятных вопросов собеседований по Go
+https://habr.com/ru/articles/945448/
+
 # gRPC
 
 Василий Близнецов — Современные решения для работы с Protocol Buffers
@@ -136,6 +139,9 @@ https://m.youtube.com/watch?v=jGHxiJz_GtM&pp=ygUr0KLQtdC70LXQs9GA0LDQvCDQsdC-0YI
 https://habr.com/ru/articles/351060/
 
 # Производительность 
+
+Оптимизация памяти в Go: 20 приёмов для эффективных приложений
+https://habr.com/ru/articles/943664/
 
 Барьеры памяти «Golang»
 https://habr.com/ru/articles/930864/
@@ -320,6 +326,9 @@ https://proglib.io/sh/xcSABgw3QE
 https://nuancesprog.ru/p/27839/
 
 # Прочее
+
+Vendoring, or go mod vendor: What Is It?
+https://victoriametrics.com/blog/vendoring-go-mod-vendor/
 
 Graceful Goroutine Shutdowns in Go: A Practical Guide
 https://dev.to/jones_charles_ad50858dbc0/graceful-goroutine-shutdowns-in-go-a-practical-guide-2b9a
