@@ -140,6 +140,9 @@ https://habr.com/ru/articles/351060/
 
 # Производительность 
 
+Кэширование в Go: ускоряем API без Redis
+https://habr.com/ru/articles/948866/
+
 Оптимизация памяти в Go: 20 приёмов для эффективных приложений
 https://habr.com/ru/articles/943664/
 

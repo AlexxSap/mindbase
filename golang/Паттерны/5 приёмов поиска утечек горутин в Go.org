@@ -1,0 +1,104 @@
+#+title: 5 Приёмов Поиска Утечек Горутин В Go
+
+=Утечки горутин= — скрытая проблема, которая со временем приводит к росту потребления памяти, деградации производительности и неожиданным падениям. В отличие от «обычных» багов, такие ошибки долго не проявляют себя, а в продакшене отлавливать их уже поздно.
+Ниже 5 рабочих приёмов, которые помогут держать горутины под контролем.
+
+* Мониторинг количества горутин
+Запуск фоновой задачи, которая периодически считывает =runtime.NumGoroutine()= и сравнивает с базовым уровнем — если количество горутин выросло выше порога, сигнализировать (лог, алерт).
+#+begin_src go
+go func() {
+    for range ticker.C {
+      n := runtime.NumGoroutine()
+      if n > base+50 { // ваш порог
+        log.Printf("горутин многовато: %d (base %d)", n, base)
+      }
+    }
+  }()
+#+end_src
+
+* Трассировка с помощью go tool trace
+При сложных сценариях запускают трассировку жизненного цикла горутин: когда они создаются, когда завершаются, как взаимодействуют.
+#+begin_src go
+
+func main() {
+  f, _ := os.Create("trace.out")
+  defer f.Close()
+  _ = trace.Start(f)
+  defer trace.Stop()
+
+  for i := 0; i < 10; i++ {
+    go func() { time.Sleep(500 * time.Millisecond) }()
+  }
+  time.Sleep(2 * time.Second)
+}
+#+end_src
+
+#+begin_src
+go run .            # создаст trace.out
+go tool trace trace.out
+#+end_src
+
+* Контекстная отмена
+Важно проксировать контекст через цепочку вызовов (например, в HTTP-хендлерах). Когда клиент прерывается или таймаут срабатывает — все дочерние горутины получают сигнал отмены и должны корректно завершаться.
+#+begin_src go
+
+func worker(ctx context.Context, jobs <-chan int) {
+  for {
+    select {
+    case <-ctx.Done():
+      log.Println("worker: cancelled")
+      return
+    case j, ok := <-jobs:
+      if !ok {
+        return
+      }
+      _ = j // делаем работу
+    }
+  }
+}
+
+func main() {
+  ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+  defer cancel()
+
+  jobs := make(chan int)
+  go worker(ctx, jobs)
+
+  go func() { // имитация продьюсера
+    for i := 0; i < 100; i++ {
+      select {
+      case <-ctx.Done():
+        close(jobs)
+        return
+      case jobs <- i:
+      }
+    }
+  }()
+
+  time.Sleep(3 * time.Second)
+}
+#+end_src
+
+* Интеграция goleak в тесты
+В тестовой среде использовать =goleak.VerifyTestMain= или =goleak.VerifyNone= (внутри тестов) для автоматического обнаружения оставшихся горутин. Это помогает не допустить утечки до продакшена.
+#+begin_src go
+func TestMain(m *testing.M) { // глобальная проверка
+  goleak.VerifyTestMain(m)
+}
+
+func TestNoLeaks(t *testing.T) {
+  defer goleak.VerifyNone(t)
+
+  // Демонстрация «правильной» горутины
+  done := make(chan struct{})
+  go func() {
+    time.Sleep(10 * time.Millisecond)
+    close(done)
+  }()
+  <-done
+}
+#+end_src
+
+* Graceful shutdown
+При завершении сервера или приложения — ждать, пока работающие операции завершатся, использовать таймауты, отслеживать завершение горутин.
+Эти паттерны не заменяют внимательного дизайна кода, но дают страховку
