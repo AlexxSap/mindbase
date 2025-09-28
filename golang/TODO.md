@@ -159,9 +159,6 @@ https://habr.com/ru/companies/vk/articles/824484/
 Optimizing Memory Usage in Go: Mastering Data Structure Alignment
 https://dev.to/yanev/optimizing-memory-usage-in-go-mastering-data-structure-alignment-4beb
 
-Memory Allocation in Go
-https://nghiant3223.github.io/2025/06/03/memory_allocation_in_go.html
-
 Generator Concurrency Pattern in Go
 https://dev.to/souvikinator/generator-concurrency-pattern-in-go-a-comprehensive-guide-6om
 
