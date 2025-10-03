@@ -57,3 +57,29 @@ RUN apt-get install -y gcc && pip install some-lib && apt-get remove -y gcc
 #+end_src
    - Использовать --no-cache и чистить /tmp.
    - Применять slim, а не full-образы.
+
+8. Ограничивай CPU и память для своих контейнеров, чтобы не положить остальные контейнеры на машине.
+Через docker run:
+#+begin_src
+docker run --cpus=2 -m 512m nginx
+#+end_src
+=--cpus=2= → ограничение по CPU: максимум 2 виртуальных ядра.
+=-m 512m= → ограничение по памяти: максимум 512 МБ.
+
+Через docker-compose:
+#+begin_src
+version: "3.9"
+services:
+  redis:
+    image: redis:alpine
+    deploy:
+      resources:
+        limits:
+          cpus: 2
+          memory: 512M
+        reservations:
+          cpus: 1
+          memory: 256M
+#+end_src
+=limits= → верхние границы ресурсов (контейнер не может выйти за них).
+=reservations= → гарантированный минимум ресурсов, который будет выделен контейнеру.

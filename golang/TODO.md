@@ -328,6 +328,9 @@ https://proglib.io/sh/xcSABgw3QE
 Пишем балансировщик нагрузки на Golang
 https://nuancesprog.ru/p/27839/
 
+Practical Networking Patterns in Go¶
+https://goperf.dev/02-networking/
+
 # Прочее
 
 Vendoring, or go mod vendor: What Is It?
