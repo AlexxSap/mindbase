@@ -1,0 +1,56 @@
+#+title: Установка Kafka В Докере
+
+Добавляем файл docker-compose.yml
+#+begin_src
+version: '3'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+#+end_src
+
+Запускаем
+#+begin_src
+docker-compose up -d
+#+end_src
+
+Посмотреть логи
+#+begin_src
+docker-compose logs kafka
+#+end_src
+
+Как проверить работу Kafka
+Создайте топик:
+#+begin_src
+docker exec -it <kafka-container-name> kafka-topics --create --topic test-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+#+end_src
+
+Отправьте сообщение:
+#+begin_src
+docker exec -it <kafka-container-name> kafka-console-producer --topic test-topic --bootstrap-server localhost:9092
+(введите текст и нажмите Enter)
+#+end_src
+
+Прочитайте сообщение в другом терминале:
+#+begin_src
+docker exec -it <kafka-container-name> kafka-console-consumer --topic test-topic --bootstrap-server localhost:9092 --from-beginning
+#+end_src
+
+Остановить и удалить контейнер
+#+begin_src
+docker-compose down
+#+end_src

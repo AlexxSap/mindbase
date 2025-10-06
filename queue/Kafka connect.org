@@ -1,0 +1,114 @@
+#+title: Kafka Connect
+
+* Что это
+=Kafka Connect= — это компонент Apache Kafka, который позволяет интегрировать Kafka с другими системами (например, базами данных, очередями, файловыми системами, REST API и другими внешними источниками и получателями данных) без написания кода.
+=Kafka Connect= обеспечивает масштабируемую и надёжную загрузку (import) и выгрузку (export) данных в/из Kafka с помощью коннекторов.
+
+* Основные понятия
+- =Connector=
+  Определяет, откуда и куда будут передаваться данные.
+  Есть два типа:
+  - Source Connector — достаёт данные из внешней системы и отправляет в Kafka.
+  - Sink Connector — забирает данные из Kafka и отправляет во внешнюю систему.
+
+- =Task=
+  Каждый коннектор делится на задачи (tasks), которые распределяются между воркерами (workers).
+  Это позволяет масштабировать и распараллеливать обработку.
+
+- =Worker=
+  Процесс, который запускает коннекторы и задачи.
+  Может быть:
+  - Standalone (один воркер, для тестирования)
+  - Distributed (несколько воркеров, для продакшена)
+
+* Примеры использования
+- Импорт данных из MySQL в Kafka (Source)
+- Экспорт данных из Kafka в Elasticsearch (Sink)
+- Синхронизация Kafka с S3, MongoDB, PostgreSQL и т.д.
+
+* Как запустить Kafka Connect через Docker
+Пример docker-compose.yml с Kafka, ZooKeeper и Kafka Connect:
+
+#+begin_src
+version: '3'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  kafka-connect:
+    image: confluentinc/cp-kafka-connect:latest
+    depends_on:
+      - kafka
+    ports:
+      - "8083:8083"
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: "kafka:9092"
+      CONNECT_REST_ADVERTISED_HOST_NAME: "kafka-connect"
+      CONNECT_REST_PORT: 8083
+      CONNECT_GROUP_ID: "connect-group"
+      CONNECT_CONFIG_STORAGE_TOPIC: "_connect-configs"
+      CONNECT_OFFSET_STORAGE_TOPIC: "_connect-offsets"
+      CONNECT_STATUS_STORAGE_TOPIC: "_connect-status"
+      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
+      # Подключаем плагины (если нужно)
+      # CONNECT_PLUGIN_PATH: /usr/share/java,/usr/share/confluent-hub-components
+#+end_src
+
+запуск
+#+begin_src
+docker-compose up -d
+#+end_src
+
+* Управление Kafka Connect
+Kafka Connect предоставляет REST API для управления коннекторами:
+- Посмотреть все коннекторы:
+#+begin_src
+curl -X GET http://localhost:8083/connectors
+#+end_src
+
+- Создать коннектор (например, источник из файла):
+#+begin_src
+curl -X POST http://localhost:8083/connectors -H "Content-Type: application/json" -d '{
+  "name": "local-file-source",
+  "config": {
+    "connector.class": "FileStreamSource",
+    "tasks.max": "1",
+    "file": "/tmp/test.txt",
+    "topic": "connect-test"
+  }
+}'
+#+end_src
+
+* Популярные коннекторы
+- JDBC Source/Sink — для работы с реляционными БД (PostgreSQL, MySQL и т.д.)
+- MongoDB, Elasticsearch, S3, HDFS, Redis и др.
+
+Установка коннекторов возможна через:
+- Confluent Hub
+- Или вручную, добавив .jar файл в classpath
+
+* Когда использовать Kafka Connect?
+- Когда нужно интегрировать Kafka с внешними системами.
+- Когда нужна масштабируемость и отказоустойчивость.
+- Когда хочется не писать код, а использовать готовые коннекторы.
