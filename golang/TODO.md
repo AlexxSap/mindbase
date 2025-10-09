@@ -95,6 +95,9 @@ https://www.youtube.com/watch?v=osIX2lO1rzM
 
 # CLI
 
+Как создать TUI утилиту на GO
+https://habr.com/ru/articles/953680/
+
 Writing Idiomatic Go CLIs
 https://www.bytesizego.com/blog/idiomatic-go-cli
 
