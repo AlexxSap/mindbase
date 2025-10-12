@@ -32,3 +32,102 @@ Kafka организует обмен сообщениями через топи
 - Сложность в настройке и обслуживании: Для работы с Kafka необходимо иметь опыт в настройке распределённых систем.
 - Проблемы с пропускной способностью в случае высокого объёма данных: В некоторых случаях Kafka может столкнуться с проблемами при работе с очень большими объёмами данных.
 - Задержка: Хотя Kafka эффективен в плане пропускной способности, в некоторых случаях он может иметь небольшую задержку при доставке сообщений.
+
+* Пример отправки сообщений
+#+begin_src go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"time"
+
+	"github.com/segmentio/kafka-go"
+)
+
+const (
+	topic = "my-learning-topic"
+	addr  = "localhost:9093"
+)
+
+func main() {
+	writer := kafka.NewWriter(kafka.WriterConfig{
+		Brokers: []string{addr},
+		Topic:   topic,
+	})
+	defer writer.Close()
+
+	msgs := []string{
+		"Всем привет",
+		"Всем пока",
+	}
+
+	sendMessages(writer, msgs)
+	fmt.Println("DONE")
+}
+
+func sendMessages(writer *kafka.Writer, msgs []string) {
+	for i, msgText := range msgs {
+		msg := kafka.Message{
+			Key:   []byte(fmt.Sprintf("message №%d", i+1)),
+			Value: []byte(msgText),
+			Time:  time.Now(),
+		}
+
+		err := writer.WriteMessages(context.Background(), msg)
+		if err != nil {
+			log.Printf("sending error %v\n", err)
+		} else {
+			log.Printf("message send '%v'\n", msgText)
+		}
+
+		time.Sleep(2 * time.Second)
+
+	}
+}
+#+end_src
+* Пример получения сообщений
+#+begin_src go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/segmentio/kafka-go"
+)
+
+const (
+	topic   = "my-learning-topic"
+	addr    = "localhost:9093"
+	groupID = "my-learning-go-group"
+)
+
+func main() {
+	reader := kafka.NewReader(kafka.ReaderConfig{
+		Brokers: []string{addr},
+		Topic:   topic,
+		GroupID: groupID,
+	})
+	defer reader.Close()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	readMessages(ctx, reader)
+}
+
+func readMessages(ctx context.Context, reader *kafka.Reader) {
+	for {
+		msg, err := reader.ReadMessage(ctx)
+		if err != nil {
+			log.Printf("error in receive message %v", err)
+		}
+
+		fmt.Printf("Сообщение в топике %v, партиция %v, offset %v: \n\t%s %s\n\n",
+			msg.Topic, msg.Partition, msg.Offset, string(msg.Key), string(msg.Value))
+	}
+}
+#+end_src
