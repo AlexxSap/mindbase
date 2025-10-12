@@ -18,8 +18,6 @@ https://www.youtube.com/watch?v=n6NUsAprtRg&ab_channel=ЭйчНавыки—ме
 https://www.youtube.com/watch?v=ND2Qfdg5bVc&ab_channel=ЭйчНавыки—менторскаяпрограмма
 
 Задачи и решения
-https://habr.com/ru/companies/rebrainme/articles/540354/
-https://dev-station.ru/categories/golang/taskbook/go-interview-taskbook
 https://2ds.ru/posts/example-golang/
 
 Вопросы и ответы
@@ -34,14 +32,8 @@ https://ebazhanov.github.io/linkedin-skill-assessments-quizzes/go/go-quiz.html
 Вопросы и ответы по сетям и протоколам
 https://blog.iddqd.uk/interview-section-network
 
-Структуры данных
-https://habr.com/ru/articles/456194/
-
 Классный блог 
 https://antonz.org/all/
-
-Самоучитель
-https://proglib.io/p/samouchitel-po-go-dlya-nachinayushchih-chast-1-osobennosti-i-sfera-primeneniya-go-ustanovka-nastroyka-2023-11-23
 
 Несколько занятных вопросов собеседований по Go
 https://habr.com/ru/articles/945448/
@@ -171,17 +163,14 @@ https://www.bwplotka.dev/2024/go-microbenchmarks-benchstat/
 Go sync.Cond — самый недооцененный механизм синхронизации:
 https://victoriametrics.com/blog/go-sync-cond/
 
-live-pprof — инструмент для мониторинга производительности Go-приложений в режиме реального времени
-https://github.com/moderato-app/live-pprof
+Мониторинг приложения Golang с Prometheus, Grafana, New Relic и Sentry
+https://nuancesprog.ru/p/25427/
 
 From slow to SIMD:
 https://sourcegraph.com/blog/slow-to-simd
 
 Ускоряем Go: известные и не очень методы оптимизации и связанные с ними штуки
 https://habr.com/ru/articles/790758/
-
-аллокатор
-https://www.youtube.com/watch?v=wJtgOTmePp0&ab_channel=GolangChannel
 
 Detecting Memory Leaks in a Golang Application: Best Practices and Tools
 https://www.codemio.com/2023/05/detecting-memory-leaks-in-golang.html
@@ -483,9 +472,6 @@ https://medium.com/@okoanton/structured-concurrency-in-go-c6e8cb1e2af7
 Pipeline Concurrency Pattern in Go
 https://dev.to/souvikinator/pipeline-concurrency-pattern-in-go-a-comprehensive-visual-guide-2j0l
 
-errors
-https://adrianlarion.com/golang-error-handling-demystified-errors-is-errors-as-errors-unwrap-custom-errors-and-more/
-
 Архитектурный паттерн для централизованной обработки ошибок в хендлерах на Go
 https://habr.com/ru/articles/914112/
 
@@ -498,20 +484,11 @@ https://habr.com/ru/companies/wildberries/articles/808911/?utm_campaign=808911
 Fuzz Testing Go HTTP Services
 https://packagemain.tech/p/fuzzing-http-services-golang
 
-unique - новый пакет в стандартной библиотеке Go 1.23
-https://go.dev/blog/unique
-
-Антипаттерны программирования на Go
-https://threedots.tech/post/common-anti-patterns-in-go-web-applications/
-
 Building a simple load balancer in Go
 https://dev.to/vivekalhat/building-a-simple-load-balancer-in-go-70d
 
 Приложение на Go шаг за шагом. Часть первая: скелет, НТТР-сервер и конфигурация
 https://habr.com/ru/companies/yandex_praktikum/articles/854482/
-
-How to format time in Go/Golang
-https://www.tural.pro/blogs/how-to-format-time-in-go-golang
 
 Простые highload паттерны на Go
 https://habr.com/ru/articles/682618/
@@ -522,9 +499,6 @@ https://habr.com/ru/articles/684904/
 Build an OTP-Based Authentication Server with Go
 https://dev.to/vishaaxl/build-an-otp-based-authentication-server-with-go-part-1-760
 
-Мониторинг приложения Golang с Prometheus, Grafana, New Relic и Sentry
-https://nuancesprog.ru/p/25427/
-
 Создание кастомного балансировщика нагрузки на Go для gRPC с приоритизацией адресов
 https://nuancesprog.ru/p/25597/
 
@@ -534,9 +508,6 @@ https://www.lucavall.in/blog/opentelemetry-a-guide-to-observability-with-go
 OpenTelemetry for Go: measuring the overhead
 https://coroot.com/blog/opentelemetry-for-go-measuring-the-overhead/
 
-synctest
-https://go.dev/blog/synctest
-
 Как я создавал Observability для своих pet-проектов
 https://habr.com/ru/articles/885224/
 https://habr.com/ru/articles/888682/
@@ -544,21 +515,8 @@ https://habr.com/ru/articles/888682/
 Syscall и cgo в Go
 https://habr.com/ru/companies/otus/articles/886062/
 
-Приложение на Go шаг за шагом
-https://habr.com/ru/companies/yandex_praktikum/articles/854482/
-https://habr.com/ru/companies/yandex_praktikum/articles/885946/
-
-Самый подробный гайд по планировщику максимально простым языком
-https://youtu.be/kedW1xO3Zbo
-
 Rate limiter Implemention With Golang And Redis
 https://medium.com/@yuseferi/in-part-1-of-this-article-we-talked-about-why-tracking-iot-device-heartbeats-is-critical-and-why-22f04e947a7e
-
-Domain Driven Design в Go – это почти не больно
-https://habr.com/ru/companies/oleg-bunin/articles/791420/
-
-Go-микросервисы: Стандартизация архитектуры с Clean Architecture и DDD
-https://habr.com/ru/articles/911018/
 
 Синхронизация данных в реальном времени между MongoDB и Elasticsearch на Golang
 https://nuancesprog.ru/p/28870/
