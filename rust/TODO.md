@@ -1,4 +1,4 @@
-
+https://www.youtube.com/watch?v=jB8rLpdebLw
 https://google.github.io/comprehensive-rust/index.html
 https://doc.rust-lang.ru/rust-cookbook/intro.html
 https://www.turing.com/interview-questions/rust
