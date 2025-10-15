@@ -1,0 +1,56 @@
+#+title: grpc
+
+=gRPC= — это современный фреймворк для удаленного вызова процедур (RPC), разработанный Google.
+Он основан на протоколе HTTP/2 и использует формат сериализации Protocol Buffers (protobuf), что делает его эффективным и быстрым. gRPC отлично подходит для построения микросервисной архитектуры, позволяя сервисам взаимодействовать друг с другом через строго типизированные API.
+
+=gRPC= решает задачу эффективного взаимодействия между сервисами.
+В отличие от REST API, который использует текстовый формат JSON и HTTP/1.1, gRPC работает поверх HTTP/2 и использует бинарный формат Protocol Buffers. Это дает несколько преимуществ:
+- Высокая производительность — бинарная сериализация быстрее и компактнее JSON.
+- Поддержка потоковой передачи данных — gRPC позволяет реализовывать стриминговые вызовы.
+- Языковая независимость — клиенты и серверы могут быть написаны на разных языках.
+- Автоматическая генерация кода — API описываются в файлах .proto, а на их основе создаются серверные и клиентские обертки.
+
+Если вам важна производительность, строгая типизация и поддержка потоков — gRPC будет лучшим выбором. Если же нужно простое взаимодействие между сервисами без сложной настройки, REST может быть более удобным.
+
+* Установка gRPC в Go
+Перед началом работы необходимо установить пакет gRPC и компилятор Protocol Buffers:
+#+begin_src
+go install google.golang.org/protobuf/cmd/protoc@latest
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+#+end_src
+
+Эти инструменты нужны для генерации Go-кода из .proto файлов. Теперь добавим зависимости в проект:
+#+begin_src
+go get google.golang.org/grpc
+go get google.golang.org/protobuf
+#+end_src
+
+* Определение gRPC-сервиса
+В gRPC API описывается с помощью файла .proto. Давайте создадим сервис для управления пользователями:
+#+begin_src go
+syntax = "proto3";
+
+package user;
+
+service UserService {
+  rpc GetUser (UserRequest) returns (UserResponse);
+}
+
+message UserRequest {
+  string id = 1;
+}
+
+message UserResponse {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+}
+#+end_src
+
+Здесь определен сервис UserService с одним методом GetUser, который принимает UserRequest (содержит id пользователя) и возвращает UserResponse (данные о пользователе).
+
+Теперь сгенерируем код для Go:
+#+begin_src
+protoc --go_out=. --go-grpc_out=. user.proto
+#+end_src
