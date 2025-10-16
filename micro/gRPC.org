@@ -31,26 +31,93 @@ go get google.golang.org/protobuf
 #+begin_src go
 syntax = "proto3";
 
-package user;
+package main;
 
-service UserService {
-  rpc GetUser (UserRequest) returns (UserResponse);
+option go_package = "./pb";
+
+service Greeter {
+  rpc SayHello (HelloRequest) returns (HelloReply);
 }
 
-message UserRequest {
-  string id = 1;
+message HelloRequest {
+  string name = 1;
 }
 
-message UserResponse {
-  string id = 1;
-  string name = 2;
-  string email = 3;
+message HelloReply {
+  string message = 1;
 }
 #+end_src
 
-Здесь определен сервис UserService с одним методом GetUser, который принимает UserRequest (содержит id пользователя) и возвращает UserResponse (данные о пользователе).
-
 Теперь сгенерируем код для Go:
 #+begin_src
-protoc --go_out=. --go-grpc_out=. user.proto
+protoc --go_out=. --go-grpc_out=. hello.proto
+#+end_src
+
+* Реализация сервера
+#+begin_src go
+package main
+
+import (
+	"context"
+	"log"
+	"net"
+
+	"google.golang.org/grpc"
+	pb "grpcex/pb" // Импортируем сгенерированный код
+)
+
+type server struct {
+	pb.UnimplementedGreeterServer
+}
+
+func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
+	return &pb.HelloReply{Message: "Hello " + in.Name}, nil
+}
+
+func main() {
+	lis, err := net.Listen("tcp", ":50051")
+	if err != nil {
+		log.Fatalf("Failed to listen: %v", err)
+	}
+
+	s := grpc.NewServer()
+	pb.RegisterGreeterServer(s, &server{})
+
+	log.Println("Server listening on :50051")
+	if err := s.Serve(lis); err != nil {
+		log.Fatalf("Failed to serve: %v", err)
+	}
+}
+#+end_src
+
+* Реализация клиента
+#+begin_src go
+package main
+
+import (
+	"context"
+	"log"
+	"time"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure" // Используем insecure для упрощения
+	pb "grpcex/pb" // Импортируем сгенерированный код
+)
+
+func main() {
+	conn, err := grpc.Dial("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("Failed to connect: %v", err)
+	}
+	defer conn.Close()
+
+	client := pb.NewGreeterClient(conn)
+
+	resp, err := client.SayHello(context.Background(), &pb.HelloRequest{Name: "World"})
+	if err != nil {
+		log.Fatalf("Failed to call SayHello: %v", err)
+	}
+
+	log.Printf("Response: %s", resp.Message)
+}
 #+end_src

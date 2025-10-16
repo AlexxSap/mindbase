@@ -40,11 +40,14 @@ https://habr.com/ru/articles/945448/
 
 # gRPC
 
+Создание кастомного балансировщика нагрузки на Go для 0gRPC с приоритизацией адресов
+https://nuancesprog.ru/p/25597/
+
+Создание сервера Golang с gRPC и Rest API при помощи Swagger
+https://eliofery.github.io/blog/2024-02-01-sozdanie-servera-golang-s-grpc-i-rest-api-ispolzuya-swagger-backend.html
+
 Василий Близнецов — Современные решения для работы с Protocol Buffers
 https://www.youtube.com/live/5vOMbrs9X1w
-
-From net/rpc to gRPC in Go Applications
-https://victoriametrics.com/blog/go-net-rpc/index.html
 
 Scaling gRPC With Kubernetes (Using Go)
 https://nyadgar.com/posts/scaling-grpc-with-kubernetes-using-go/
@@ -55,6 +58,12 @@ https://victoriametrics.com/blog/go-protobuf/
 Go Protobuf: The new Opaque API
 https://go.dev/blog/protobuf-opaque
 
+gRPC in Go: Streaming RPCs, Interceptors, and Metadata
+https://victoriametrics.com/blog/go-grpc-basic-streaming-interceptor/
+
+Building Microservices in Go: A Practical Guide with gRPC
+https://arielorozco.com/building-microservices-in-go-a-practical-guide-with-grpc
+
 Создание кастомного балансировщика нагрузки на Go для gRPC с приоритизацией адресов
 https://habr.com/ru/companies/vk/articles/858290/
 
@@ -64,9 +73,6 @@ https://kmcd.dev/posts/grpc-over-http3/
 Пишем gRPC сервис на Go - Сервис авторизации
 https://habr.com/ru/articles/774796/
 https://www.youtube.com/watch?v=EURjTg5fw-E
-
-Как разработать gRCP-сервис на Go
-https://selectel.ru/blog/tutorials/go-grcp/
 
 Organize gRPC and protobuf code in Golang
 https://rkiselenko.dev/blog/grpc-in-golang/
@@ -202,12 +208,6 @@ https://blog.wongandre.com/create-a-simple-api-server-image-for-docker-and-kuber
 Учебник по куберу
 https://ru.werf.io/guides/golang/100_basic.html
 
-gRPC in Go: Streaming RPCs, Interceptors, and Metadata
-https://victoriametrics.com/blog/go-grpc-basic-streaming-interceptor/
-
-Building Microservices in Go: A Practical Guide with gRPC
-https://arielorozco.com/building-microservices-in-go-a-practical-guide-with-grpc
-
 Кодогенерация Protobuf файлов используя плагин Buf
 https://eliofery.github.io/blog/2024-02-03-kodogeneraciya-protobuf-fajlov-ispolzuya-plagin-buf-backend.html
 
@@ -260,8 +260,6 @@ https://habr.com/ru/articles/878148/
 Web Crawler with Golang: Step-by-Step Tutorial 2025
 https://dev.to/scraper0024/web-crawler-with-golang-step-by-step-tutorial-2025-51p6?utm_source=tg&utm_medium=go&utm_campaign=230125
 
-Создание сервера Golang с gRPC и Rest API при помощи Swagger
-https://eliofery.github.io/blog/2024-02-01-sozdanie-servera-golang-s-grpc-i-rest-api-ispolzuya-swagger-backend.html
 
 TCP-чат на Go
 https://medium.com/@pickleprat/building-a-tcp-chatroom-in-golang-6f6bd2b11bb7?utm_source=tg&utm_medium=go&utm_campaign=170225
@@ -499,8 +497,6 @@ https://habr.com/ru/articles/684904/
 Build an OTP-Based Authentication Server with Go
 https://dev.to/vishaaxl/build-an-otp-based-authentication-server-with-go-part-1-760
 
-Создание кастомного балансировщика нагрузки на Go для gRPC с приоритизацией адресов
-https://nuancesprog.ru/p/25597/
 
 OpenTelemetry: A Guide to Observability with Go
 https://www.lucavall.in/blog/opentelemetry-a-guide-to-observability-with-go
