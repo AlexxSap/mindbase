@@ -93,6 +93,9 @@ https://www.youtube.com/watch?v=osIX2lO1rzM
 
 # CLI
 
+Tips for building Bubble Tea programs
+https://leg100.github.io/en/posts/building-bubbletea-programs/
+
 Как создать TUI утилиту на GO
 https://habr.com/ru/articles/953680/
 
@@ -140,6 +143,9 @@ https://m.youtube.com/watch?v=jGHxiJz_GtM&pp=ygUr0KLQtdC70LXQs9GA0LDQvCDQsdC-0YI
 https://habr.com/ru/articles/351060/
 
 # Производительность 
+
+CPU Cache-Friendly Data Structures in Go: 10x Speed with Same Algorithm
+https://skoredin.pro/blog/golang/cpu-cache-friendly-go
 
 Кэширование в Go: ускоряем API без Redis
 https://habr.com/ru/articles/948866/
@@ -516,6 +522,14 @@ https://medium.com/@yuseferi/in-part-1-of-this-article-we-talked-about-why-track
 
 Синхронизация данных в реальном времени между MongoDB и Elasticsearch на Golang
 https://nuancesprog.ru/p/28870/
+
+Go I/O Readers, Writers, and Data in Motion
+https://victoriametrics.com/blog/go-io-reader-writer/index.html
+
+Go I/O Closer, Seeker, WriterTo, and ReaderFrom
+https://victoriametrics.com/blog/go-io-closer-seeker-readfrom-writeto/
+
+
 
 # Безопасность
 Unexpected security footguns in Go's parsers
