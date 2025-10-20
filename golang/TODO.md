@@ -39,6 +39,11 @@ https://antonz.org/all/
 https://habr.com/ru/articles/945448/
 
 # gRPC
+Создание микросервисов с gRPC и Protobuf в C++
+https://www.cyberforum.ru/blogs/2396861/10270.html?ysclid=mgxcl82n25785829384
+
+gRPC C++ Hello World Tutorial
+https://fuchsia.googlesource.com/third_party/grpc/+/refs/heads/cobalt/examples/cpp/helloworld/README.md
 
 Создание кастомного балансировщика нагрузки на Go для 0gRPC с приоритизацией адресов
 https://nuancesprog.ru/p/25597/
