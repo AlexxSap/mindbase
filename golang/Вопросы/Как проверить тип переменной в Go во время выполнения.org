@@ -1,0 +1,67 @@
+#+title: Как Проверить Тип Переменной В Go Во Время Выполнения
+
+В Go есть несколько способов узнать тип переменной в рантайме.
+
+* Type Assertion
+Самый простой способ для проверки конкретного типа:
+#+begin_src go
+var i interface{} = "hello"
+
+// Проверка с обработкой ошибки
+s, ok := i.(string)
+if ok {
+    fmt.Printf("Это строка: %s\n", s)
+} else {
+    fmt.Println("Это не строка")
+}
+#+end_src
+Когда использовать: когда нужно =проверить один конкретный тип=.
+
+* Type Switch
+Элегантный способ для проверки нескольких типов:
+#+begin_src go
+func checkType(i interface{}) {
+    switch v := i.(type) {
+    case int:
+        fmt.Printf("Целое число: %d\n", v)
+    case string:
+        fmt.Printf("Строка: %s\n", v)
+    case bool:
+        fmt.Printf("Булево: %t\n", v)
+    default:
+        fmt.Printf("Неизвестный тип: %T\n", v)
+    }
+}
+#+end_src
+Когда использовать: когда =нужно обработать разные типы по-разному=.
+
+* Пакет reflect
+Для продвинутой работы с типами:
+#+begin_src go
+import "reflect"
+
+var x float64 = 3.14
+
+// Получить тип
+t := reflect.TypeOf(x)
+fmt.Println("Тип:", t) // float64
+
+// Получить значение
+v := reflect.ValueOf(x)
+fmt.Println("Тип через Value:", v.Type())
+fmt.Println("Kind:", v.Kind()) // float64
+#+end_src
+
+* Форматирование %T
+Быстрый способ для вывода типа:
+#+begin_src go
+var x = 42
+fmt.Printf("Тип переменной: %T\n", x) // int
+#+end_src
+Когда использовать: =для быстрой отладки=.
+
+* Best practises:
+• Избегайте reflect там, где можно обойтись type assertion или type switch
+• Используйте type switch вместо цепочки type assertion
+• Проверяйте ok при type assertion, чтобы избежать паники
+• Предпочитайте интерфейсы вместо проверки конкретных типов

@@ -149,6 +149,9 @@ https://habr.com/ru/articles/351060/
 
 # Производительность 
 
+Выжимаем из Go скорость до последних наносекунд
+https://habr.com/ru/companies/ruvds/articles/957756/
+
 CPU Cache-Friendly Data Structures in Go: 10x Speed with Same Algorithm
 https://skoredin.pro/blog/golang/cpu-cache-friendly-go
 
@@ -542,3 +545,6 @@ https://blog.trailofbits.com/2025/06/17/unexpected-security-footguns-in-gos-pars
 
 Google OAuth2 Login in Go: A Minimal and Complete Guide
 https://medium.com/@aynacialiriza/google-oauth2-login-in-go-a-minimal-and-complete-guide-0e9af75908de
+
+A modern approach to preventing CSRF in Go
+https://www.alexedwards.net/blog/preventing-csrf-in-go
