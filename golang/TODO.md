@@ -149,6 +149,9 @@ https://habr.com/ru/articles/351060/
 
 # Производительность 
 
+Секреты пакета unsafe, которые тебе нужно знать
+https://www.youtube.com/watch?v=6mTv1e8au9c
+
 Выжимаем из Go скорость до последних наносекунд
 https://habr.com/ru/companies/ruvds/articles/957756/
 
