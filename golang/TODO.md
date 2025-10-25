@@ -39,62 +39,10 @@ https://antonz.org/all/
 https://habr.com/ru/articles/945448/
 
 # gRPC
-Создание микросервисов с gRPC и Protobuf в C++
-https://www.cyberforum.ru/blogs/2396861/10270.html?ysclid=mgxcl82n25785829384
-
-gRPC C++ Hello World Tutorial
-https://fuchsia.googlesource.com/third_party/grpc/+/refs/heads/cobalt/examples/cpp/helloworld/README.md
-
-Создание кастомного балансировщика нагрузки на Go для 0gRPC с приоритизацией адресов
-https://nuancesprog.ru/p/25597/
-
-Создание сервера Golang с gRPC и Rest API при помощи Swagger
-https://eliofery.github.io/blog/2024-02-01-sozdanie-servera-golang-s-grpc-i-rest-api-ispolzuya-swagger-backend.html
-
-Василий Близнецов — Современные решения для работы с Protocol Buffers
-https://www.youtube.com/live/5vOMbrs9X1w
-
-Scaling gRPC With Kubernetes (Using Go)
-https://nyadgar.com/posts/scaling-grpc-with-kubernetes-using-go/
-
-How Protobuf Works
-https://victoriametrics.com/blog/go-protobuf/
-
-Go Protobuf: The new Opaque API
-https://go.dev/blog/protobuf-opaque
-
-gRPC in Go: Streaming RPCs, Interceptors, and Metadata
-https://victoriametrics.com/blog/go-grpc-basic-streaming-interceptor/
-
-Building Microservices in Go: A Practical Guide with gRPC
-https://arielorozco.com/building-microservices-in-go-a-practical-guide-with-grpc
-
-Создание кастомного балансировщика нагрузки на Go для gRPC с приоритизацией адресов
-https://habr.com/ru/companies/vk/articles/858290/
-
-gRPC через HTTP/3
-https://kmcd.dev/posts/grpc-over-http3/
 
 Пишем gRPC сервис на Go - Сервис авторизации
 https://habr.com/ru/articles/774796/
 https://www.youtube.com/watch?v=EURjTg5fw-E
-
-Organize gRPC and protobuf code in Golang
-https://rkiselenko.dev/blog/grpc-in-golang/
-
-gRPC в Go: практическое введение от Олега Козырева, Senior Software Engineer в Avito Tech.
-https://youtu.be/osIX2lO1rzM?si=eIP05fKBsMWKVmx0
-
-Пишем gRPC автотесты на Go с Allure отчетом
-https://habr.com/ru/articles/736502/?utm_campaign=736502
-
-otus. Работа с gRPC
-https://www.youtube.com/watch?v=Hvfl5EfOayg
-
-https://www.youtube.com/watch?v=Gk-z2ykXfJo
-https://www.youtube.com/watch?v=Yf7ZZdrQ7Bc
-https://www.youtube.com/watch?v=z-mHhobE0Pw
-https://www.youtube.com/watch?v=osIX2lO1rzM
 
 # CLI
 
@@ -338,6 +286,16 @@ https://nuancesprog.ru/p/27839/
 Practical Networking Patterns in Go¶
 https://goperf.dev/02-networking/
 
+# Безопасность
+Unexpected security footguns in Go's parsers
+https://blog.trailofbits.com/2025/06/17/unexpected-security-footguns-in-gos-parsers/
+
+Google OAuth2 Login in Go: A Minimal and Complete Guide
+https://medium.com/@aynacialiriza/google-oauth2-login-in-go-a-minimal-and-complete-guide-0e9af75908de
+
+A modern approach to preventing CSRF in Go
+https://www.alexedwards.net/blog/preventing-csrf-in-go
+
 # Прочее
 
 Vendoring, or go mod vendor: What Is It?
@@ -542,12 +500,3 @@ https://victoriametrics.com/blog/go-io-closer-seeker-readfrom-writeto/
 
 
 
-# Безопасность
-Unexpected security footguns in Go's parsers
-https://blog.trailofbits.com/2025/06/17/unexpected-security-footguns-in-gos-parsers/
-
-Google OAuth2 Login in Go: A Minimal and Complete Guide
-https://medium.com/@aynacialiriza/google-oauth2-login-in-go-a-minimal-and-complete-guide-0e9af75908de
-
-A modern approach to preventing CSRF in Go
-https://www.alexedwards.net/blog/preventing-csrf-in-go
