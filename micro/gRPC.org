@@ -334,3 +334,185 @@ func main() {
 	log.Printf("Response: %s", resp.Message)
 }
 #+end_src
+
+* Перехватчики
+Иногда перед вызовом удаленной функции на клиентской или серверной стороне или после него нужно выполнить некие рутинные операции. На этот случай gRPC позволяет перехватывать вызов для выполнения таких задач, как ведение журнала, аутентификация, сбор метрик и пр., используя механизм расширения под названием «перехватчик» (interceptor).
+В унарном RPC можно использовать =унарные= перехватчики, а в потоковом — =потоковые=.
+** 1. Унарный серверный перехватчик
+   Это тип серверных унарных перехватчиков со следующей сигнатурой:
+#+begin_src go
+func(ctx context.Context, req interface{}, info *UnaryServerInfo, handler UnaryHandler) (resp interface{}, err error)
+#+end_src
+
+Пример:
+#+begin_src go
+// унарный перехватчик на стороне сервера
+func orderUnaryServerInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler)
+(interface{}, error) {
+	// логика перед вызовом
+	// получает информацию о текущем RPC-вызове путем
+	// анализа переданных аргументов
+	log.Println("======= [Server Interceptor] ", info.FullMethod)
+	// вызываем обработчик, чтобы завершить
+	// нормальное выполнение унарного RPC-вызова
+	m, err := handler(ctx, req)
+
+	// логика после вызова
+	log.Printf(" Post Proc Message : %s", m)
+	return m, err
+}
+
+// ...
+func main() {
+...
+	// регистрируем перехватчик на стороне сервера
+	s := grpc.NewServer(grpc.UnaryInterceptor(orderUnaryServerInterceptor))
+...
+#+end_src
+
+** 2. Потоковый серверный перехватчик
+Функция перехвата имеет следующую сигнатуру:
+#+begin_src go
+func(srv interface{}, ss ServerStream, info *StreamServerInfo, handler StreamHandler) error
+#+end_src
+
+Пример:
+#+begin_src go
+// Потоковый перехватчик на стороне сервера
+// wrappedStream — обертка вокруг встроенного интерфейса
+// grpc.ServerStream, которая перехватывает вызовы методов
+// RecvMsg и SendMsg
+type wrappedStream struct {
+	grpc.ServerStream
+}
+
+// Реализация функции RecvMsg, принадлежащей обертке; обрабатывает сообщения, принимаемые с помощью потокового RPC.
+func (w *wrappedStream) RecvMsg(m interface{}) error {
+	log.Printf("====== [Server Stream Interceptor Wrapper] " + "Receive a message (Type: %T) at %s",
+		m,
+		time.Now().Format(time.RFC3339))
+
+	return w.ServerStream.RecvMsg(m)
+}
+
+// Реализация функции SendMsg, принадлежащей обертке; обрабатывает сообщения, отправляемые с помощью потокового RPC.
+func (w *wrappedStream) SendMsg(m interface{}) error {
+	log.Printf("====== [Server Stream Interceptor Wrapper] " + "Send a message (Type: %T) at %v",
+		m,
+		time.Now().Format(time.RFC3339))
+
+	return w.ServerStream.SendMsg(m)
+}
+
+func newWrappedStream(s grpc.ServerStream) grpc.ServerStream {
+	return &wrappedStream{s}
+}
+
+// Реализация потокового перехватчика
+func orderServerStreamInterceptor(srv interface{},
+	ss grpc.ServerStream,
+	info *grpc.StreamServerInfo,
+	handler grpc.StreamHandler) error {
+	log.Println("====== [Server Stream Interceptor] ",
+		info.FullMethod)
+	err := handler(srv, newWrappedStream(ss))
+
+	if err != nil {
+		log.Printf("RPC failed with error %v", err)
+	}
+	return err
+}
+...
+// регистрация перехватчика
+s := grpc.NewServer(grpc.StreamInterceptor(orderServerStreamInterceptor))
+...
+#+end_src
+
+** 3. Унарный клиентский перехватчик
+Он представляет собой функцию типа =UnaryClientInterceptor= со следующей сигнатурой:
+#+begin_src go
+func(ctx context.Context, method string, req, reply interface{}, cc *ClientConn, invoker UnaryInvoker, opts ...CallOption) error
+#+end_src
+
+Пример:
+#+begin_src go
+func orderUnaryClientInterceptor(ctx context.Context,
+	method string,
+	req,
+	reply interface{},
+	cc *grpc.ClientConn,
+	invoker grpc.UnaryInvoker,
+	opts ...grpc.CallOption) error {
+
+	// этап предобработки
+	log.Println("Method : " + method)
+	// вызов удаленного метода
+	err := invoker(ctx, method, req, reply, cc, opts...)
+	// этап постобработки
+	log.Println(reply)
+
+	return err
+}
+
+func main() {
+	// установление соединения с сервером
+	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithUnaryInterceptor(orderUnaryClientInterceptor))
+...
+#+end_src
+
+** 4. Потоковый клиентский перехватчик
+Он представляет собой функцию типа StreamClientInterceptor со следующей сигнатурой:
+#+begin_src go
+func(ctx context.Context,
+	desc *StreamDesc,
+	cc *ClientConn,
+	method string,
+	streamer Streamer,
+	opts ...CallOption) (ClientStream, error)
+#+end_src
+
+Пример:
+#+begin_src go
+func clientStreamInterceptor(
+	ctx context.Context,
+	desc *grpc.StreamDesc,
+	cc *grpc.ClientConn,
+	method string,
+	streamer grpc.Streamer,
+	opts ...grpc.CallOption) (grpc.ClientStream, error) {
+
+	log.Println("======= [Client Interceptor] ", method)
+	s, err := streamer(ctx, desc, cc, method, opts...)
+
+	if err != nil {
+		return nil, err
+	}
+	return newWrappedStream(s), nil
+}
+
+type wrappedStream struct {
+	grpc.ClientStream
+}
+
+func (w *wrappedStream) RecvMsg(m interface{}) error {
+	log.Printf("====== [Client Stream Interceptor] " + "Receive a message (Type: %T) at %v",
+		m,
+		time.Now().Format(time.RFC3339))
+	return w.ClientStream.RecvMsg(m)
+}
+
+func (w *wrappedStream) SendMsg(m interface{}) error {
+	log.Printf("====== [Client Stream Interceptor] " + "Send a message (Type: %T) at %v",
+		m, time.Now().Format(time.RFC3339))
+	return w.ClientStream.SendMsg(m)
+}
+
+func newWrappedStream(s grpc.ClientStream) grpc.ClientStream {
+	return &wrappedStream{s}
+}
+...
+func main() {
+// установление соединения с сервером
+conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithStreamInterceptor(clientStreamInterceptor))
+...
+#+end_src
