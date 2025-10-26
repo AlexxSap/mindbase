@@ -1,7 +1,7 @@
 #+title: grpc
 
-Важная статья
 https://www.cyberforum.ru/blogs/2396861/10270.html?ysclid=mgxcl82n25785829384
+https://victoriametrics.com/blog/go-grpc-basic-streaming-interceptor/index.html
 
 =gRPC= — это современный фреймворк для удаленного вызова процедур (RPC), разработанный Google.
 Он основан на протоколе HTTP/2 и использует формат сериализации Protocol Buffers (protobuf), что делает его эффективным и быстрым. gRPC отлично подходит для построения микросервисной архитектуры, позволяя сервисам взаимодействовать друг с другом через строго типизированные API.
