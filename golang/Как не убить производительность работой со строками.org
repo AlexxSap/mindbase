@@ -1,0 +1,173 @@
+#+title: Как Не Убить Производительность Работой Со Строками
+
+Работа со строками в Go может незаметно съесть всю память и убить производительность. Разбираем, как избежать ненужных аллокаций и ускорить код в разы.
+
+В Go строки неизменяемые. Каждое изменение строки = новая аллокация в памяти.
+
+Пример проблемного кода:
+#+begin_src go
+func BuildURL(host, path, query string) string {
+    url := "https://"     // Аллокация #1
+    url += host           // Аллокация #2
+    url += path           // Аллокация #3
+    url += "?" + query    // Аллокация #4
+    return url
+}
+#+end_src
+
+Решение 1: =strings.Builder= с предвыделением
+Всегда используйте =strings.Builder= вместо конкатенации через +:
+#+begin_src go
+// N аллокаций
+func ConcatWrong(parts []string) string {
+    result := ""
+    for _, p := range parts {
+        result += p  // Новая аллокация на каждой итерации!
+    }
+    return result
+}
+
+// 1 аллокация
+func ConcatRight(parts []string) string {
+    var b strings.Builder
+
+    // Посчитать нужный размер заранее
+    totalLen := 0
+    for _, p := range parts {
+        totalLen += len(p)
+    }
+    b.Grow(totalLen)  // Выделить память один раз
+
+    // Писать без аллокаций
+    for _, p := range parts {
+        b.WriteString(p)
+    }
+    return b.String()
+}
+#+end_src
+
+Решение 2: Переиспользование буферов через =sync.Pool=
+Даже strings.Builder делает аллокацию при вызове .String(). Чтобы избежать этого, переиспользуйте буферы:
+#+begin_src go
+var bufferPool = sync.Pool{
+    New: func() interface{} {
+        b := make([]byte, 0, 4096)  // 4KB буфер
+        return &b
+    },
+}
+
+func GetBuffer() *[]byte {
+    return bufferPool.Get().(*[]byte)
+}
+
+func PutBuffer(b *[]byte) {
+    *b = (*b)[:0]  // Сбросить длину, сохранить capacity
+    bufferPool.Put(b)
+}
+
+func BuildString(parts []string) string {
+    buf := GetBuffer()
+    defer PutBuffer(buf)
+
+    for _, p := range parts {
+        *buf = append(*buf, p...)
+    }
+
+    // Zero-copy конвертация (Go 1.20+)
+    return unsafe.String(unsafe.SliceData(*buf), len(*buf))
+}
+#+end_src
+
+Решение 3: Стековые массивы для предсказуемых размеров
+Для строк фиксированного размера используйте массивы на стеке:
+#+begin_src go
+// heap allocation
+func FormatIPWrong(a, b, c, d byte) string {
+    return fmt.Sprintf("%d.%d.%d.%d", a, b, c, d)
+}
+
+// stack allocation
+func FormatIPRight(a, b, c, d byte) string {
+    var buf [15]byte  // Макс длина IP: "255.255.255.255"
+    i := 0
+
+    i += writeUint8(buf[i:], a)
+    buf[i] = '.'
+    i++
+    i += writeUint8(buf[i:], b)
+    buf[i] = '.'
+    i++
+    i += writeUint8(buf[i:], c)
+    buf[i] = '.'
+    i++
+    i += writeUint8(buf[i:], d)
+
+    return string(buf[:i])
+}
+
+func writeUint8(buf []byte, v byte) int {
+    if v >= 100 {
+        buf[0] = '0' + v/100
+        buf[1] = '0' + (v/10)%10
+        buf[2] = '0' + v%10
+        return 3
+    } else if v >= 10 {
+        buf[0] = '0' + v/10
+        buf[1] = '0' + v%10
+        return 2
+    }
+    buf[0] = '0' + v
+    return 1
+}
+#+end_src
+
+Решение 4: =String Interning= для дедупликации
+Если у вас много одинаковых строк (например, в логах), используйте string interning:
+#+begin_src go
+type Interner struct {
+    mu   sync.RWMutex
+    pool map[string]string
+}
+
+func (i *Interner) Intern(s string) string {
+    i.mu.RLock()
+    if cached, ok := i.pool[s]; ok {
+        i.mu.RUnlock()
+        return cached
+    }
+    i.mu.RUnlock()
+
+    i.mu.Lock()
+    defer i.mu.Unlock()
+
+    if cached, ok := i.pool[s]; ok {
+        return cached
+    }
+
+    i.pool[s] = s
+    return s
+}
+
+// Использование
+var logLevelInterner = NewInterner()
+
+func ProcessLog(level string) {
+    level = logLevelInterner.Intern(level)
+    // Теперь все "info" указывают на одну строку в памяти
+}
+#+end_src
+
+Как профилировать:
+#+begin_src cmd
+# Посмотреть аллокации памяти
+go test -bench=. -benchmem
+
+# Проверить escape analysis
+go build -gcflags="-m" 2>&1 | grep "string"
+
+# Memory profiling
+go test -bench=. -memprofile=mem.prof
+go tool pprof -alloc_space mem.prof
+#+end_src
+
+Главное правило: всегда измеряйте! Не доверяйте интуиции — используйте бенчмарки.
