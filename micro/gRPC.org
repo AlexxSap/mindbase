@@ -516,3 +516,239 @@ func main() {
 conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithStreamInterceptor(clientStreamInterceptor))
 ...
 #+end_src
+
+* Метаданные
+Процесс создания метаданных в gRPC-приложении довольно прост и понятен. В следующем фрагменте кода на языке Go показано сразу два способа.
+#+begin_src go
+// создание метаданных: первый вариант
+md := metadata.New(map[string]string{"key1": "val1", "key2": "val2"})
+// создание метаданных: второй вариант
+md := metadata.Pairs(
+	"key1", "val1",
+	"key1", "val1-2", // у "key1" будет значение []string{"val1", "val1-2"}
+	"key2", "val2",
+)
+#+end_src
+Чтение метаданных на стороне клиента и сервера можно выполнять с помощью входящего контекста, используя вызов metadata.FromIncomingContext(ctx), который в языке Go возвращает хеш-таблицу с метаданными:
+#+begin_src go
+func (s *server) AddOrder(ctx context.Context, orderReq *pb.Order) (*wrappers.StringValue, error) {
+	md, metadataAvailable := metadata.FromIncomingContext(ctx)
+	// читаем нужные нам метаданные из хеш-таблицы 'md'
+#+end_src
+
+** Отправка и получение метаданных на стороне клиента
+Чтобы отправить метаданные gRPC-сервису, их нужно создать и указать в контексте удаленного вызова.
+Можно создать метаданные вместе с новым контекстом, используя функцию =NewOutgoingContext=, или просто добавить их в существующий контекст, вызвав =AppendToOutgoingContext=. Обратите внимание: в первом варианте любые имеющиеся в контексте метаданные будут заменены.
+#+begin_src go
+md := metadata.Pairs(
+	"timestamp", time.Now().Format(time.StampNano),
+	"kn", "vn",
+)
+mdCtx := metadata.NewOutgoingContext(context.Background(), md)
+ctxA := metadata.AppendToOutgoingContext(mdCtx, "k1", "v1", "k1", "v2", "k2", "v3")
+
+// делаем унарный удаленный вызов
+response, err := client.SomeRPC(ctxA, someRequest)
+// или делаем потоковый удаленный вызов
+stream, err := client.SomeStreamingRPC(ctxA)
+#+end_src
+
+Чтение метаданных на стороне клиента
+#+begin_src go
+// Переменная для хранения заголовка и заключительного блока, возвращенных удаленным вызовом.
+var header, trailer metadata.MD
+// ***** унарный RPC *****
+// Передаем ссылку на заголовок и заключительный блок, чтобы сохранить значения для унарного RPC.
+r, err := client.SomeRPC(
+	ctx,
+	someRequest,
+	grpc.Header(&header),
+	grpc.Trailer(&trailer),
+)
+// обрабатываем здесь хеш-таблицу с заголовками и заключительными блоками
+
+// ***** потоковый RPC *****
+stream, err := client.SomeStreamingRPC(ctx)
+// извлекаем заголовок
+header, err := stream.Header()
+// извлекаем заключительный блок
+trailer := stream.Trailer()
+// обрабатываем хеш-таблицу с заголовками и заключительными блоками
+#+end_src
+
+** Отправка и получение метаданных на стороне сервера
+Получение метаданных на стороне сервера — довольно простой и понятный процесс. В языке Go для этого достаточно выполнить =metadata.FromIncomingContext(ctx)= внутри реализации вашего удаленного метода
+#+begin_src go
+func (s *server) SomeRPC(ctx context.Context, in *pb.someRequest) (*pb.someResponse, error) {
+	md, ok := metadata.FromIncomingContext(ctx)
+// некие действия с метаданными
+}
+func (s *server) SomeStreamingRPC(stream pb.Service_SomeStreamingRPCServer) error {
+	md, ok := metadata.FromIncomingContext(stream.Context())
+// некие действия с метаданными
+}
+#+end_src
+
+Чтобы отправить метаданные на серверной стороне, задействуйте заголовок или заключительный блок.
+#+begin_src go
+func (s *server) SomeRPC(ctx context.Context, in *pb.someRequest) (*pb.someResponse, error) {
+	// создаем и отправляем заголовок
+	header := metadata.Pairs("header-key", "val")
+	grpc.SendHeader(ctx, header)
+	// создаем и отправляем заключительный блок
+	trailer := metadata.Pairs("trailer-key", "val")
+	grpc.SetTrailer(ctx, trailer)
+}
+func (s *server) SomeStreamingRPC(stream pb.Service_SomeStreamingRPCServer) error {
+	// создаем и отправляем заголовок
+	header := metadata.Pairs("header-key", "val")
+	stream.SendHeader(header)
+	// создаем и отправляем заключительный блок
+	trailer := metadata.Pairs("trailer-key", "val") stream.SetTrailer(trailer)
+}
+#+end_src
+И в унарном, и в потоковом стиле метаданные можно отправлять с помощью метода =grpc.SendHeader=. Вы также можете сделать их частью заключительного блока в текущем контексте, используя метод =grpc.SetTrailer= или =SetTrailer= соответствующего потока.
+
+* Аутентификация gRPC-канала с помощью TLS
+Протокол защиты транспортного уровня (Transport Level Security, TLS) предназначен для шифрования и обеспечения целостности данных, передающихся между приложениями. В gRPC он используется для установления безопасного соединения между клиентом и сервером.
+Защитить передачу данных между клиентом и сервером можно с помощью однонаправленного подхода, а также двунаправленного (известного как взаимный TLS, или mTLS).
+
+** 1. Однонаправленное защищенное соединение
+В однонаправленном соединении проверкой подлинности занимается только клиент. В начале сессии сервер передает клиенту свой открытый сертификат, чтобы тот его проверил. Для этого используется удостоверяющий центр (certificate authority, CA). Убе    дившись в подлинности сертификата, клиент отправляет данные, зашифрованные с помощью закрытого ключа.
+Включить TLS можно, сначала создав следующие сертификаты и ключи:
+- server.key — закрытый RSA-ключ, с помощью которого подписывается и аутентифицируется открытый ключ;
+- server.pem/server.crt — самоподписанные открытые X.509-ключи для публичного распространения.
+
+Включение однонаправленного безопасного соединения на стороне сервера
+Это самый простой способ зашифровать взаимодействие клиента и сервера. Сервер должен быть инициализирован с помощью открытого и закрытого ключей.
+#+begin_src go
+var (
+	port = ":50051"
+	crtFile = "server.crt"
+	keyFile = "server.key"
+)
+
+func main() {
+	// Считываем и анализируем открытый/закрытый ключи и создаем сертификат, чтобы включить TLS.
+	cert, err := tls.LoadX509KeyPair(crtFile,keyFile)
+	if err != nil {
+		log.Fatalf("failed to load key pair: %s", err)
+	}
+	// Включаем TLS для всех входящих соединений, используя сертификаты для аутентификации.
+	opts := []grpc.ServerOption{
+		grpc.Creds(credentials.NewServerTLSFromCert(&cert))
+	}
+	s := grpc.NewServer(opts...)
+	...
+#+end_src
+
+Включение однонаправленного безопасного соединения на стороне клиента
+Чтобы подключиться к серверу, клиент должен получить его самоподписанный публичный сертификат.
+#+begin_src go
+var (
+	address = "localhost:50051"
+	hostname = "localhost"
+	crtFile = "server.crt"
+)
+
+func main() {
+	// Считываем и анализируем публичный сертификат, чтобы включить TLS.
+	creds, err := credentials.NewClientTLSFromFile(crtFile, hostname)
+	if err != nil {
+		log.Fatalf("failed to load credentials: %v", err)
+	}
+	// Указываем аутентификационные данные для транспортного протокола с помощью DialOption
+	opts := []grpc.DialOption{
+		grpc.WithTransportCredentials(creds),
+	}
+	conn, err := grpc.Dial(address, opts...)
+#+end_src
+
+** 2. Включение безопасного соединения mTLS
+Основное назначение mTLS состоит в том, чтобы сервер мог контролировать клиентские приложения, которые подключаются к нему. В отличие от однонаправленного TLS-соединения сервер принимает запросы от ограниченной группы проверенных клиентов. Обе стороны обмениваются друг с другом публичными сертификатами и проверяют их подлинность.
+Соединение устанавливается по следующему принципу:
+1. Клиент отправляет серверу запрос, чтобы получить доступ к защищенной информации.
+2. Сервер возвращает клиенту сертификат X.509.
+3. Клиент проверяет полученный сертификат в соответствующем удостоверяющем центре.
+4. В случае успешной проверки клиент передает серверу свой сертификат.
+5. Теперь уже сервер проверяет сертификат клиента в удостоверяющем центре.
+6. В случае успеха сервер открывает доступ к защищенным данным.
+
+Представим, что у нас уже есть все сертификаты, необходимые для включения mTLS в целях клиент-серверного взаимодействия. В результате корректной процедуры генерации у вас должны получиться следующие ключи и сертификаты:
+- server.key — закрытый RSA-ключ сервера;
+- server.crt — публичный сертификат сервера;
+- client.key — закрытый RSA-ключ клиента;
+- client.crt — публичный сертификат клиента;
+- ca.crt — публичный сертификат удостоверяющего цент
+
+Включение mTLS на gRPC-сервере
+#+begin_src go
+var (
+	port = ":50051"
+	crtFile = "server.crt"
+	keyFile = "server.key"
+	caFile = "ca.crt"
+)
+
+// Создаем пары ключей X.509 непосредственно из ключа и сертификата сервера.
+certificate, err := tls.LoadX509KeyPair(crtFile, keyFile)
+if err != nil {
+	log.Fatalf("failed to load key pair: %s", err)
+}
+// Генерируем пул сертификатов в удостоверяющем центре.
+certPool := x509.NewCertPool()
+ca, err := ioutil.ReadFile(caFile)
+if err != nil {
+	log.Fatalf("could not read ca certificate: %s", err)
+}
+// Добавляем клиентские сертификаты из удостоверяющего центра в сгенерированный пул.
+if ok := certPool.AppendCertsFromPEM(ca); !ok {
+	log.Fatalf("failed to append ca certificate")
+}
+
+opts := []grpc.ServerOption{
+// включаем TLS для всех входящих соединений
+grpc.Creds(credentials.NewTLS(&tls.Config {
+	ClientAuth: tls.RequireAndVerifyClientCert,
+	Certificates: []tls.Certificate{certificate},
+	ClientCAs: certPool,
+},)),}
+
+s := grpc.NewServer(opts...)
+#+end_src
+
+Включение mTLS для gRPC-клиента
+#+begin_src go
+var (
+	address = "localhost:50051"
+	hostname = "localhost"
+	crtFile = "client.crt"
+	keyFile = "client.key"
+	caFile = "ca.crt"
+)
+// Создаем пары ключей X.509 непосредственно из ключа и сертификата сервера.
+certificate, err := tls.LoadX509KeyPair(crtFile, keyFile)
+if err != nil {
+	log.Fatalf("could not load client key pair: %s", err)
+}
+// Генерируем пул сертификатов в удостоверяющем центре.
+certPool := x509.NewCertPool()
+ca, err := ioutil.ReadFile(caFile)
+if err != nil {
+	log.Fatalf("could not read ca certificate: %s", err)
+}
+// Добавляем клиентские сертификаты из удостоверяющего центра в сгенерированный пул.
+if ok := certPool.AppendCertsFromPEM(ca); !ok {
+	log.Fatalf("failed to append ca certs")
+}
+// Указываем транспортные аутентификационные данные в виде параметров соединения.
+// Поле ServerName должно быть равно значению Common Name,указанному в сертификате.
+opts := []grpc.DialOption{grpc.WithTransportCredentials( credentials.NewTLS(&tls.Config{
+	ServerName: hostname, // Примечание: это обязательно!
+	Certificates: []tls.Certificate{certificate},
+	RootCAs: certPool,
+})),
+}
+
+conn, err := grpc.Dial(address, opts...)
+#+end_src

@@ -1,5 +1,7 @@
 Making Games in Go for Absolute Beginners
 https://threedots.tech/post/making-games-in-go/
+перевод
+https://kodikapusta.ru/articles/first-game-ebitten
 
 Разработка игр на Ebitengine
 https://www.quasilyte.dev/ebiten/ru/
