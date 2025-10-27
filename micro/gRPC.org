@@ -853,3 +853,26 @@ opts := []grpc.DialOption{
 	grpc.WithTransportCredentials(creds),
 }
 #+end_src
+
+* Развёртывание в docker
+#+begin_src shell
+# этап I:
+FROM golang AS build
+ENV location /go/src/github.com/grpc-up-and-running/samples/ch07/grpc-docker/go
+WORKDIR ${location}/server
+
+ADD ./server ${location}/server
+ADD ./proto-gen ${location}/proto-gen
+
+RUN go get -d ./... # Загружаем все зависимости.
+RUN go install ./... # Устанавливаем все пакеты.
+RUN CGO_ENABLED=0 go build -o /bin/grpc-productinfo-server # Собираем серверное приложение.
+
+# этап II:
+# Собранные программы на Go — самодостаточные исполняемые файлы.
+FROM scratch
+# Копируем двоичный файл, собранный на предыдущем этапе, в новое место.
+COPY --from=build /bin/grpc-productinfo-server /bin/grpc-productinfo-server
+ENTRYPOINT ["/bin/grpc-productinfo-server"]
+EXPOSE 50051
+#+end_src
