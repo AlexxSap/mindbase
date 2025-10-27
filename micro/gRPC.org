@@ -752,3 +752,104 @@ opts := []grpc.DialOption{grpc.WithTransportCredentials( credentials.NewTLS(&tls
 
 conn, err := grpc.Dial(address, opts...)
 #+end_src
+
+* Аутентификация вызовов в gRPC
+Чтобы сделать возможной проверку подлинности вызывающей стороны, протокол gRPC позволяет клиенту внедрять свои аутентификационные данные (такие как имя пользователя и пароль) в каждый вызов. gRPC-сервер может перехватывать запросы клиента и проверять данную информацию.
+** Использование базовой аутентификации
+Самый простой механизм проверки подлинности — базовая аутентификация.
+Клиент отправляет запрос с заголовком Authorization, значение которого начинается со слова Basic; дальше идет пробел и строка =имя_пользователя:пароль= в кодировке base64.
+Например, для пользователя admin с паролем admin заголовок будет выглядеть так:
+#+begin_src shell
+Authorization: Basic YWRtaW46YWRtaW4=
+#+end_src
+Поскольку в gRPC нет встроенной поддержки базовой аутентификации, данные необходимо добавлять в контекст клиента вручную.
+
+Определяем структуру для хранения полей, которые нужно внедрять в удаленные вызовы:
+#+begin_src go
+type basicAuth struct {
+	username string
+	password string
+}
+
+func (b basicAuth) GetRequestMetadata(ctx context.Context, in ...string) (map[string]string, error) {
+	auth := b.username + ":" + b.password
+	enc := base64.StdEncoding.EncodeToString([]byte(auth))
+
+	return map[string]string{ "authorization": "Basic " + enc, }, nil
+}
+
+func (b basicAuth) RequireTransportSecurity() bool {
+	return true
+}
+#+end_src
+
+Реализованный нами объект для хранения аутентификационных данных нужно инициализировать с помощью корректных значений и указать при установлении соединения:
+#+begin_src go
+auth := basicAuth{
+	username: "admin",
+	password: "admin",
+}
+...
+opts := []grpc.DialOption{
+	grpc.WithPerRPCCredentials(auth),
+	grpc.WithTransportCredentials(creds),
+}
+conn, err := grpc.Dial(address, opts...)
+...
+#+end_src
+
+Далее сервер должен проверить подлинность:
+#+begin_src go
+func valid(authorization []string) bool {
+	if len(authorization) < 1 {
+		return false
+	}
+	token := strings.TrimPrefix(authorization[0], "Basic ")
+	return token == base64.StdEncoding.EncodeToString([]byte("admin:admin"))
+}
+
+func ensureValidBasicCredentials(ctx context.Context,
+	req interface{},
+	info *grpc.UnaryServerInfo,
+	handler grpc.UnaryHandler) (interface{}, error) {
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
+		return nil, errMissingMetadata
+	}
+	if !valid(md["authorization"]) {
+		return nil, errInvalidToken
+	}
+	// если токен действителен, то продолжаем выполнение обработчика
+	return handler(ctx, req)
+}
+
+func main() {
+...
+	opts := []grpc.ServerOption{
+		// включаем TLS для всех входящих соединений
+		grpc.Creds(credentials.NewServerTLSFromCert(&cert)),
+		grpc.UnaryInterceptor(ensureValidBasicCredentials),
+	}
+
+	s := grpc.NewServer(opts...)
+	pb.RegisterProductInfoServer(s, &server{})
+...
+}
+#+end_src
+
+** Использование OAuth 2.0
+Протокол gRPC имеет встроенную поддержку OAuth 2.0, и вы можете включить ее в своих приложениях.
+
+В процессе аутентификации OAuth 2.0 участвуют четыре стороны: клиент, сервер авторизации, сервер ресурсов и владелец ресурсов. Клиент хочет получить доступ к ресурсу, размещенному на соответствующем сервере. Для этого ему следует получить токен (представляющий собой произвольную строку) у сервера авторизации. Данный токен должен быть непредсказуемым и иметь подходящую длину. Клиент, получивший его, может отправить токен серверу ресурсов, который затем свяжется с сервером авторизации. Если владелец ресурса подтвердит подлинность токена, то клиент получит доступ к ресурсу.
+
+** Использование JWT
+JWT — это контейнер для обмена аутентификационной информацией между клиентом и сервером. Если его подписать, то он может выступать в качестве автономного токена доступа, для проверки которого серверу ресурсов не нужно обращаться к серверу аутентификации. Чтобы убедиться в его подлинности, достаточно проанализировать его подпись. Клиент запрашивает доступ у сервера аутентификации; тот проверяет его учетные данные, создает токен JWT и возвращает его клиенту. Вместе с JWT клиент получает доступ к ресурсам.
+#+begin_src go
+jwtCreds, err := oauth.NewJWTAccessFromFile("token.json")
+...
+opts := []grpc.DialOption{
+	grpc.WithPerRPCCredentials(jwtCreds),
+	// данные аутентификации для транспортного протокола
+	grpc.WithTransportCredentials(creds),
+}
+#+end_src
