@@ -1,0 +1,28 @@
+#+title: Multi Stage Build Для Лёгких И Безопасных Образов
+
+Если нужно собрать бинарник и получить чистый минимальный образ, не таская за собой компиляторы и зависимости:
+#+begin_src
+FROM golang:1.22 AS builder
+WORKDIR /src
+COPY . .
+RUN go build -o app .
+
+FROM gcr.io/distroless/base
+COPY --from=builder /src/app /app
+ENTRYPOINT ["/app"]
+#+end_src
+
+Что это даёт
+- На первом этапе (builder) ты собираешь приложение в полном окружении.
+- На втором - получаешь только бинарник, никаких инструментов сборки.
+- Образ становится в 10–20 раз меньше и гораздо безопаснее.
+
+Идеально подходит для деплоя в Kubernetes, CI/CD и serverless-окружениях.
+
+Запуск
+#+begin_src
+docker build -t myapp .
+docker run --rm myapp
+#+end_src
+
+Работает не только для Go, но и для Python/Node — достаточно перенести идею: собрать → очистить → упаковать минимально.

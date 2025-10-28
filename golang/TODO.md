@@ -298,6 +298,9 @@ https://www.alexedwards.net/blog/preventing-csrf-in-go
 
 # Прочее
 
+Величие и нищета Виктории и Прометея
+https://habr.com/ru/articles/960654/
+
 Vendoring, or go mod vendor: What Is It?
 https://victoriametrics.com/blog/vendoring-go-mod-vendor/
 

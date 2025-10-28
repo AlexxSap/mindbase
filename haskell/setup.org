@@ -1,78 +1,81 @@
-## Установка
+* Установка stack
+#+begin_src shell
+sudo pacman -S stack
+#или
+curl -sSL https://get.haskellstack.org/ | sh
+#+end_src
 
-Устанавливаем GHCup (https://www.haskell.org/ghcup/)
-```bash
+* Установка GHCup
+#+begin_src shell
 curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
-```
-
+#+end_src
 В файле .bashrc добавляем в PATH каталог .ghcup/bin
 
-Устанавливаем ghc-mod
-```
+
+* Устанавливаем ghc-mod (может не устанавливаться)
+#+begin_src shell
 stack install ghc-mod
-```
+#+end_src
 
-Устанавливаем lsp
-```
+* Устанавливаем lsp
+#+begin_src shell
 yay -S haskell-language-server-static
-```
+#+end_src
 
-Устанавливаем форматтер
-```
+* Устанавливаем форматтер
+#+begin_src shell
 stack install fourmolu
-```
+#+end_src
 
-Удалить ghcup можно командой
-```
+* Удалить ghcup можно командой
+#+begin_src shell
 ghcup nuke
-```
+#+end_src
 После этого ручками удалить папку ~/.ghcup
 
-## Настройка emacs
-
+* Настройка emacs
 В файле init.el раскомментируем
-```
+#+begin_src
 (haskell +lsp +tree-sitter)    ; a language that's lazier than I am
-```
+#+end_src
 
 В config.el добавляем
-```
+#+begin_src
 (require 'lsp)
 (require 'lsp-haskell)
 ;; Hooks so haskell and literate haskell major modes trigger LSP setup
 (add-hook 'haskell-mode-hook #'lsp)
 (add-hook 'haskell-literate-mode-hook #'lsp)
 (setq haskell-stylish-on-save t)
-```
+#+end_src
 
-## Запуск
-
+* Запуск
 Создаём проект (real это имя проекта)
-```
+#+begin_src
 stack new real
-```
+#+end_src
 
 Для создания проекта можно использовать схему simple - она создаёт меньше файлов в проекте.
-```
+#+begin_src
 stack new real simple
-```
+#+end_src
 
 Собираем
-```
+#+begin_src
 stack build
-```
+#+end_src
 
 Внутри каталога .stack-work появиться исполняемый файл, его можно запустить так
-```
+#+begin_src
 stack exec real-exe
-```
+#+end_src
 
-Форматировать файл 
-```
+Форматировать файл
+#+begin_src
 fourmolu -i Module.hs
-```
+#+end_src
 
-Форматировать каталог 
-```
+Форматировать каталог
+#+begin_src
 fourmolu -i src
-```
+#+end_src
