@@ -344,6 +344,9 @@ https://habr.com/ru/articles/797019/
 Robust generic functions on slices
 https://go.dev/blog/generic-slice-functions
 
+Generics in Go: Your Friendly Guide to Reusable Code
+https://dev.to/shrsv/generics-in-go-your-friendly-guide-to-reusable-code-4fkc
+
 iterators 
 https://dev.to/tuna99/understanding-iterators-in-go-a-fun-dive-1c57
 https://eli.thegreenplace.net/2024/ranging-over-functions-in-go-123/
