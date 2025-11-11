@@ -376,6 +376,9 @@ https://upstash.com/blog/upgradable-rwlock-for-go
 Базовые паттерны конкурентности
 https://www.youtube.com/watch?v=_Pg6mb8H8fk
 
+Конкурентность — горутины и каналы
+https://habr.com/ru/articles/962976/
+
 Goquery for Data Parsing
 https://www.zenrows.com/blog/goquery
 

@@ -175,4 +175,5 @@ https://rust-unofficial.github.io/patterns/idioms/index.html
 аттрибуты
 https://doc.rust-lang.org/beta/reference/attributes.html
 
-
+5 способов убить производительность в асинхронном Rust
+https://habr.com/ru/companies/beget/articles/964676/
