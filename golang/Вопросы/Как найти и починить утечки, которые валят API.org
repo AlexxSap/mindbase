@@ -1,0 +1,115 @@
+#+title: Как Найти И Починить Утечки Которые Валят Api
+
+API падает каждый день? Память растёт, горутины множатся, потом крах. Это не магия — это утечки ресурсов. Вот как их найти и убить.
+
+* Шаг 1: Собрать доказательства перед тем как гадать
+Не начинайте с предположений. Сначала соберите =логи=. Ищите паттерны: растут ли таймауты, появляются ошибки «context canceled», скачет ли error rate?
+
+Heap и goroutine профили. Это главное. Добавьте pprof endpoint, если его нет:
+#+begin_src go
+import _ "net/http/pprof"
+
+go func() {
+    log.Println(http.ListenAndServe(":6060", nil))
+}()
+#+end_src
+
+На следующем инциденте вытащите профили:
+#+begin_src shell
+curl localhost:6060/debug/pprof/heap > heap.pb
+curl localhost:6060/debug/pprof/goroutine?debug=2 > goroutines.txt
+#+end_src
+Проверьте лимиты: /proc/<pid>/limits, количество открытых файловых дескрипторов, состояние сокетов.
+
+* Шаг 2: Прочитать профили и понять, что протекает
+Откройте goroutine профиль текстом — там все ответы:
+#+begin_src shell
+go tool pprof -http=:8080 heap.pb
+#+end_src
+
+Что нужно найти:
+• Горутины в =CLOSE_WAIT=. Это сокеты, которые никто не закрыл нормально.
+• Горутины, зависшие на channel =send/receive=. Если тысячи горутин ждут отправить или получить из канала — канал где-то забился или заблокирован.
+• Горутины в =syscall=. Много горутин ждут на сетевых операциях — это может быть утечка соединений или зависание на стороне сервера.
+
+* Шаг 3: Найти корни утечек в коде
+Три главных виновника:
+• Горутины без контекста. Запустили горутину для async операции, но не гарантировали её завершение:
+#+begin_src go
+// Плохо: горутина может зависнуть
+go func() {
+    resp, _ := http.Get(url)
+    // ...
+}()
+
+// Хорошо: контекст отменяет работу
+go func(ctx context.Context) {
+    req, _ := http.NewRequestWithContext(ctx, "GET", url, nil)
+    resp, _ := httpClient.Do(req)
+}(r.Context())
+#+end_src
+
+• HTTP клиенты без переиспользования. Создаёте нового клиента на каждый запрос:
+#+begin_src go
+// Плохо: новый Transport на каждый вызов
+func handleRequest(w http.ResponseWriter, r *http.Request) {
+    client := &http.Client{}
+    resp, _ := client.Get("https://api.example.com/data")
+}
+
+// Хорошо: переиспользуем один клиент
+var httpClient = &http.Client{
+    Transport: &http.Transport{
+        MaxIdleConns:        200,
+        MaxIdleConnsPerHost: 100,
+        IdleConnTimeout:     90 * time.Second,
+    },
+}
+#+end_src
+
+• Неограниченные очереди. На пике нагрузки канал растёт без предела:
+#+begin_src go
+// Плохо: неограниченный канал
+jobs := make(chan Job)
+
+// Хорошо: ограничиваем размер
+jobs := make(chan Job, 1000)
+
+select {
+case jobs <- job:
+    // принято
+default:
+    http.Error(w, "перегружены", http.StatusServiceUnavailable)
+}
+#+end_src
+
+Чтобы не падать в проде можно попробовать имитировать нагрузку на дев стенде:
+#+begin_src shell
+# Генерируем нагрузку
+ab -n 100000 -c 100 http://localhost:8080/endpoint
+
+# В другом терминале снимаем профиль каждую минуту
+for i in {1..60}; do
+  curl localhost:6060/debug/pprof/goroutine?debug=1 > goroutine_$i.txt
+  sleep 60
+done
+#+end_src
+
+Растёт ли количество горутин? Если да — утечка. Если нет — ложная тревога.
+Не полагайтесь только на профили. Мониторьте в реальном времени:
+#+begin_src go
+// Метрика: количество горутин
+runtime.NumGoroutine()
+
+// Метрика: память
+var m runtime.MemStats
+runtime.ReadMemStats(&m)
+m.Alloc // текущее использование
+
+// Метрика: открытые файловые дескрипторы (Linux)
+files, _ := ioutil.ReadDir("/proc/self/fd")
+len(files) // количество открытых fd
+#+end_src
+
+Выставляйте эти метрики в Prometheus или что у вас есть. Алерты на рост горутин выше нормы — это первый звоночек.
+Не решайте задачу вслепую. =Профилируйте=, смотрите данные, ищите паттерны. Утечки это не магия — это просто ресурсы, которые вы забыли закрыть.
