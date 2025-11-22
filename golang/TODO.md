@@ -20,6 +20,9 @@ https://www.youtube.com/watch?v=ND2Qfdg5bVc&ab_channel=ЭйчНавыки—ме
 Задачи и решения
 https://2ds.ru/posts/example-golang/
 
+Practical Go: Real world advice for writing maintainable Go programs
+https://dave.cheney.net/practical-go/presentations/qcon-china.html#_consider_fewer_larger_packages
+
 Вопросы и ответы
 https://habr.com/ru/articles/786826/
 https://habr.com/ru/articles/658623/
@@ -96,6 +99,9 @@ https://m.youtube.com/watch?v=jGHxiJz_GtM&pp=ygUr0KLQtdC70LXQs9GA0LDQvCDQsdC-0YI
 https://habr.com/ru/articles/351060/
 
 # Производительность 
+
+Go profiling lifecycle: от разработки до прода. Инструменты и практики
+https://habr.com/ru/articles/968660/
 
 Секреты пакета unsafe, которые тебе нужно знать
 https://www.youtube.com/watch?v=6mTv1e8au9c
