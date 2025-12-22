@@ -41,6 +41,13 @@ https://antonz.org/all/
 Несколько занятных вопросов собеседований по Go
 https://habr.com/ru/articles/945448/
 
+# 1.26
+Go-фича: Обновленный go fix
+https://antonz.ru/accepted/modernized-go-fix/
+
+Утечки горутин в Go 1.24+
+https://antonz.ru/detecting-goroutine-leaks/
+
 # gRPC
 
 Пишем gRPC сервис на Go - Сервис авторизации
