@@ -41,6 +41,9 @@ https://antonz.org/all/
 Несколько занятных вопросов собеседований по Go
 https://habr.com/ru/articles/945448/
 
+Go: 15 самых популярных докладов 2025 года на YouTube
+https://tproger.ru/articles/go--15-samyh-populyarnyh-dokladov-2025-goda-na-youtube
+
 # 1.26
 Go-фича: Обновленный go fix
 https://antonz.ru/accepted/modernized-go-fix/
