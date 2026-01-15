@@ -177,3 +177,6 @@ https://doc.rust-lang.org/beta/reference/attributes.html
 
 5 способов убить производительность в асинхронном Rust
 https://habr.com/ru/companies/beget/articles/964676/
+
+Rust’s most complicated features explained
+https://vkvideo.ru/video-228916121_456239335

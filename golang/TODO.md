@@ -51,6 +51,8 @@ https://antonz.ru/accepted/modernized-go-fix/
 Утечки горутин в Go 1.24+
 https://antonz.ru/detecting-goroutine-leaks/
 
+https://antonz.org/go-1-26/
+
 # gRPC
 
 Пишем gRPC сервис на Go - Сервис авторизации

@@ -1,0 +1,2 @@
+Some Haskell idioms we like
+https://exploring-better-ways.bellroy.com/some-haskell-idioms-we-like.html
