@@ -528,5 +528,6 @@ https://victoriametrics.com/blog/go-io-reader-writer/index.html
 Go I/O Closer, Seeker, WriterTo, and ReaderFrom
 https://victoriametrics.com/blog/go-io-closer-seeker-readfrom-writeto/
 
-
+The Go Build System: Optimised for Humans and Machines
+https://blog.gaborkoos.com/posts/2026-01-08-The-Go-Build-System-Optimised-for-Humans-and-Machines/
 
