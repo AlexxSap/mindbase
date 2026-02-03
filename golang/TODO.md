@@ -454,6 +454,9 @@ https://google.github.io/styleguide/go/best-practices.html
 Go: как работает система тестирования  
 https://matttproud.com/blog/posts/go-testing-harness.html
 
+видос по тестам
+https://youtu.be/BDVSbr3wGYU
+
 Самый лучший мок на свете: разбираемся с инструментами для генерации моков в Go
 https://habr.com/ru/companies/avito/articles/939388/
 
@@ -531,3 +534,5 @@ https://victoriametrics.com/blog/go-io-closer-seeker-readfrom-writeto/
 The Go Build System: Optimised for Humans and Machines
 https://blog.gaborkoos.com/posts/2026-01-08-The-Go-Build-System-Optimised-for-Humans-and-Machines/
 
+Writing a Go SQL driver
+https://www.dolthub.com/blog/2026-01-23-golang-sql-drivers/

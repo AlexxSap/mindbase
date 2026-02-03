@@ -1,0 +1,73 @@
+Какова суть принципа подстановки Барбары Лисков?
+
+Является одним из пяти принципов SOLID и был предложен Барбарой Лисков в 1987 году. Этот принцип гласит, что объекты базового (родительского) класса должны быть заменяемы объектами производного (дочернего) класса без нарушения правильности программы. Другими словами, если класс S является подтипом класса T, то объекты типа T должны быть заменяемы объектами типа S без изменения желаемых свойств программы.
+
+* Почему это нужно?
+LSP помогает обеспечить правильное использование наследования и полиморфизма в объектно-ориентированном программировании. Если принцип подстановки нарушен, то полиморфизм может привести к неожиданным ошибкам и некорректному поведению программы. Следование LSP делает код более гибким, надежным и легким для сопровождения.
+
+* Как это используется?
+- Поддерживали контракт, заданный базовым классом.
+- Не изменяли ожидаемое поведение базового класса.
+- Не ослабляли инварианты базового класса.
+- Не нарушали постусловия и предусловия базового класса.
+
+* Пример использования
+
+=Нарушение LSP=
+Здесь класс =Square= нарушает LSP, потому что он изменяет поведение методов =setWidth= и =setHeight=, что может привести к неожиданным результатам при использовании объекта =Square= как =Rectangle=.
+#+begin_src cpp
+class Rectangle {
+protected:
+    int width, height;
+public:
+    virtual void setWidth(int w) { width = w; }
+    virtual void setHeight(int h) { height = h; }
+    int getWidth() const { return width; }
+    int getHeight() const { return height; }
+    int area() const { return width * height; }
+};
+
+class Square : public Rectangle {
+public:
+    void setWidth(int w) override {
+        width = w;
+        height = w; // Изменяем и ширину, и высоту
+    }
+
+    void setHeight(int h) override {
+        height = h;
+        width = h; // Изменяем и высоту, и ширину
+    }
+};
+#+end_src
+
+=Соблюдение LSP=
+Лучше всего избегать такого наследования, которое приводит к нарушению LSP. В этом случае можно использовать другой подход, например, композицию вместо наследования. Теперь =Rectangle= и =Square= наследуют от абстрактного класса =Shape=, и каждый класс реализует метод =area= согласно своей логике, не нарушая LSP.
+#+begin_src cpp
+class Shape {
+public:
+    virtual int area() const = 0;
+    virtual ~Shape() = default;
+};
+
+class Rectangle : public Shape {
+protected:
+    int width, height;
+public:
+    Rectangle(int w, int h) : width(w), height(h) {}
+    void setWidth(int w) { width = w; }
+    void setHeight(int h) { height = h; }
+    int getWidth() const { return width; }
+    int getHeight() const { return height; }
+    int area() const override { return width * height; }
+};
+
+class Square : public Shape {
+    int side;
+public:
+    Square(int s) : side(s) {}
+    void setSide(int s) { side = s; }
+    int getSide() const { return side; }
+    int area() const override { return side * side; }
+};
+#+end_src
