@@ -1,0 +1,61 @@
+=Singleflight= гарантирует, что дорогая операция выполняется только один раз, даже если тысячи горутин запрашивают один и тот же ресурс одновременно.
+
+Проблема: =Cache Stampede=.
+Типичная ситуация:
+• 10 000 запросов за одной статьёй попадают в сервис
+• Кеш для этой статьи как раз протух
+• Все 10 000 запросов одновременно идут в базу
+• База падает от нагрузки
+
+Это =cache stampede= — классическая проблема распределённых систем.
+
+Решение:
+=Singleflight= гарантирует, что для одного ключа в любой момент выполняется только одна операция. Остальные ждут и получают тот же результат:
+#+begin_src go
+import "golang.org/x/sync/singleflight"
+
+var group singleflight.Group
+
+func GetUser(id string) (*User, error) {
+    v, err, shared := group.Do(id, func() (interface{}, error) {
+        // Эта функция выполнится только один раз
+        return db.Query("SELECT * FROM users WHERE id = ?", id)
+    })
+
+    if err != nil {
+        return nil, err
+    }
+    return v.(*User), nil
+}
+#+end_src
+
+Что происходит в коде:
+1. Первый запрос выполняет функцию
+2. Остальные 9 999 запросов ждут его завершения
+3. Все получают одинаковый результат
+4. База получает 1 запрос вместо 10 000
+
+Что умеет либа =sync.singleflight=:
+=Do()= — синхронное ожидание:
+#+begin_src go
+v, err, shared := group.Do(key, func() (interface{}, error) {
+    return expensiveOperation()
+})
+#+end_src
+
+=DoChan()= — с таймаутом:
+#+begin_src go
+ch := group.DoChan(key, fetchData)
+
+select {
+case result := <-ch:
+    return result.Val, result.Err
+case <-time.After(5 * time.Second):
+    return nil, fmt.Errorf("timeout")
+}
+#+end_src
+
+=Forget()= — принудительный сброс:
+#+begin_src go
+group.Forget(key)  // Следующий запрос выполнится заново
+#+end_src

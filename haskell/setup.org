@@ -61,3 +61,12 @@ fourmolu -i Module.hs
 #+begin_src
 fourmolu -i src
 #+end_src
+
+* Обязательные программы
+• ghc - компилятор
+• hls - lsp
+• cabal - мэнеджер
+• cabal-gilt - форматтер для cabal файлов
+• fourmolu - форматтер для исходников
+• hlint - линтер исходников, встраивается в flycheck
+• apply-refact - что-то для рефакторинга
