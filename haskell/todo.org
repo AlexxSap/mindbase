@@ -18,3 +18,8 @@ https://slicker.me/haskell/monads_applicatives_functors.htm
 
 Non-strict semantics
 https://wiki.haskell.org/Non-strict_semantics
+
+Working with Cabal and Stack for Package Management in Haskell
+https://piembsystech.com/working-with-cabal-and-stack-for-package-management-in-haskell/?amp=1
+
+https://devtut.github.io/haskell/io.html#getting-the-a-out-of-io-a
