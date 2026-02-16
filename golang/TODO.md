@@ -536,3 +536,6 @@ https://blog.gaborkoos.com/posts/2026-01-08-The-Go-Build-System-Optimised-for-Hu
 
 Writing a Go SQL driver
 https://www.dolthub.com/blog/2026-01-23-golang-sql-drivers/
+
+Understanding the Go Runtime: The Bootstrap
+https://internals-for-interns.com/posts/understanding-go-runtime
