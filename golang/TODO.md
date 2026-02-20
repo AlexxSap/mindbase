@@ -536,6 +536,3 @@ https://blog.gaborkoos.com/posts/2026-01-08-The-Go-Build-System-Optimised-for-Hu
 
 Writing a Go SQL driver
 https://www.dolthub.com/blog/2026-01-23-golang-sql-drivers/
-
-List and LinkedList in Go
-https://medium.com/@yuseferi/list-and-linkedlist-in-go-the-overlooked-power-tool-every-go-engineer-forgets-59df99db4583
