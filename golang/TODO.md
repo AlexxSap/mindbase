@@ -539,3 +539,6 @@ https://www.dolthub.com/blog/2026-01-23-golang-sql-drivers/
 
 Understanding the Go Runtime: The Bootstrap
 https://internals-for-interns.com/posts/understanding-go-runtime
+
+List and LinkedList in Go: The Overlooked Power Tool Every Go Engineer Forgets
+https://medium.com/@yuseferi/list-and-linkedlist-in-go-the-overlooked-power-tool-every-go-engineer-forgets-59df99db4583
