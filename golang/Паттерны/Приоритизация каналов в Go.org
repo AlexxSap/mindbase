@@ -1,0 +1,62 @@
+
+=select= выбирает кейс случайно, если готовы несколько каналов. Звучит просто, но на практике это боль: срочное сообщение может ждать в очереди, пока обрабатывается менее важное.
+
+Разберём, как это починить:
+#+begin_src go 
+select {
+case msg := <-urgent:
+    handle(msg)
+case msg := <-normal:
+    handle(msg)
+}
+#+end_src
+
+Никаких гарантий, что срочное обработается первым.
+
+=Решение=: двойной select
+#+begin_src go 
+for {
+    // Сначала пробуем срочный канал
+    select {
+    case msg := <-urgent:
+        handle(msg)
+    default:
+    }
+
+    // Потом общий
+    select {
+    case msg := <-urgent:
+        handle(msg)
+    case msg := <-normal:
+        handle(msg)
+    }
+}
+#+end_src
+
+Первый =select= с default не блокируется — он мгновенно проверяет, есть ли что-то срочное. Если да — обрабатываем и идём на следующую итерацию. Если нет — падаем во второй select и ждём любой из каналов.
+Главная опасность — голодание. Если =urgent= забит сообщениями постоянно, normal не получит ничего никогда. 
+
+Защита — счётчик или таймер:
+#+begin_src go 
+normalTimeout := time.After(5 * time.Second)
+
+for {
+    select {
+    case msg := <-urgent:
+        handle(msg)
+    default:
+    }
+
+    select {
+    case msg := <-urgent:
+        handle(msg)
+    case msg := <-normal:
+        handle(msg)
+    case <-normalTimeout:
+        // Принудительно даём слово normal
+        msg := <-normal
+        handle(msg)
+        normalTimeout = time.After(5 * time.Second)
+    }
+}
+#+end_src

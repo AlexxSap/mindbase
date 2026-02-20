@@ -23,3 +23,4 @@ Working with Cabal and Stack for Package Management in Haskell
 https://piembsystech.com/working-with-cabal-and-stack-for-package-management-in-haskell/?amp=1
 
 https://devtut.github.io/haskell/io.html#getting-the-a-out-of-io-a
+https://www.youtube.com/playlist?list=PLe7Ei6viL6jGp1Rfu0dil1JH1SHk9bgDV
