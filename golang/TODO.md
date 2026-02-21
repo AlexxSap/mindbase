@@ -542,3 +542,6 @@ https://internals-for-interns.com/posts/understanding-go-runtime
 
 List and LinkedList in Go: The Overlooked Power Tool Every Go Engineer Forgets
 https://medium.com/@yuseferi/list-and-linkedlist-in-go-the-overlooked-power-tool-every-go-engineer-forgets-59df99db4583
+
+Understanding the Go Compiler: The Linker
+https://internals-for-interns.com/posts/the-go-linker
