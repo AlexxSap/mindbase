@@ -24,3 +24,4 @@ https://piembsystech.com/working-with-cabal-and-stack-for-package-management-in-
 
 https://devtut.github.io/haskell/io.html#getting-the-a-out-of-io-a
 https://www.youtube.com/playlist?list=PLe7Ei6viL6jGp1Rfu0dil1JH1SHk9bgDV
+https://www.iankduncan.com/engineering/2026-02-20-haskell-postgresql-without-suffering
