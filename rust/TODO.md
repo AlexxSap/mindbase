@@ -3,6 +3,9 @@ https://google.github.io/comprehensive-rust/index.html
 https://doc.rust-lang.ru/rust-cookbook/intro.html
 https://www.turing.com/interview-questions/rust
 
+# Тур по раст
+https://tourofrust.com/00_ru.html
+
 # каналы
 https://t.me/rust_code
 https://t.me/rust_journey
