@@ -112,6 +112,9 @@ https://habr.com/ru/articles/351060/
 
 # Производительность 
 
+The Complete Guide to Profiling Go Services in Production
+https://fulmenflux.co/blog/go/complete-guide-to-profile-golang-services-in-production/
+
 Go profiling lifecycle: от разработки до прода. Инструменты и практики
 https://habr.com/ru/articles/968660/
 
