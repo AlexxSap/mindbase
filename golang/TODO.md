@@ -548,3 +548,6 @@ https://medium.com/@yuseferi/list-and-linkedlist-in-go-the-overlooked-power-tool
 
 Understanding the Go Compiler: The Linker
 https://internals-for-interns.com/posts/the-go-linker
+
+Best Practices for Secure Error Handling in Go
+https://blog.jetbrains.com/go/2026/03/02/secure-go-error-handling-best-practices/
