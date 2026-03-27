@@ -1,0 +1,31 @@
+Интерфейс =LogValuer=
+
+Самая частая проблема логирования, случайно слить в логи пароль, токен или кредитную карту (PII данные), передав структуру целиком.
+В =slog= есть гениальная вещь - интерфейс =LogValuer=. Если ваша структура его реализует, логгер вызовет его до сериализации.
+#+begin_src go 
+type User struct {
+    ID       int
+    Name     string
+    Password string // СЕКРЕТ!
+}
+
+// Учим структуру безопасно логировать саму себя
+func (u User) LogValue() slog.Value {
+    return slog.GroupValue(
+        slog.Int("id", u.ID),
+        slog.String("name", u.Name),
+        slog.String("password", "***REDACTED***"), // Скрыли!
+    )
+}
+
+func main() {
+    user := User{ID: 1, Name: "Ivan", Password: "super_secret_123"}
+    
+    // Даже если джун случайно залогирует юзера целиком:
+    slog.Info("created user", slog.Any("user", user))
+    // В логах будет: "password": "***REDACTED***". Прод спасен.
+}
+
+#+end_src
+
+Конечно, zap всё ещё чуть быстрее на экстремальных нагрузках благодаря жесткой кодогенерации, но для 95% микросервисов slog - это новый абсолютный стандарт. 

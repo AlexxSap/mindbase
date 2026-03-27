@@ -112,6 +112,9 @@ https://habr.com/ru/articles/351060/
 
 # Производительность 
 
+Patterns and Techniques for Writing High-Performance Applications with Go
+https://goperf.dev/01-common-patterns/
+
 The Complete Guide to Profiling Go Services in Production
 https://fulmenflux.co/blog/go/complete-guide-to-profile-golang-services-in-production/
 
