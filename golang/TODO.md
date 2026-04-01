@@ -463,6 +463,9 @@ https://matttproud.com/blog/posts/go-testing-harness.html
 видос по тестам
 https://youtu.be/BDVSbr3wGYU
 
+Testing unary gRPC services in Go
+https://rednafi.com/go/testing-unary-grpc-services/
+
 Самый лучший мок на свете: разбираемся с инструментами для генерации моков в Go
 https://habr.com/ru/companies/avito/articles/939388/
 
