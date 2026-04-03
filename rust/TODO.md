@@ -183,3 +183,6 @@ https://habr.com/ru/companies/beget/articles/964676/
 
 Rust’s most complicated features explained
 https://vkvideo.ru/video-228916121_456239335
+
+Rust Training Books
+https://microsoft.github.io/RustTraining/
