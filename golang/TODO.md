@@ -44,15 +44,6 @@ https://habr.com/ru/articles/945448/
 Go: 15 самых популярных докладов 2025 года на YouTube
 https://tproger.ru/articles/go--15-samyh-populyarnyh-dokladov-2025-goda-na-youtube
 
-# 1.26
-Go-фича: Обновленный go fix
-https://antonz.ru/accepted/modernized-go-fix/
-
-Утечки горутин в Go 1.24+
-https://antonz.ru/detecting-goroutine-leaks/
-
-https://antonz.org/go-1-26/
-
 # gRPC
 
 Пишем gRPC сервис на Go - Сервис авторизации
@@ -557,3 +548,6 @@ https://internals-for-interns.com/posts/the-go-linker
 
 Best Practices for Secure Error Handling in Go
 https://blog.jetbrains.com/go/2026/03/02/secure-go-error-handling-best-practices/
+
+Real-Time Dashboards with Go and PostgreSQL (Without Polling)
+https://medium.com/@josesomojola/real-time-dashboards-with-go-and-postgresql-without-polling-7841b481a339
