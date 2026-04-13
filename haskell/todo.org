@@ -27,3 +27,9 @@ https://www.iankduncan.com/engineering/2026-02-20-haskell-postgresql-without-suf
 
 The Happstack Book: Modern, Type-Safe Web Development in Haskell
 https://www.happstack.com/docs/crashcourse/index.html#hello-world
+
+Building a gRPC Server in Haskell with Grapesy: A Practical Guide
+https://medium.com/@kirill.borodylin/building-a-grpc-server-in-haskell-with-grapesy-a-practical-guide-d5be703a7077
+
+Mocking HTTP in Haskell — A Clean Approach with Typeclasses
+https://medium.com/%40kirill.borodylin/mocking-http-in-haskell-a-clean-approach-with-typeclasses-159acc0df1a7

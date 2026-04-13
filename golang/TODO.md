@@ -313,6 +313,9 @@ https://www.alexedwards.net/blog/preventing-csrf-in-go
 
 # Прочее
 
+массивы и слайсы
+https://www.youtube.com/watch?v=7ij3u-0YsJI
+
 Величие и нищета Виктории и Прометея
 https://habr.com/ru/articles/960654/
 
