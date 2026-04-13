@@ -33,3 +33,8 @@ https://medium.com/@kirill.borodylin/building-a-grpc-server-in-haskell-with-grap
 
 Mocking HTTP in Haskell — A Clean Approach with Typeclasses
 https://medium.com/%40kirill.borodylin/mocking-http-in-haskell-a-clean-approach-with-typeclasses-159acc0df1a7
+
+
+https://ruhaskell.org/authors.html
+
+https://github.com/graninas/hierarchical-free-monads-the-most-developed-approach-in-haskell
