@@ -554,3 +554,6 @@ https://blog.jetbrains.com/go/2026/03/02/secure-go-error-handling-best-practices
 
 Real-Time Dashboards with Go and PostgreSQL (Without Polling)
 https://medium.com/@josesomojola/real-time-dashboards-with-go-and-postgresql-without-polling-7841b481a339
+
+Работа с битами
+https://iampavel.dev/blog/go-bitwise-flags-config
