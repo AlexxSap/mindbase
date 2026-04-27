@@ -1,0 +1,14 @@
+Для проверки огфографии нужно:
+1. Установить ispell
+#+begin_src 
+sudo pacman -S aspell aspell-ru aspell-en
+#+end_src
+
+2. добавить его в init.el раскомментировав строку со spell и в конфиге подменить его
+#+begin_src 
+(setq ispell-program-name "aspell")
+#+end_src   
+
+3. После этого можно проверять буффер через ispell-buffer.
+4. Заменить словарь можно через ispell-change-dictionary
+5. Пропустить слово - пробел, добавить в словарт - i, заменить - цифрой из вариантов.
