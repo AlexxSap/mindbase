@@ -38,3 +38,4 @@ https://medium.com/%40kirill.borodylin/mocking-http-in-haskell-a-clean-approach-
 https://ruhaskell.org/authors.html
 
 https://github.com/graninas/hierarchical-free-monads-the-most-developed-approach-in-haskell
+https://smunix.github.io/dev.stephendiehl.com/hask/#free-monads
