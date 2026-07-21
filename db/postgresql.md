@@ -11,3 +11,6 @@ sudo docker-compose up
 
 Курс
 https://www.youtube.com/playlist?list=PLaFqU3KCWw6JhHBp07QSu9uE8zahhKnTn
+
+You probably don't need another database.
+https://postgresisenough.dev/
