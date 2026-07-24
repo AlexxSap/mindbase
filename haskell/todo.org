@@ -1,6 +1,3 @@
-Some Haskell idioms we like
-https://exploring-better-ways.bellroy.com/some-haskell-idioms-we-like.html
-
 Building a gRPC Server in Haskell with Grapesy: A Practical Guide
 https://medium.com/%40kirill.borodylin/building-a-grpc-server-in-haskell-with-grapesy-a-practical-guide-d5be703a7077
 
@@ -16,10 +13,6 @@ https://github.com/lsmor/snake-fury?tab=readme-ov-file#start-coding-building-a-m
 Non-strict semantics
 https://wiki.haskell.org/Non-strict_semantics
 
-Working with Cabal and Stack for Package Management in Haskell
-https://piembsystech.com/working-with-cabal-and-stack-for-package-management-in-haskell/?amp=1
-
-https://devtut.github.io/haskell/io.html#getting-the-a-out-of-io-a
 https://www.iankduncan.com/engineering/2026-02-20-haskell-postgresql-without-suffering
 
 The Happstack Book: Modern, Type-Safe Web Development in Haskell
@@ -36,4 +29,4 @@ https://github.com/graninas/hierarchical-free-monads-the-most-developed-approach
 https://smunix.github.io/dev.stephendiehl.com/hask/#free-monads
 
 State of the Haskell ecosystem
-- https://github.com/Gabriella439/post-rfc/blob/main/sotu.md
+https://github.com/Gabriella439/post-rfc/blob/main/sotu.md
