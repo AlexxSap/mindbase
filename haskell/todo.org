@@ -27,3 +27,9 @@ https://medium.com/%40kirill.borodylin/mocking-http-in-haskell-a-clean-approach-
 free monads
 https://github.com/graninas/hierarchical-free-monads-the-most-developed-approach-in-haskell
 https://smunix.github.io/dev.stephendiehl.com/hask/#free-monads
+
+Haskell Design Patterns & Pure Functional Architecture
+https://softwarepatternslexicon.com/haskell/
+
+Logging Best Practices in Haskell: A Comprehensive Guide
+https://softwarepatternslexicon.com/haskell/logging-monitoring-and-observability/logging-best-practices-in-haskell/
