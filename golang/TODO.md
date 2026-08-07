@@ -560,3 +560,6 @@ https://medium.com/@josesomojola/real-time-dashboards-with-go-and-postgresql-wit
 
 Работа с битами
 https://iampavel.dev/blog/go-bitwise-flags-config
+
+Golang Maps: How Swiss Tables Replaced the Old Bucket Design
+https://blog.gaborkoos.com/posts/2026-07-24-Golang-Maps-How-Swiss-Tables-Replaced-the-Old-Bucket-Design/
