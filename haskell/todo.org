@@ -27,6 +27,3 @@ https://medium.com/%40kirill.borodylin/mocking-http-in-haskell-a-clean-approach-
 free monads
 https://github.com/graninas/hierarchical-free-monads-the-most-developed-approach-in-haskell
 https://smunix.github.io/dev.stephendiehl.com/hask/#free-monads
-
-State of the Haskell ecosystem
-https://github.com/Gabriella439/post-rfc/blob/main/sotu.md
