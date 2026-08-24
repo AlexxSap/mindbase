@@ -33,3 +33,5 @@ https://softwarepatternslexicon.com/haskell/
 
 Logging Best Practices in Haskell: A Comprehensive Guide
 https://softwarepatternslexicon.com/haskell/logging-monitoring-and-observability/logging-best-practices-in-haskell/
+
+https://haskellforall.com/
