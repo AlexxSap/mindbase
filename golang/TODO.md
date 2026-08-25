@@ -1,6 +1,9 @@
 Коллеги, вы меня огорчаете
 https://habr.com/ru/company/oleg-bunin/blog/521582/
 
+# 1.27
+https://victoriametrics.com/blog/go-1-27/
+
 # Собес
 https://www.youtube.com/watch?v=GD0iHLucYdU
 https://www.youtube.com/@vladimir_balun_programming/videos

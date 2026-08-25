@@ -53,3 +53,7 @@ https://haskellforall.com/2024/05/prefer-do-notation-over-applicative
 https://haskellforall.com/2024/11/the-haskell-inlining-and-specialization
 https://haskellforall.com/2025/08/type-inference-for-plain-data
 https://haskellforall.com/2026/06/record-type-inference-for-dummies
+
+
+Haskell Proves What "Monads" Actually Are (Category Theory Explained)
+https://www.youtube.com/watch?v=ZcD2gGq76FY
