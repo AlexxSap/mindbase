@@ -35,3 +35,21 @@ Logging Best Practices in Haskell: A Comprehensive Guide
 https://softwarepatternslexicon.com/haskell/logging-monitoring-and-observability/logging-best-practices-in-haskell/
 
 https://haskellforall.com/
+https://haskellforall.com/2018/02/the-wizard-monoid
+https://haskellforall.com/2018/05/how-i-evaluate-haskell-packages
+https://haskellforall.com/2019/06/the-cap-theorem-for-software-engineering
+https://haskellforall.com/2019/12/prefer-to-use-fail-for-io-exceptions
+https://haskellforall.com/2020/04/blazing-fast-fibonacci-numbers-using
+https://haskellforall.com/2021/05/the-trick-to-avoid-deeply-nested-error
+https://haskellforall.com/2021/05/module-organization-guidelines-for
+https://haskellforall.com/2022/02/what-is-monad-morphism-in-haskell
+https://haskellforall.com/2022/03/applicatives-should-usually-implement
+https://haskellforall.com/2022/06/the-appeal-of-bidirectional-type
+https://haskellforall.com/2022/06/defaultable-map-applicative-wrapper-for
+https://haskellforall.com/2022/10/what-does-isomorphic-mean-in-haskell
+https://haskellforall.com/2023/04/ergonomic-newtypes-for-haskell-strings
+https://haskellforall.com/2024/02/unification-free-keyword-type-checking
+https://haskellforall.com/2024/05/prefer-do-notation-over-applicative
+https://haskellforall.com/2024/11/the-haskell-inlining-and-specialization
+https://haskellforall.com/2025/08/type-inference-for-plain-data
+https://haskellforall.com/2026/06/record-type-inference-for-dummies
