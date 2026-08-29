@@ -47,6 +47,9 @@ https://habr.com/ru/articles/945448/
 Go: 15 самых популярных докладов 2025 года на YouTube
 https://tproger.ru/articles/go--15-samyh-populyarnyh-dokladov-2025-goda-na-youtube
 
+Go-Go-Gadg...Error? Смотрим, как ошибаются Go разработчики!
+https://pvs-studio.ru/ru/blog/video/11847/
+
 # gRPC
 
 Пишем gRPC сервис на Go - Сервис авторизации
