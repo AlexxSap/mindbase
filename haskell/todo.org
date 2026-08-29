@@ -54,6 +54,14 @@ https://haskellforall.com/2024/11/the-haskell-inlining-and-specialization
 https://haskellforall.com/2025/08/type-inference-for-plain-data
 https://haskellforall.com/2026/06/record-type-inference-for-dummies
 
-
 Haskell Proves What "Monads" Actually Are (Category Theory Explained)
 https://www.youtube.com/watch?v=ZcD2gGq76FY
+
+Development Workflows in Haskell
+https://www.youtube.com/watch?v=y_kcrv6Kdv8
+
+Building Terminal User Interfaces with Haskell
+https://www.youtube.com/watch?v=qbDQdXfcaO8
+
+Maximizing the Power of Haskell
+https://www.youtube.com/watch?v=ctQNwuxYIWw&list=PLKgvC6KlFXrBDOMQHQv08d4IkF-QW-anK&index=4
