@@ -4,6 +4,7 @@ https://habr.com/ru/company/oleg-bunin/blog/521582/
 # 1.27
 https://victoriametrics.com/blog/go-1-27/
 https://golang.guide/go-1-27/
+https://uproger.com/go-1-27-20-gotovyh-primerov-s-kodom-dlya-prodvinutogo-razrabotchika/
 
 # Собес
 https://www.youtube.com/watch?v=GD0iHLucYdU
