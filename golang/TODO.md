@@ -4,7 +4,7 @@ https://habr.com/ru/company/oleg-bunin/blog/521582/
 # 1.27
 https://victoriametrics.com/blog/go-1-27/
 https://golang.guide/go-1-27/
-https://uproger.com/go-1-27-20-gotovyh-primerov-s-kodom-dlya-prodvinutogo-razrabotchika/
+
 
 # Собес
 https://www.youtube.com/watch?v=GD0iHLucYdU
@@ -491,6 +491,9 @@ https://medium.com/@okoanton/structured-concurrency-in-go-c6e8cb1e2af7
 
 Pipeline Concurrency Pattern in Go
 https://dev.to/souvikinator/pipeline-concurrency-pattern-in-go-a-comprehensive-visual-guide-2j0l
+
+Go concurrency distilled
+https://antonz.org/go-concurrency-distilled/#scheduling
 
 Архитектурный паттерн для централизованной обработки ошибок в хендлерах на Go
 https://habr.com/ru/articles/914112/
