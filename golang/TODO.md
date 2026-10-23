@@ -52,6 +52,9 @@ https://tproger.ru/articles/go--15-samyh-populyarnyh-dokladov-2025-goda-na-youtu
 Go-Go-Gadg...Error? Смотрим, как ошибаются Go разработчики!
 https://pvs-studio.ru/ru/blog/video/11847/
 
+Примеры программ на Go: 20 готовых проектов на Golang в 2026 с разбором кода
+https://uproger.com/primery-programm-na-go-2026/
+
 # gRPC
 
 Пишем gRPC сервис на Go - Сервис авторизации
