@@ -169,6 +169,9 @@ https://nuancesprog.ru/p/25427/
 From slow to SIMD:
 https://sourcegraph.com/blog/slow-to-simd
 
+SIMD
+https://uproger.com/primery-programm-na-go-2026/
+
 Ускоряем Go: известные и не очень методы оптимизации и связанные с ними штуки
 https://habr.com/ru/articles/790758/
 
@@ -194,7 +197,6 @@ https://habr.com/ru/articles/834900/
 
 Практическое руководство: создание микросервисов с использованием Go
 https://oscarjohn.hashnode.dev/creating-microservices-with-go-a-practical-approach
-
 
 Create a simple API server image for docker and Kubernetes
 https://blog.wongandre.com/create-a-simple-api-server-image-for-docker-and-kubernetes
