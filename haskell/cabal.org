@@ -1,0 +1,11 @@
+Создание простого проекта
+cabal init myapp --non-interactive
+
+Компиляция и запуск
+cabal build && cabal run
+
+Запуск в режиме отслеживания изменений
+cabal build --ghc-options="-o0" --file-watch
+
+Автоформатирование с помощью cabal-gild
+cabal-gild --input myapp.cabal --output myapp.cabal
